@@ -1,0 +1,11 @@
+.idea/*
+frontend/.DS_Store
+frontend/node_modules/
+frontend/dist/
+frontend/npm-debug.log
+backend/vendor/*
+backend//cache/*
+backend//logs/*
+backend/logs/README.md
+backend/nbproject/*
+backend/composer.lock

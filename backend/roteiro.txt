@@ -1,0 +1,11 @@
+- Conceitos
+ - API REST
+ - Composer
+ - Teste unitário
+- Skeleton
+ - config
+ - Controller
+ - Entity (model)
+ - Service
+ - Middleware (log/validator)
+ - view (twig)
