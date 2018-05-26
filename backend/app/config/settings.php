@@ -17,9 +17,9 @@ return [
             'connection' => [
                 'driver' => 'pdo_mysql',
                 'host' => 'localhost',
-                'dbname' => 'slim-crud',
+                'dbname' => 'crmanalytic',
                 'user' => 'root',
-                'password' => 'root',
+                'password' => '',
             ]
         ],
         

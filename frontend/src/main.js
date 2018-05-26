@@ -1,11 +1,17 @@
-import Vue from 'vue'
-import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-default/index.css'
-import App from './App.vue'
+import Vue from "vue";
+import ElementUI from "element-ui";
+import Router from "vue-router";
+import 'element-ui/lib/theme-chalk/index.css';
+import {routes} from './routes'
+Vue.use(Router);
+Vue.use(ElementUI);
 
-Vue.use(ElementUI)
+import App from "./App.vue";
+
+const router = new Router({routes});
 
 new Vue({
-  el: '#app',
-  render: h => h(App)
-})
+    router,
+    el: '#app',
+    render: h => h(App)
+});

@@ -1,15 +1,19 @@
 {
-  "name": "element-starter",
-  "description": "A Vue.js project",
-  "author": "yi.shyang@ele.me",
+  "name": "CrmAnalytic",
+  "description": "Trabalho de conclusão de curso",
+  "author": "Juscelino Fernandes da Costa Junior",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --hot --env.dev",
     "build": "rimraf dist && webpack -p --progress --hide-modules"
   },
   "dependencies": {
-    "element-ui": "^1.4.2",
-    "vue": "^2.4.2"
+    "@google/maps": "^0.4.6",
+    "axios": "^0.18.0",
+    "element-ui": "^2.3.7",
+    "google-maps": "^3.3.0",
+    "vue": "^2.4.2",
+    "vue-the-mask": "^0.11.1"
   },
   "engines": {
     "node": ">=6"
@@ -27,6 +31,7 @@
     "style-loader": "^0.13.2",
     "url-loader": "^0.5.8",
     "vue-loader": "^13.0.4",
+    "vue-router": "^3.0.1",
     "vue-template-compiler": "^2.4.2",
     "webpack": "^2.4.1",
     "webpack-dev-server": "^2.4.2"
