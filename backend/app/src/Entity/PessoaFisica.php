@@ -15,10 +15,32 @@ class PessoaFisica extends Pessoa
      */
     private $cpf;
 
+    /** @var String
+     * @ORM\Column(type="string")
+     */
+    protected $nome;
+
     /** @var \DateTime
      * @ORM\Column(type="string")
      */
     private $dtNascimento;
+
+    /**
+     * @return String
+     */
+    public function getNome(): String
+    {
+        return $this->nome;
+    }
+
+    /**
+     * @param String $nome
+     */
+    public function setNome(String $nome)
+    {
+        $this->nome = $nome;
+    }
+
 
 
     /**

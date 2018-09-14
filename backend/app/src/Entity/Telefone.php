@@ -24,7 +24,7 @@ class Telefone {
 		
 			/** @var Pessoa
 			 * @ORM\JoinColumn(name="proprietario", referencedColumnName="id")
-			 * @ORM\ManyToOne(targetEntity="Pessoa")
+			 * @ORM\ManyToOne(targetEntity="Pessoa", inversedBy="telefones")
 			 */ 
 			private $proprietario;
 		

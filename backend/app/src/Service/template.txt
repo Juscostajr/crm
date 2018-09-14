@@ -8,7 +8,7 @@ use App\Entity\Post;
 class PostService {
 
     /**
-     * @var EntityManager 
+     * @var EntityManager
      */
     protected $em;
 
@@ -16,7 +16,7 @@ class PostService {
     {
         $this->em = $em;
     }
-    
+
     public function findAll()
     {
         $posts = $this->em->getRepository('\App\Entity\Post')->findAll();
@@ -24,46 +24,44 @@ class PostService {
         if (!$posts) {
             throw new \Exception("Posts not found", 404);
         }
-        
+
         return $posts;
     }
 
     public function findOne(int $id): Post
     {
-        $post = $this->em->getRepository('\App\Entity\Post')->findOneById($id);
+        $post = $this->em->getRepository('\App\Entity\Post')->find($id);
 
         if (!$post) {
             throw new \Exception("Post not found", 404);
         }
-        
+
         return $post;
     }
 
     public function delete(int $id)
     {
         $post = $this->findOne($id);
-        
+
         $this->em->remove($post);
         $this->em->flush();
     }
 
-    public function create(string $title, string $description) 
+    public function create({{args}})
     {
         $post = new Post();
-        $post->setTitle($title);
-        $post->setDescription($description);
+        {{param}}
 
         $this->em->persist($post);
         $this->em->flush();
     }
 
-    public function update(int $id, string $title, string $description) 
+    public function update(int $id, {{args}})
     {
         $post = $this->findOne($id);
-        
-        $post->setTitle($title);
-        $post->setDescription($description);
-        
+
+        {{param}}
+
         $this->em->persist($post);
         $this->em->flush();
     }

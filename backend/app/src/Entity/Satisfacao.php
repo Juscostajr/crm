@@ -1,6 +1,7 @@
 <?php
 namespace App\Entity;
-abstract class Satisfacao {
+class Satisfacao
+{
     const MUITO_SATISFEITO = 2;
     const SATISFEITO = 1;
     const REGULAR = 0;

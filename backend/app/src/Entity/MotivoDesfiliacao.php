@@ -1,6 +1,6 @@
 <?php
 namespace App\Entity;
-abstract class MotivoDesfiliacao {
+class MotivoDesfiliacao {
     const INSATISFACAO = 'Insatisfação';
     const FECHAMENTO = 'Fechamento da Empresa';
     const INUTILIDADE = 'Inutilização dos Serviços';

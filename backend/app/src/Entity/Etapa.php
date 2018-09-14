@@ -1,7 +1,7 @@
 <?php
 namespace App\Entity;
 
-abstract class Etapa {
+class Etapa {
     const PROSPECCAO = 'prospecção';
     const QUALIFICACAO = 'qualificação';
     const APRESENTACAO = 'apresentação';

@@ -155,12 +155,9 @@ class Associado {
 		return $this->adesoes;
 	}
 
-	/**
-	 * @param Adesao $adesoes
-	 */
-	public function setAdesoes(Adesao $adesoes)
+	public function setAdesoes(array $adesoes)
 	{
-		$this->adesoes = $adesoes;
+		$this->adesoes = new ArrayCollection($adesoes);
 	}
 
 	public function toArray()

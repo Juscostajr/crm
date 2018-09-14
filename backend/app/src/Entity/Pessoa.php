@@ -20,41 +20,30 @@ abstract class Pessoa
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
-    private $id;
-
-    /** @var String
-     * @ORM\Column(type="string")
-     */
-    private $nome;
+    protected $id;
 
     /** @var Telefone
      * @ORM\JoinColumn(name="telefones",referencedColumnName="id")
-     * @ORM\ManyToOne(targetEntity="Telefone")
+     * @ORM\OneToMany(targetEntity="Telefone", mappedBy="proprietario", cascade={"persist", "remove"})
      */
-    private $telefones;
+    protected $telefones;
 
     /** @var Endereco
      * @ORM\JoinColumn(name="enderecos",referencedColumnName="id")
-     * @ORM\OneToMany(targetEntity="Endereco", mappedBy="proprietario")
+     * @ORM\OneToMany(targetEntity="Endereco", mappedBy="proprietario", cascade={"persist","remove"})
      */
-    private $enderecos;
+    protected $enderecos;
 
     /** @var Mail
      * @ORM\Column(type="string")
      */
-    private $email;
-
-    /**
-     * @ORM\OneToMany(targetEntity="Acao", mappedBy="pessoa")
-     * @ORM\JoinColumn(name="acoes", referencedColumnName="pessoa")
-     */
-    private $acoes;
+    protected $email;
 
     /**
      * @ORM\JoinColumn(name="grupos", referencedColumnName="id")
-     * @ORM\ManyToMany(targetEntity="Grupo", inversedBy="membros")
+     * @ORM\ManyToMany(targetEntity="Grupo", inversedBy="membros", cascade={"persist", "remove"})
      */
-    private $grupos;
+    protected $grupos;
 
 
     /**
@@ -64,7 +53,6 @@ abstract class Pessoa
     {
         $this->enderecos = new ArrayCollection();
         $this->telefones = new ArrayCollection();
-        $this->acoes = new ArrayCollection();
         $this->grupos = new ArrayCollection();
     }
 
@@ -84,21 +72,9 @@ abstract class Pessoa
         $this->grupos->add($grupo);
     }
 
-
-    /**
-     * @return mixed
-     */
-    public function getAcoes(): mixed
+    public function setGrupos(array $grupos)
     {
-        return $this->acoes;
-    }
-
-    /**
-     * @param mixed $acao
-     */
-    public function addAcoes(Acao $acao)
-    {
-        $this->acoes->add($acao);
+        $this->grupos = new ArrayCollection($grupos);
     }
 
 
@@ -119,22 +95,6 @@ abstract class Pessoa
     }
 
     /**
-     * @return String
-     */
-    public function getNome(): String
-    {
-        return $this->nome;
-    }
-
-    /**
-     * @param String $nome
-     */
-    public function setNome(String $nome)
-    {
-        $this->nome = $nome;
-    }
-
-    /**
      * @return Telefone
      */
     public function getTelefones(): Telefone
@@ -148,6 +108,11 @@ abstract class Pessoa
     public function addTelefones(Telefone $telefone)
     {
         $this->telefones->add($telefone);
+    }
+
+    public function setTelefones(array $telefones)
+    {
+        $this->telefones = new ArrayCollection($telefones);
     }
 
     /**
@@ -164,6 +129,11 @@ abstract class Pessoa
     public function addEnderecos(Endereco $endereco)
     {
         $this->enderecos->add($endereco);
+    }
+
+    public function setEnderecos(array $endereco)
+    {
+        $this->enderecos = new ArrayCollection($endereco);
     }
 
     /**

@@ -35,7 +35,7 @@ class Interacao extends Acao
      */
     private $data;
 
-    /** @var \Time
+    /** @var \DateTime
      * @ORM\Column(type="time")
      */
     private $hora;
@@ -125,17 +125,17 @@ class Interacao extends Acao
     }
 
     /**
-     * @return \Time
+     * @return \DateTime
      */
-    public function getHora(): \Time
+    public function getHora(): \DateTime
     {
         return $this->hora;
     }
 
     /**
-     * @param \Time $hora
+     * @param \DateTime $hora
      */
-    public function setHora(\Time $hora)
+    public function setHora(\DateTime $hora)
     {
         $this->hora = $hora;
     }
@@ -170,6 +170,11 @@ class Interacao extends Acao
     public function addAnotacoes(Anotacao $anotacao)
     {
         $this->anotacoes->add($anotacao);
+    }
+
+    public function setAnotacoes(array $anotacoes)
+    {
+        $this->anotacoes = new ArrayCollection($anotacoes);
     }
 
     public function toArray()

@@ -93,13 +93,10 @@ class Venda extends Acao
     {
         return $this->interesses;
     }
-
-    /**
-     * @param Servico $interesses
-     */
-    public function setInteresses(Servico $interesses)
+    
+    public function setInteresses(array $interesses)
     {
-        $this->interesses = $interesses;
+        $this->interesses = new ArrayCollection($interesses);
     }
 
     /**

@@ -1,7 +1,7 @@
 <template>
     <el-menu
             default-active="2"
-            background-color="#212121"
+            background-color="#353c46"
             text-color="#fff"
             :router= "true"
     >
@@ -32,4 +32,9 @@
         name: 'v-menu'
     }
 </script>
-<style></style>
+<style>
+    .el-aside{
+        background-color: #353c46;
+        height: 90vh;
+    }
+</style>

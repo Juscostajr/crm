@@ -20,7 +20,7 @@
                 new google.maps.visualization.HeatmapLayer({
                     data: getPoints(),
                     map: map,
-                    radius: 50
+                    radius: 10
                 });
 
                 function getPoints() {

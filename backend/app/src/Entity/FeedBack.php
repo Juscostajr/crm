@@ -32,7 +32,7 @@ class FeedBack {
 			 */
 			private $indicador;
 		
-			/** @var \Time
+			/** @var \DateTime
 			 * @ORM\Column(type="time")
 			 */
 			private $hora;
@@ -107,17 +107,17 @@ class FeedBack {
 	}
 
 	/**
-	 * @return \Time
+	 * @return \DateTime
 	 */
-	public function getHora(): \Time
+	public function getHora(): \DateTime
 	{
 		return $this->hora;
 	}
 
 	/**
-	 * @param \Time $hora
+	 * @param \DateTime $hora
 	 */
-	public function setHora(\Time $hora)
+	public function setHora(\DateTime $hora)
 	{
 		$this->hora = $hora;
 	}

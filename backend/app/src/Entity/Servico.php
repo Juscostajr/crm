@@ -51,7 +51,10 @@ class Servico
         $this->adesoes->add($adesao);
     }
 
-
+    public function setAdesoes(array $adesoes)
+    {
+        $this->adesoes = new ArrayCollection($adesoes);
+    }
     /**
      * @return int
      */

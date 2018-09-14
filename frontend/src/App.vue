@@ -19,7 +19,7 @@
     import HMenu from './components/body/Hmenu.vue';
     import VMenu from './components/body/Vmenu.vue';
     export default {
-        components: { HMenu, VMenu }
+        components: { HMenu, VMenu},
     }
 </script>
 
@@ -31,20 +31,24 @@
     #app {
         font-family: Helvetica, sans-serif;
     }
-    .el-header {
-        background-color: #34445f;
-        height: 10vh;
-    }
-    .el-aside{
-        background-color: #212121;
-        height: 90vh;
-    }
+
+
     .el-main{
         background-color: #f1f1f1;
+    }
+    .el-header {
+        padding: 4px;
     }
     .item {
         margin-top: 10px;
         margin-right: 40px;
+    }
+
+    hr {
+        color: #c0c4cc;
+        background-color: #c0c4cc;
+        height: 1px;
+        border: 0;
     }
 
 

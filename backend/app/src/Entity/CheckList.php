@@ -62,12 +62,9 @@ class CheckList {
 		return $this->perguntas;
 	}
 
-	/**
-	 * @param Pergunta $perguntas
-	 */
-	public function setPerguntas(Pergunta $perguntas)
+	public function setPerguntas(array $perguntas)
 	{
-		$this->perguntas = $perguntas;
+		$this->perguntas = new ArrayCollection($perguntas);
 	}
 
 	/**

@@ -146,6 +146,11 @@ class Usuario
         $this->perfis->add($perfil);
     }
 
+    public function setPerfis(array $perfis)
+    {
+        $this->perfis = new ArrayCollection($perfis);
+    }
+
     public function toArray()
     {
         return get_object_vars($this);

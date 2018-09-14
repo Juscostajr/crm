@@ -2,8 +2,6 @@
 
 namespace App\Entity;
 
-
-
 class RamoAtividade {
 		
 }

@@ -107,6 +107,11 @@ class Grupo {
 		$this->membros->add($membro);
 	}
 
+	public function setMembros(array $membros)
+	{
+		$this->membros = new ArrayCollection($membros);
+	}
+
 	public function toArray()
 	{
 		return get_object_vars($this);

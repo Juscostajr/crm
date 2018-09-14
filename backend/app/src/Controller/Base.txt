@@ -1,0 +1,98 @@
+<?php
+
+namespace App\Controller;
+
+use App\Service\ClasseService;
+use Psr\Container\ContainerInterface;
+use Slim\Http\Request;
+use Slim\Http\Response;
+
+class ClasseController {
+
+    protected $container;
+
+    public function __construct(ContainerInterface $container)
+    {
+        $this->container = $container;
+    }
+
+    public function findAll(Request $request, Response $response)
+    {
+        try {
+            $service = new ClasseService($this->container->get('em'));
+
+            $classes = $service->findAll();
+
+            $classes = array_map(
+                function ($photo) {
+                    return $photo->toArray();
+                },
+                $classes
+            );
+
+            return $response->withJSON($classes);
+        } catch (\Exception $ex) {
+            return $response->withStatus(404);
+        }
+    }
+
+    public function findOne(Request $request, Response $response, $args)
+    {
+        try {
+            $service = new ClasseService($this->container->get('em'));
+
+            $classe = $service->findOne($args['id']);
+
+            return $response->withJSON($classe->toArray());
+        } catch (\Exception $ex) {
+            return $response->withStatus(404);
+        }
+    }
+
+    public function delete(Request $request, Response $response, $args)
+    {
+        try {
+            $service = new ClasseService($this->container->get('em'));
+
+            $service->delete($args['id']);
+
+            return $response->withStatus(204);
+        } catch (\Exception $ex) {
+            return $response->withStatus(404);
+        }
+    }
+
+    public function create(Request $request, Response $response)
+    {
+        try {
+            $service = new ClasseService($this->container->get('em'));
+
+            $params = $request->getParams();
+            $service->create(
+                {{parametros}}
+            );
+
+            return $response->withStatus(201);
+        } catch (\Exception $ex) {
+            return $response->withStatus(500);
+        }
+    }
+
+    public function update(Request $request, Response $response, $args)
+    {
+        try {
+            $service = new ClasseService($this->container->get('em'));
+
+            $params = $request->getParams();
+
+            $service->update(
+                $args['id'], 
+                {{parametros}}
+            );
+
+            return $response->withStatus(200);
+        } catch (\Exception $ex) {
+            return $response->withStatus(500);
+        }
+    }
+}

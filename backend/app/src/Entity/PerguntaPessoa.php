@@ -1,126 +1,127 @@
 <?php
-
 namespace App\Entity;
+
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="perguntaPessoa")
  */
+class PerguntaPessoa
+{
 
-class PerguntaPessoa {
-
-	/**
-	 * @ORM\Id
-	 * @ORM\GeneratedValue(strategy="AUTO")
-	 * @ORM\Column(type="integer")
-	 */
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="integer")
+     */
     private $id;
-			/** @var Pessoa
-			 * @ORM\JoinColumn(name="pessoa", referencedColumnName="id")
-			 * @ORM\ManyToOne(targetEntity="Pessoa")
-			 */
-			private $pessoa;
-		
-			/** @var Pergunta
-			 * @ORM\JoinColumn(name="pergunta", referencedColumnName="id")
-			 * @ORM\ManyToOne(targetEntity="Pergunta")
-			 */
-			private $pergunta;
-		
-			/** @var boolean
-			 * @ORM\Column(type="boolean")
-			 */
-			private $resposta;
-		
-			/** @var \DateTime
-			 * @ORM\Column(type="date")
-			 */
-			private $data;
+    /** @var Pessoa
+     * @ORM\JoinColumn(name="pessoa", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Pessoa")
+     */
+    private $pessoa;
 
-	/**
-	 * @return mixed
-	 */
-	public function getId(): mixed
-	{
-		return $this->id;
-	}
+    /** @var Pergunta
+     * @ORM\JoinColumn(name="pergunta", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Pergunta")
+     */
+    private $pergunta;
 
-	/**
-	 * @param mixed $id
-	 */
-	public function setId(mixed $id)
-	{
-		$this->id = $id;
-	}
+    /** @var boolean
+     * @ORM\Column(type="boolean")
+     */
+    private $resposta;
 
-	/**
-	 * @return Pessoa
-	 */
-	public function getPessoa(): Pessoa
-	{
-		return $this->pessoa;
-	}
+    /** @var \DateTime
+     * @ORM\Column(type="date")
+     */
+    private $data;
 
-	/**
-	 * @param Pessoa $pessoa
-	 */
-	public function setPessoa(Pessoa $pessoa)
-	{
-		$this->pessoa = $pessoa;
-	}
+    /**
+     * @return mixed
+     */
+    public function getId(): mixed
+    {
+        return $this->id;
+    }
 
-	/**
-	 * @return Pergunta
-	 */
-	public function getPergunta(): Pergunta
-	{
-		return $this->pergunta;
-	}
+    /**
+     * @param mixed $id
+     */
+    public function setId(mixed $id)
+    {
+        $this->id = $id;
+    }
 
-	/**
-	 * @param Pergunta $pergunta
-	 */
-	public function setPergunta(Pergunta $pergunta)
-	{
-		$this->pergunta = $pergunta;
-	}
+    /**
+     * @return Pessoa
+     */
+    public function getPessoa(): Pessoa
+    {
+        return $this->pessoa;
+    }
 
-	/**
-	 * @return boolean
-	 */
-	public function isResposta(): boolean
-	{
-		return $this->resposta;
-	}
+    /**
+     * @param Pessoa $pessoa
+     */
+    public function setPessoa(Pessoa $pessoa)
+    {
+        $this->pessoa = $pessoa;
+    }
 
-	/**
-	 * @param boolean $resposta
-	 */
-	public function setResposta(boolean $resposta)
-	{
-		$this->resposta = $resposta;
-	}
+    /**
+     * @return Pergunta
+     */
+    public function getPergunta(): Pergunta
+    {
+        return $this->pergunta;
+    }
 
-	/**
-	 * @return \DateTime
-	 */
-	public function getData(): \DateTime
-	{
-		return $this->data;
-	}
+    /**
+     * @param Pergunta $pergunta
+     */
+    public function setPergunta(Pergunta $pergunta)
+    {
+        $this->pergunta = $pergunta;
+    }
 
-	/**
-	 * @param \DateTime $data
-	 */
-	public function setData(\DateTime $data)
-	{
-		$this->data = $data;
-	}
+    /**
+     * @return boolean
+     */
+    public function isResposta(): boolean
+    {
+        return $this->resposta;
+    }
 
-	public function toArray()
-	{
-		return get_object_vars($this);
-	}
+    /**
+     * @param boolean $resposta
+     */
+    public function setResposta(boolean $resposta)
+    {
+        $this->resposta = $resposta;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getData(): \DateTime
+    {
+        return $this->data;
+    }
+
+    /**
+     * @param \DateTime $data
+     */
+    public function setData(\DateTime $data)
+    {
+        $this->data = $data;
+    }
+
+    public function toArray()
+    {
+        return get_object_vars($this);
+    }
 }
+
 ?>

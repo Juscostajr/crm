@@ -9,26 +9,26 @@ use Doctrine\ORM\Mapping as ORM;
  */
 
 class Desfiliacao {
-		
+
 			/** @var int
 			 * @ORM\Id
 			 * @ORM\GeneratedValue(strategy="AUTO")
 			 * @ORM\Column(type="integer")
 			 */
 			private $id;
-		
+
 			/** @var Associado
 			 * @ORM\ManyToOne(targetEntity="associado")
 			 * @ORM\JoinColumn(name="associado", referencedColumnName="id")
 			 */
 			private $associado;
-		
+
 			/** @var \DateTime
 			 * @ORM\Column(type="date")
 			 */
 			private $data;
 
-			private $motivos = array();
+			private $motivo;
 
 	/**
 	 * @return int
@@ -81,7 +81,7 @@ class Desfiliacao {
 	/**
 	 * @return MotivoDesfiliacao
 	 */
-	public function getMotivos(): array
+	public function getMotivo(): MotivoDesfiliacao
 	{
 		return $this->motivos;
 	}
@@ -89,9 +89,9 @@ class Desfiliacao {
 	/**
 	 * @param MotivoDesfiliacao $motivo
 	 */
-	public function addMotivo(MotivoDesfiliacao $motivo)
+	public function setMotivo(MotivoDesfiliacao $motivo)
 	{
-		array_push($this->motivos,$motivo);
+		$this->motivo = $motivo;
 	}
 
 	public function toArray()

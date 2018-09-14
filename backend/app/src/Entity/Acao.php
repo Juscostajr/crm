@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="acao")
  * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="tipo", type="string")
+ * @ORM\DiscriminatorColumn(name="disc", type="string")
  * @ORM\DiscriminatorMap({"venda" = "Venda", "interacao" = "Interacao", "campanha" = "Campanha"})
  */
 
@@ -28,7 +28,7 @@ abstract class Acao {
 		
 			/** @var Usuario
 			 * @ORM\JoinColumn(name="usuario", referencedColumnName="id")
-			 * @ORM\ManyToOne(targetEntity="Usuario", inversedBy="acoes")
+			 * @ORM\ManyToOne(targetEntity="Usuario")
 			 */
 			private $usuario;
 

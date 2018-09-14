@@ -6,11 +6,10 @@
 
         <el-input
                 placeholder="Type something"
-                prefix-icon="el-icon-search"
-                v-model="input21">
+                prefix-icon="el-icon-search">
         </el-input>
 
-        <el-table :data="tableData" style="width: 100%">
+        <el-table :data="tableData" style="width: 100%" empty-text="Nenhum resultado encontrado.">
             <el-table-column prop="id" label="Id" sortable width="80"></el-table-column>
             <el-table-column prop="nome" label="Nome" width="180"></el-table-column>
             <el-table-column prop="telefones" label="Telefones" width="100"></el-table-column>
