@@ -1,42 +1,63 @@
 <template>
-    <el-select v-model="value8" filterable placeholder="Select">
-        <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
+    <el-select class="remote-select" v-model="model" filterable remote reserve-keyword placeholder="Please enter a keyword" :remote-method="remoteMethod" :loading="loading">
+        <el-option v-for="item in filteredOptions" :key="getKey(item)" :label="getLabel(item)" :value="item">
         </el-option>
     </el-select>
 </template>
 
 <script>
-    import axios from 'axios';
-    export default {
-        name: 'remote-select',
-        props: ['call'],
-        data() {
-            return {
-                list: [],
-                loading: false,
-            }
+export default {
+    props: ['dataSource', 'model', 'id', 'label'],
+    data() {
+        return {
+            filteredOptions: [],
+            list: [],
+            loading: false,
+        }
+    },
+    mounted() {
+        this.model = {}
+        this.$request.get(this.dataSource)
+            .then(response => {
+                this.list = response.data;
+            })
+            .catch(error => {
+                this.$notify.error({
+                    title: 'Erro!',
+                    message: error
+                });
+            });
+    },
+    methods: {
+        remoteMethod(query) {
+            this.filteredOptions = [];
+            if (query === '') return 
+            this.loading = true;
+            setTimeout(() => {
+                this.loading = false;
+                this.filteredOptions = this.list.filter(item => {
+                    return item[this.label].toLowerCase()
+                        .indexOf(query.toLowerCase()) > -1;
+                });
+            }, 200);
         },
-        mounted() {
-            this.remoteMethod();
+        getKey(item) {
+            return item[this.id];
         },
-        methods: {
-            remoteMethod()
-            {   const self = this;
-                axios.get(this.call)
-                        .then(function (response) {
-                            console.log(response);
-                        })
-                        .catch(function (error) {
-                            console.log(error);
-                        })
-                        .then(function () {
-                            // always executed
-                        });
-            }
+        getLabel(item) {
+            return item[this.label];
+        }
+    },
+    watch: {
+        model() {
+            this.$emit('update:model', this.model);
         }
     }
+}
 </script>
+<style>
+.remote-select,
+.remote-select .el-input {
+    width: 100%;
+}
+</style>

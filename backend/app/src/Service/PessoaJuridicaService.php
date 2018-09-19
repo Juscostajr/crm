@@ -11,10 +11,12 @@ class PessoaJuridicaService
      * @var EntityManager
      */
     protected $em;
+    private $pf;
 
     public function __construct(EntityManager $em)
     {
         $this->em = $em;
+        $this->pf = new PessoaFisicaService($em);
     }
 
     public function findAll()
@@ -42,34 +44,34 @@ class PessoaJuridicaService
         return $pessoaJuridica;
     }
 
-    public function create($nome, $telefones, $enderecos, $email, $grupos, $nomeFantasia, $inscricaoEstadual, $numeroFuncionarios, $representanteLegal)
+    public function create($razaoSocial, $telefones, $enderecos, $email, $grupos, $nomeFantasia, $inscricaoEstadual, $numeroFuncionarios, $representanteLegal)
     {
         $pessoaJuridica = new PessoaJuridica();
-        $pessoaJuridica->setNome($nome);
+        $pessoaJuridica->setRazaoSocial($razaoSocial);
         $pessoaJuridica->setTelefones($telefones);
         $pessoaJuridica->setEnderecos($enderecos);
-        $pessoaJuridica->setEmail($email);
+        $pessoaJuridica->setEmail(new \App\Entity\Mail($email));
         $pessoaJuridica->setGrupos($grupos);
         $pessoaJuridica->setNomeFantasia($nomeFantasia);
-        $pessoaJuridica->setInscricaoEstadual($inscricaoEstadual);
+        $pessoaJuridica->setInscricaoEstadual(new \App\Entity\InscricaoEstadual($inscricaoEstadual));
         $pessoaJuridica->setNumeroFuncionarios($numeroFuncionarios);
-        $pessoaJuridica->setRepresentanteLegal($representanteLegal);
+        $pessoaJuridica->setRepresentanteLegal($this->pf->findOne($representanteLegal));
         $this->em->persist($pessoaJuridica);
         $this->em->flush();
     }
 
-    public function update(int $id, $nome, $telefones, $enderecos, $email, $grupos, $nomeFantasia, $inscricaoEstadual, $numeroFuncionarios, $representanteLegal)
+    public function update(int $id, $razaoSocial, $telefones, $enderecos, $email, $grupos, $nomeFantasia, $inscricaoEstadual, $numeroFuncionarios, $representanteLegal)
     {
         $pessoaJuridica = $this->findOne($id);
-        $pessoaJuridica->setNome($nome);
+        $pessoaJuridica->setRazaoSocial($razaoSocial);
         $pessoaJuridica->setTelefones($telefones);
         $pessoaJuridica->setEnderecos($enderecos);
-        $pessoaJuridica->setEmail($email);
+        $pessoaJuridica->setEmail(new \App\Entity\Mail($email));
         $pessoaJuridica->setGrupos($grupos);
         $pessoaJuridica->setNomeFantasia($nomeFantasia);
-        $pessoaJuridica->setInscricaoEstadual($inscricaoEstadual);
+        $pessoaJuridica->setInscricaoEstadual(new \App\Entity\InscricaoEstadual($inscricaoEstadual));
         $pessoaJuridica->setNumeroFuncionarios($numeroFuncionarios);
-        $pessoaJuridica->setRepresentanteLegal($representanteLegal);
+        $pessoaJuridica->setRepresentanteLegal($this->pf->findOne($representanteLegal));
 
         $this->em->persist($pessoaJuridica);
         $this->em->flush();

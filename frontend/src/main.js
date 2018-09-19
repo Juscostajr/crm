@@ -1,13 +1,15 @@
 import Vue from "Vue";
 import ElementUI from "element-ui";
+import locale from "element-ui/lib/locale/lang/pt-br";
 import Router from "vue-router";
 import 'element-ui/lib/theme-chalk/index.css';
 import {routes} from './routes';
 import VInputmask from 'v-inputmask';
 import Axios from 'axios';
 import AxiosAdapter from 'axios-jsonp';
+import GoogleMapsLoader from 'google-maps';
 Vue.use(Router);
-Vue.use(ElementUI);
+Vue.use(ElementUI, { locale });
 Vue.use(VInputmask);
 
 import App from "./App.vue";
@@ -30,6 +32,12 @@ Vue.prototype.$cnpj = Axios.create({
     },
     adapter: AxiosAdapter
 });
+Vue.prototype.$viacep = Axios.create({
+    baseURL: 'https://viacep.com.br/ws/',
+    timeout: 10000,
+});
+
+
 
 
 new Vue({

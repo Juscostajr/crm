@@ -3,6 +3,7 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");
 $app->get('/telefone', App\Controller\TIpoTelefoneController::class . ':getAll')->setName('find_all_tipotelefone');
 $app->get('/operadora', App\Controller\OperadoraController::class . ':findAll')->setName('find_all_operadora');
+$app->get('/pf', App\Controller\PessoaFisicaController::class . ':findAll')->setName('find_all_pessoafisica');
 $app->get('/posts', App\Controller\PostController::class . ':findAll')->setName('find_all_post');
 
 $app->get('/posts/{id}', App\Controller\PostController::class . ':findOne')->setName('find_one_post');

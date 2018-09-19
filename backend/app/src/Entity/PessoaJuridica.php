@@ -16,6 +16,11 @@ class PessoaJuridica extends Pessoa
      */
     private $cnpj;
 
+    /** @var string
+     * @ORM\Column(type="string")
+     */
+    private $razaoSocial;
+
     /** @var int
      * @ORM\Column(type="integer")
      */
@@ -58,6 +63,21 @@ class PessoaJuridica extends Pessoa
         $this->cnpj = $cnpj;
     }
 
+    /**
+     * @return string
+     */
+    public function getRazaoSocial(): string
+    {
+        return $this->razaoSocial;
+    }
+
+    /**
+     * @param string $razaoSocial
+     */
+    public function setRazaoSocial(string $razaoSocial)
+    {
+        $this->razaoSocial = $razaoSocial;
+    }
 
 
     /**

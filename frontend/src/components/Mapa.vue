@@ -2,14 +2,23 @@
     <div id="map"></div>
 </template>
 <script>
+    import GoogleMapsLoader from '../maps';
     export default {
         name: 'mapa',
-        mounted: function () {
-            let GoogleMapsLoader = require('google-maps'); // only for common js environments
+        props: {
+            coordenadas: {
+                type: Array,
+                default: () => [],
+            },
+            type: {
+                validator: function (value) {
+                    return ['heatmap', 'marker'].indexOf(value) !== -1
+                }
+            }
+        },
 
-            GoogleMapsLoader.LIBRARIES = ['visualization'];
-            GoogleMapsLoader.KEY = 'AIzaSyA-V7KWkNL9nfqSqW3bDJqgdQAjiTLBnA0';
-            GoogleMapsLoader.load(function(google) {
+        mounted: function () {
+            GoogleMapsLoader.load(google => {
                 let map = new google.maps.Map(document.getElementById('map'), {
                     zoom: 14,
                     center: {lat: -24.04154589215009, lng: -52.3780561654537},
@@ -17,26 +26,34 @@
                     mapTypeId: 'satellite'
                 });
 
-                new google.maps.visualization.HeatmapLayer({
-                    data: getPoints(),
-                    map: map,
-                    radius: 10
-                });
+            if (this.coordenadas !== undefined) {
 
-                function getPoints() {
-                    return [
-                        new google.maps.LatLng(-24.04086982060015, -52.377187129732874),
-                        new google.maps.LatLng(-24.041173563330954, -52.37754118132284),
-                        new google.maps.LatLng(-24.04135972787545, -52.37784158873251),
-                        new google.maps.LatLng(-24.04154589215009, -52.3780561654537),
-                        new google.maps.LatLng(-24.041683065653473, -52.3780561654541),
-                        new google.maps.LatLng(-24.04191821988987, -52.37863352260092),
-                        new google.maps.LatLng(-24.04236893097285, -52.37912704905966),
-                        new google.maps.LatLng(-24.042800044441783, -52.37976877922324)
-
-                    ];
+                for (let index in this.coordenadas) {
+                    this.coordenadas[index] = new google.maps.LatLng(
+                        this.coordenadas[index].latitude,
+                        this.coordenadas[index].longitude
+                    )
                 }
-            });
+
+                if (this.type == 'heatmap') {
+                    new google.maps.visualization.HeatmapLayer({
+                        data: this.coordenadas,
+                        map: map,
+                        radius: 10
+                    });
+                }
+
+                if (this.type == 'marker') {
+                    for (var index in this.coordenadas) {
+                        new google.maps.Marker({
+                            position: this.coordenadas[index],
+                            map: map,
+                        });
+                    }
+                }
+            }
+
+        });
         }
     }
 

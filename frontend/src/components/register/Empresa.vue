@@ -46,7 +46,7 @@
                 </el-col>
                 <el-col :span="9">
                     <el-form-item label="Representante Legal">
-                        <el-input v-model="form.representanteLegal" auto-complete="off"></el-input>
+                        <remote-select data-source="pf" id="id" label="nome" :model.sync="form.representanteLegal"></remote-select>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -55,18 +55,18 @@
                     <el-form-item label="Telefones">
                         <el-row>
                             <el-col :span="24">
-                                <el-row v-for="(telefone, index) in form.telefones" :gutter="10">
+                                <el-row v-for="(telefone, index) in form.telefones" :gutter="10" :key="telefone.numero">
                                     <el-col :span="18">
                                         <el-input v-model="telefone.numero" auto-complete="off" v-inputmask="'(99) 9999[9]-9999'">
                                             <el-select v-model="telefone.tipo" slot="prepend" placeholder="Tipo">
                                                 <el-option v-for="tipo in telefoneTipos" :label="tipo | capitalize"
-                                                           :value="tipo"></el-option>
+                                                           :value="tipo" :key="tipo"></el-option>
                                             </el-select>
 
                                             <el-select v-model="telefone.operadora" slot="append"
                                                        placeholder="Operadora">
                                                 <el-option v-for="operadora in operadoras" :label="operadora.nome"
-                                                           :value="operadora.id"></el-option>
+                                                           :value="operadora.id" :key="operadora.id"></el-option>
                                             </el-select>
                                         </el-input>
                                     </el-col>
@@ -104,6 +104,7 @@
 <script>
     import axios from 'axios';
     import Endereco from './Endereco.vue';
+    import RemoteSelect from '../RemoteSelect.vue';
     export default {
         props: ['teste'],
         data () {
@@ -141,6 +142,7 @@
             }
         },
         mounted (){
+            console.log(this.$maps);
             this.$request.get('telefone')
                 .then(response => {
                     this.telefoneTipos = response.data;
@@ -169,7 +171,7 @@
             }
         }
         ,
-        components: {Endereco}
+        components: {Endereco, RemoteSelect}
         ,
         methods: {
             save()

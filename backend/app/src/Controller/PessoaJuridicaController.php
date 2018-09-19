@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Service\PessoaJuridicaService;
 use Psr\Container\ContainerInterface;
+use App\Entity;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -71,7 +72,7 @@ class PessoaJuridicaController
 
             $params = $request->getParams();
             $service->create(
-                $params['nome'],
+                $params['razaoSocial'],
                 $params['telefones'],
                 $params['enderecos'],
                 $params['email'],
@@ -79,7 +80,7 @@ class PessoaJuridicaController
                 $params['nomeFantasia'],
                 $params['inscricaoEstadual'],
                 $params['numeroFuncionarios'],
-                $params['representanteLegal']
+                $params['representanteLegal']['id']
             );
 
             return $response->withStatus(201);
@@ -97,7 +98,7 @@ class PessoaJuridicaController
 
             $service->update(
                 $args['id'],
-                $params['nome'],
+                $params['razaoSocial'],
                 $params['telefones'],
                 $params['enderecos'],
                 $params['email'],
@@ -105,7 +106,7 @@ class PessoaJuridicaController
                 $params['nomeFantasia'],
                 $params['inscricaoEstadual'],
                 $params['numeroFuncionarios'],
-                $params['representanteLegal']
+                $params['representanteLegal']['id']
             );
 
             return $response->withStatus(200);
