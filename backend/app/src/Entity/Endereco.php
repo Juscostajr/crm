@@ -26,16 +26,11 @@ class Endereco {
 			 * @ORM\Column(type="integer")
 			 */
 			private $nrImovel;
-		
-			/** @var Pessoa
-			 * @ORM\JoinColumn(name="proprietario",referencedColumnName="id")
-			 * @ORM\ManyToOne(targetEntity="Pessoa", inversedBy="enderecos")
-			 */
-			private $proprietario;
+
 		
 			/** @var Cidade
 			 * @ORM\JoinColumn(name="cidade", referencedColumnName="ibge")
-			 * @ORM\ManyToOne(targetEntity="Cidade")
+			 * @ORM\ManyToOne(targetEntity="Cidade", cascade={"persist"})
 			 */
 			private $cidade;
 		
@@ -51,7 +46,7 @@ class Endereco {
 		
 			/** @var Coordenadas
 			 * @ORM\JoinColumn(name="coordenadas",referencedColumnName="id")
-			 * @ORM\OneToOne(targetEntity="Coordenadas")
+			 * @ORM\OneToOne(targetEntity="Coordenadas", cascade={"persist"})
 			 */
 			private $coordenadas;
 		
@@ -89,7 +84,7 @@ class Endereco {
 	 */
 	public function setCep(Cep $cep)
 	{
-		$this->cep = $cep;
+		$this->cep = $cep->getNumero();
 	}
 
 	/**
@@ -106,22 +101,6 @@ class Endereco {
 	public function setNrImovel(int $nrImovel)
 	{
 		$this->nrImovel = $nrImovel;
-	}
-
-	/**
-	 * @return Pessoa
-	 */
-	public function getProprietario(): Pessoa
-	{
-		return $this->proprietario;
-	}
-
-	/**
-	 * @param Pessoa $proprietario
-	 */
-	public function setProprietario(Pessoa $proprietario)
-	{
-		$this->proprietario = $proprietario;
 	}
 
 	/**

@@ -23,14 +23,25 @@ abstract class Pessoa
     protected $id;
 
     /** @var Telefone
-     * @ORM\JoinColumn(name="telefones",referencedColumnName="id")
-     * @ORM\OneToMany(targetEntity="Telefone", mappedBy="proprietario", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="telefone",referencedColumnName="id")
+     * @ORM\OneToMany(targetEntity="Telefone", cascade={"persist", "remove"})
+     */
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Telefone", cascade={"persist"})
+     * @ORM\JoinTable(name="telefone_pessoa",
+     *      joinColumns={@ORM\JoinColumn(name="pessoa", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="telefone", referencedColumnName="id", unique=true)}
+     *      )
      */
     protected $telefones;
 
-    /** @var Endereco
-     * @ORM\JoinColumn(name="enderecos",referencedColumnName="id")
-     * @ORM\OneToMany(targetEntity="Endereco", mappedBy="proprietario", cascade={"persist","remove"})
+    /**
+     * @ORM\ManyToMany(targetEntity="Endereco", cascade={"persist"})
+     * @ORM\JoinTable(name="endereco_pessoa",
+     *      joinColumns={@ORM\JoinColumn(name="pessoa", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="endereco", referencedColumnName="id", unique=true)}
+     *      )
      */
     protected $enderecos;
 
@@ -110,11 +121,6 @@ abstract class Pessoa
         $this->telefones->add($telefone);
     }
 
-    public function setTelefones(array $telefones)
-    {
-        $this->telefones = new ArrayCollection($telefones);
-    }
-
     /**
      * @return Endereco
      */
@@ -131,10 +137,6 @@ abstract class Pessoa
         $this->enderecos->add($endereco);
     }
 
-    public function setEnderecos(array $endereco)
-    {
-        $this->enderecos = new ArrayCollection($endereco);
-    }
 
     /**
      * @return Mail
@@ -149,7 +151,7 @@ abstract class Pessoa
      */
     public function setEmail(Mail $email)
     {
-        $this->email = $email;
+        $this->email = $email->getEmail();
     }
 
     public function toArray()

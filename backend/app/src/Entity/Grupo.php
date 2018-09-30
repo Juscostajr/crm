@@ -19,7 +19,8 @@ class Grupo {
 			private $id;
 		
 			/** @var TipoGrupo
-			 * @ORM\Column(type="string")
+			 * @ORM\JoinColumn(name="tipo_grupo", referencedColumnName="id")
+             * @ORM\ManyToOne(targetEntity="TipoGrupo")
 			 */
 			private $tipo;
 		
@@ -105,11 +106,6 @@ class Grupo {
 	public function addMembro(Pessoa $membro)
 	{
 		$this->membros->add($membro);
-	}
-
-	public function setMembros(array $membros)
-	{
-		$this->membros = new ArrayCollection($membros);
 	}
 
 	public function toArray()

@@ -1,36 +1,49 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: Juscelino Jr
+ * Date: 27/09/2018
+ * Time: 20:59
+ */
+
 namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
+
 /**
+ * Class Secao
+ * @package App\Entity
  * @ORM\Entity
- * @ORM\Table("tipo_grupo")
+ * @ORM\Table("secao")
  */
-class TipoGrupo {
+class Secao
+{
+
     /**
-     * @ORM\ID
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\Column(type="integer")
+     * @var string
+     * @ORM\Id
+     * @ORM\Column(type="string", length=1)
      */
-    private $id;
+    protected $id;
     /**
      * @var string
      * @ORM\Column(type="string")
      */
-	private $descricao;
+    protected $descricao;
+
 
     /**
-     * @return int
+     * @return string
      */
-    public function getId(): int
+    public function getId(): string
     {
         return $this->id;
     }
 
     /**
-     * @param int $id
+     * @param string $id
      */
-    public function setId(int $id)
+    public function setId(string $id)
     {
         $this->id = $id;
     }
@@ -52,5 +65,12 @@ class TipoGrupo {
     }
 
 
+    public function toArray()
+    {
+        return get_object_vars($this);
+    }
+
+
+
+
 }
-?>

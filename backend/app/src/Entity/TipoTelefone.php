@@ -1,6 +1,6 @@
 <?php
 namespace App\Entity;
-abstract class TipoTelefone {
+class TipoTelefone {
     const FIXO = 'fixo';
     const MOVEL = 'móvel';
     const FAX = 'fax';

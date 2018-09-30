@@ -2,14 +2,16 @@
 
 namespace App\Controller;
 
+use App\Factory\DoctrineJsonSerializator;
 use App\Factory\DoctrineParamsMapper;
-use App\Service\PessoaJuridicaService;
+use App\Service\RamoAtividadeService;
+use JMS\Serializer\SerializerBuilder;
 use Psr\Container\ContainerInterface;
 use App\Entity;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-class PessoaJuridicaController
+class RamoAtividadeController
 {
 
     protected $container;
@@ -20,24 +22,32 @@ class PessoaJuridicaController
     {
         $this->container = $container;
         $this->em = $this->container->get('em');
-        $this->service = new PessoaJuridicaService($this->em);
+        $this->service = new RamoAtividadeService($this->em);
     }
 
     public function findAll(Request $request, Response $response)
     {
         try {
-            $service = new PessoaJuridicaService($this->container->get('em'));
+            $em = $this->container->get('em');
+            $service = new RamoAtividadeService($em);
 
-            $pessoaJuridicas = $service->findAll();
+           $serializer = SerializerBuilder::create()->build();
+           ;
 
-            $pessoaJuridicas = array_map(
-                function ($photo) {
-                    return $photo->toArray();
-                },
-                $pessoaJuridicas
+//            $serializer = new DoctrineJsonSerializator($em->getRepository('\App\Entity\RamoAtividade')->findAll());
+//            echo var_dump($serializer->getArray());
+//            $ramoAtividades = $service->findAll();
+//
+//            $ramoAtividades = array_map(
+//                function ($photo) {
+//                    return $photo->toArray();
+//                },
+//                $ramoAtividades
+//            );
+//
+            return $response->write(
+                $serializer->serialize($em->getRepository('\App\Entity\RamoAtividade')->findAll(), 'json')
             );
-
-            return $response->withJSON($pessoaJuridicas);
         } catch (\Exception $ex) {
             echo $ex;
             return $response->withStatus(404);
@@ -47,11 +57,16 @@ class PessoaJuridicaController
     public function findOne(Request $request, Response $response, $args)
     {
         try {
-            $service = new PessoaJuridicaService($this->container->get('em'));
+            $service = new RamoAtividadeService($this->container->get('em'));
+            $serializer = SerializerBuilder::create()->build();
+            $serializer->serialize($service, 'json');
 
-            $pessoaJuridica = $service->findOne($args['id']);
+            echo $serializer;
 
-            return $response->withJSON($pessoaJuridica->toArray());
+
+            //$ramoAtividade = $service->findOne($args['id']);
+
+           // return $response->withJSON($ramoAtividade->toArray());
         } catch (\Exception $ex) {
             return $response->withStatus(404);
         }
@@ -60,7 +75,7 @@ class PessoaJuridicaController
     public function delete(Request $request, Response $response, $args)
     {
         try {
-            $service = new PessoaJuridicaService($this->container->get('em'));
+            $service = new RamoAtividadeService($this->container->get('em'));
 
             $service->delete($args['id']);
 
@@ -75,7 +90,7 @@ class PessoaJuridicaController
         try {
             $this->service->create(
                 new DoctrineParamsMapper(
-                    Entity\PessoaJuridica::class,
+                    Entity\RamoAtividade::class,
                     $request->getParams(),
                     $this->em
                 )
@@ -91,7 +106,7 @@ class PessoaJuridicaController
     public function update(Request $request, Response $response, $args)
     {
         try {
-            $service = new PessoaJuridicaService($this->container->get('em'));
+            $service = new RamoAtividadeService($this->container->get('em'));
 
             $params = $request->getParams();
 

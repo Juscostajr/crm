@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
 
 class Cidade {
 		
-			/** @var int
-			 * @ORM\ID
+			/**
+			 * @ORM\Id
 			 * @ORM\Column(type="integer")
 			 */ 
 			private $ibge;
@@ -44,9 +44,9 @@ class Cidade {
 	/**
 	 * @param int $ibge
 	 */
-	public function setIbge(int $ibge)
+	public function setIbge($ibge)
 	{
-		$this->ibge = $ibge;
+		$this->ibge = (int)$ibge;
 	}
 
 	/**

@@ -21,7 +21,7 @@ class PessoaJuridica extends Pessoa
      */
     private $razaoSocial;
 
-    /** @var int
+    /** @var RamoAtividade
      * @ORM\Column(type="integer")
      */
     private $ramoAtividade;
@@ -43,7 +43,7 @@ class PessoaJuridica extends Pessoa
 
     /** @var PessoaFisica
      * @ORM\JoinColumn(name="representanteLegal", referencedColumnName="id")
-     * @ORM\ManyToOne(targetEntity="Pessoa")
+     * @ORM\ManyToOne(targetEntity="PessoaFisica" ,cascade={"persist"})
      */
     private $representanteLegal;
 
@@ -60,7 +60,7 @@ class PessoaJuridica extends Pessoa
      */
     public function setCnpj(Cnpj $cnpj)
     {
-        $this->cnpj = $cnpj;
+        $this->cnpj = $cnpj->getNumero();
     }
 
     /**
@@ -83,15 +83,15 @@ class PessoaJuridica extends Pessoa
     /**
      * @return int
      */
-    public function getRamoAtividade(): int
+    public function getRamoAtividade(): RamoAtividade
     {
         return $this->ramoAtividade;
     }
 
     /**
-     * @param int $ramoAtividade
+     * @param RamoAtividade $ramoAtividade
      */
-    public function setRamoAtividade(int $ramoAtividade)
+    public function setRamoAtividade(RamoAtividade $ramoAtividade)
     {
         $this->ramoAtividade = $ramoAtividade;
     }
@@ -125,7 +125,7 @@ class PessoaJuridica extends Pessoa
      */
     public function setInscricaoEstadual(InscricaoEstadual $inscricaoEstadual)
     {
-        $this->inscricaoEstadual = $inscricaoEstadual;
+        $this->inscricaoEstadual = $inscricaoEstadual->getNumero();
     }
 
     /**

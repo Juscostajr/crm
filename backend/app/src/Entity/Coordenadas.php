@@ -26,17 +26,17 @@ class Coordenadas {
 			private $longitude;
 
 	/**
-	 * @return mixed
+	 * @return int
 	 */
-	public function getId(): mixed
+	public function getId(): int
 	{
 		return $this->id;
 	}
 
 	/**
-	 * @param mixed $id
+	 * @param int $id
 	 */
-	public function setId(mixed $id)
+	public function setId(int $id)
 	{
 		$this->id = $id;
 	}

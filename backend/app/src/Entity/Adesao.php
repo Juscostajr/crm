@@ -17,7 +17,7 @@ class Adesao {
 			 */
 			private $id;
 		
-			/** @var Date
+			/** @var \DateTime
 			 * @ORM\Column(type="string")
 			 */
 			private $data;
@@ -51,9 +51,9 @@ class Adesao {
 	}
 
 	/**
-	 * @return Date
+	 * @return \DateTime
 	 */
-	public function getData(): Date
+	public function getData(): \DateTime
 	{
 		return $this->data;
 	}
@@ -61,7 +61,7 @@ class Adesao {
 	/**
 	 * @param Date $data
 	 */
-	public function setData(Date $data)
+	public function setData(\DateTime $data)
 	{
 		$this->data = $data;
 	}

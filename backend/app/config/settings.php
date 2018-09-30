@@ -20,6 +20,7 @@ return [
                 'dbname' => 'crmanalytic',
                 'user' => 'root',
                 'password' => '',
+                'charset'  => 'utf8',
             ]
         ],
         

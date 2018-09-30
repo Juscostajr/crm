@@ -37,9 +37,9 @@ class Pergunta
     }
 
     /**
-     * @param mixed $checklist
+     * @param CheckList $checklist
      */
-    public function setChecklist(mixed $checklist)
+    public function setChecklist(CheckList $checklist)
     {
         $this->checklist = $checklist;
     }

@@ -39,17 +39,17 @@ class PerguntaPessoa
     private $data;
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getId(): mixed
+    public function getId(): int
     {
         return $this->id;
     }
 
     /**
-     * @param mixed $id
+     * @param int $id
      */
-    public function setId(mixed $id)
+    public function setId(int $id)
     {
         $this->id = $id;
     }
@@ -87,17 +87,17 @@ class PerguntaPessoa
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
-    public function isResposta(): boolean
+    public function isResposta(): bool
     {
         return $this->resposta;
     }
 
     /**
-     * @param boolean $resposta
+     * @param bool $resposta
      */
-    public function setResposta(boolean $resposta)
+    public function setResposta(bool $resposta)
     {
         $this->resposta = $resposta;
     }

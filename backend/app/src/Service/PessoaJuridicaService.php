@@ -2,6 +2,7 @@
 namespace App\Service;
 
 use App\Entity\PessoaJuridica;
+use App\Factory\DoctrineParamsMapper;
 use Doctrine\ORM\EntityManager;
 
 class PessoaJuridicaService
@@ -44,19 +45,9 @@ class PessoaJuridicaService
         return $pessoaJuridica;
     }
 
-    public function create($razaoSocial, $telefones, $enderecos, $email, $grupos, $nomeFantasia, $inscricaoEstadual, $numeroFuncionarios, $representanteLegal)
+    public function create(DoctrineParamsMapper $pessoaJuridica)
     {
-        $pessoaJuridica = new PessoaJuridica();
-        $pessoaJuridica->setRazaoSocial($razaoSocial);
-        $pessoaJuridica->setTelefones($telefones);
-        $pessoaJuridica->setEnderecos($enderecos);
-        $pessoaJuridica->setEmail(new \App\Entity\Mail($email));
-        $pessoaJuridica->setGrupos($grupos);
-        $pessoaJuridica->setNomeFantasia($nomeFantasia);
-        $pessoaJuridica->setInscricaoEstadual(new \App\Entity\InscricaoEstadual($inscricaoEstadual));
-        $pessoaJuridica->setNumeroFuncionarios($numeroFuncionarios);
-        $pessoaJuridica->setRepresentanteLegal($this->pf->findOne($representanteLegal));
-        $this->em->persist($pessoaJuridica);
+        $this->em->persist($pessoaJuridica->map());
         $this->em->flush();
     }
 

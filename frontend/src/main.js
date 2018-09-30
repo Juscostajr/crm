@@ -32,6 +32,7 @@ Vue.prototype.$cnpj = Axios.create({
     },
     adapter: AxiosAdapter
 });
+
 Vue.prototype.$viacep = Axios.create({
     baseURL: 'https://viacep.com.br/ws/',
     timeout: 10000,

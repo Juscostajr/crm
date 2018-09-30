@@ -20,6 +20,13 @@ class Operadora {
 			 */
 			private $nome;
 
+
+    /**
+     * @ORM\Column(type="integer")
+     * @ORM\JoinColumn(name="telefone",referencedColumnName="id")
+     * @ORM\OneToMany(targetEntity="Telefone", mappedBy="operadora", cascade={"persist","remove"})
+     */
+
 	/**
 	 * @return int
 	 */

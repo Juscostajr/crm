@@ -21,16 +21,11 @@ class Telefone {
 			 * @ORM\Column(type="string")
 			 */ 
 			private $numero;
-		
-			/** @var Pessoa
-			 * @ORM\JoinColumn(name="proprietario", referencedColumnName="id")
-			 * @ORM\ManyToOne(targetEntity="Pessoa", inversedBy="telefones")
-			 */ 
-			private $proprietario;
+
 		
 			/** @var Operadora
 			 * @ORM\JoinColumn(name="operadora", referencedColumnName="id")
-			 * @ORM\ManyToOne(targetEntity="Operadora")
+			 * @ORM\ManyToOne(targetEntity="Operadora", inversedBy="telefones")
 			 */ 
 			private $operadora;
 		
@@ -71,21 +66,6 @@ class Telefone {
 		$this->numero = $numero;
 	}
 
-	/**
-	 * @return Pessoa
-	 */
-	public function getProprietario(): Pessoa
-	{
-		return $this->proprietario;
-	}
-
-	/**
-	 * @param Pessoa $proprietario
-	 */
-	public function setProprietario(Pessoa $proprietario)
-	{
-		$this->proprietario = $proprietario;
-	}
 
 	/**
 	 * @return Operadora
@@ -114,7 +94,7 @@ class Telefone {
 	/**
 	 * @param TipoTelefone $tipo
 	 */
-	public function setTipo(TipoTelefone $tipo)
+	public function setTipo(string $tipo)
 	{
 		$this->tipo = $tipo;
 	}

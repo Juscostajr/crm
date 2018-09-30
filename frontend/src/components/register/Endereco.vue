@@ -35,7 +35,7 @@
                </el-col>
                <el-col :span="8">
                    <el-form-item label="Cidade">
-                       <el-input v-model="endereco.cidade" auto-complete="off"></el-input>
+                       <el-input disabled v-model="endereco.cidade.nome" auto-complete="off"></el-input>
                    </el-form-item>
                </el-col>
            </el-row>
@@ -76,7 +76,10 @@
                     cep: '',
                     nrImovel: '',
                     proprietario: '',
-                    cidade: '',
+                    cidade: {
+                        ibge: '',
+                        nome: '',
+                    },
                     logradouro: '',
                     complemento: '',
                     coordenadas: {
@@ -106,10 +109,16 @@
                     cep: '',
                     nrImovel: '',
                     proprietario: '',
-                    cidade: '',
+                    cidade: {
+                        ibge: '',
+                        nome: '',
+                    },
                     logradouro: '',
                     complemento: '',
-                    coordenadas: '',
+                    coordenadas: {
+                        latitude:'',
+                        longitude: '',
+                    },
                     bairro: ''
                 }
             },
@@ -131,7 +140,8 @@
                 this.$viacep.get(`${this.endereco.cep.replace(/[\D]/gi, '')}/json`)
                     .then(response => {
                         this.endereco.logradouro = response.data.logradouro;
-                        this.endereco.cidade = response.data.localidade;
+                        this.endereco.cidade.nome = response.data.localidade;
+                        this.endereco.cidade.ibge = response.data.ibge;
                         this.endereco.bairro = response.data.bairro;
                     })
                     .catch(error => {
