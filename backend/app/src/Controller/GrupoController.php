@@ -33,6 +33,7 @@ class GrupoController
 
             return $response->withJSON($grupos);
         } catch (\Exception $ex) {
+            echo $ex;
             return $response->withStatus(404);
         }
     }

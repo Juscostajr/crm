@@ -7,7 +7,7 @@
                append-to-body>
            <el-row>
                <el-form-item label="Cep">
-                   <el-input v-model="endereco.cep" auto-complete="off" v-inputmask="'99.999-999'" @change="findAddressData()"></el-input>
+                   <el-input v-model="endereco.cep.numero" auto-complete="off" v-inputmask="'99.999-999'" @change="findAddressData()"></el-input>
                </el-form-item>
            </el-row>
            <el-row :gutter="10">
@@ -73,7 +73,9 @@
         data () {
             return {
                 endereco: {
-                    cep: '',
+                    cep: {
+                        numero: '',
+                    },
                     nrImovel: '',
                     proprietario: '',
                     cidade: {
@@ -104,9 +106,12 @@
 
             },
             addEndereco(e){
+                this.$emit('update:isVisible', false)
                 this.enderecos.push(Object.assign({}, e));
                 this.endereco = {
-                    cep: '',
+                    cep: {
+                        numero: ''
+                    },
                     nrImovel: '',
                     proprietario: '',
                     cidade: {
@@ -137,7 +142,7 @@
                 });
             },
             findAddressData(){
-                this.$viacep.get(`${this.endereco.cep.replace(/[\D]/gi, '')}/json`)
+                this.$viacep.get(`${this.endereco.cep.numero.replace(/[\D]/gi, '')}/json`)
                     .then(response => {
                         this.endereco.logradouro = response.data.logradouro;
                         this.endereco.cidade.nome = response.data.localidade;

@@ -20,7 +20,6 @@ class Secao
 {
 
     /**
-     * @var string
      * @ORM\Id
      * @ORM\Column(type="string", length=1)
      */

@@ -254,4 +254,15 @@ class RamoAtividade extends \App\Entity\RamoAtividade implements \Doctrine\ORM\P
         return parent::toArray();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function __toString()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, '__toString', []);
+
+        return parent::__toString();
+    }
+
 }

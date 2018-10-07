@@ -23,6 +23,8 @@ class PessoaJuridica extends Pessoa
 
     /** @var RamoAtividade
      * @ORM\Column(type="integer")
+     * @ORM\JoinColumn(name="ramo_atividade", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="RamoAtividade")
      */
     private $ramoAtividade;
 

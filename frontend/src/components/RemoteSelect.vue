@@ -1,5 +1,5 @@
 <template>
-    <el-select class="remote-select" v-model="model" :value-key="id" filterable remote reserve-keyword placeholder="Please enter a keyword" :remote-method="remoteMethod" :loading="loading">
+    <el-select class="remote-select" v-model="model" :value-key="id" filterable remote reserve-keyword placeholder="Digite o que procura" :remote-method="remoteMethod" :loading="loading">
         <el-option v-for="item in filteredOptions" :key="getKey(item)" :label="getLabel(item)" :value="item">
         </el-option>
     </el-select>
@@ -16,15 +16,15 @@ export default {
         }
     },
     mounted() {
-        this.model = {}
         this.$request.get(this.dataSource)
             .then(response => {
                 this.list = response.data;
             })
             .catch(error => {
+                console.log(error);
                 this.$notify.error({
                     title: 'Erro!',
-                    message: error
+                    message: 'Houve um erro inesperado ao tentar carregar opções'
                 });
             });
     },

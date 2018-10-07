@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Factory\DoctrineParamsMapper;
 use App\Service\PessoaJuridicaService;
+use JMS\Serializer\SerializerBuilder;
 use Psr\Container\ContainerInterface;
 use App\Entity;
 use Slim\Http\Request;
@@ -26,18 +27,26 @@ class PessoaJuridicaController
     public function findAll(Request $request, Response $response)
     {
         try {
-            $service = new PessoaJuridicaService($this->container->get('em'));
-
-            $pessoaJuridicas = $service->findAll();
-
-            $pessoaJuridicas = array_map(
-                function ($photo) {
-                    return $photo->toArray();
-                },
-                $pessoaJuridicas
+            $em = $this->container->get('em');
+            $serializer = SerializerBuilder::create()->build();
+            return $response->write(
+                $serializer->serialize($em->getRepository('\App\Entity\PessoaJuridica')->findAll(), 'json')
             );
+        } catch (\Exception $ex) {
+            echo $ex;
+            return $response->withStatus(404);
+        }
+    }
 
-            return $response->withJSON($pessoaJuridicas);
+    public function findByName(Request $request, Response $response,array $args)
+    {
+
+        try {
+            $em = $this->container->get('em');
+            $serializer = SerializerBuilder::create()->build();
+            return $response->write(
+                $serializer->serialize($em->getRepository(Entity\PessoaJuridica::class)->findBy($args), 'json')
+            );
         } catch (\Exception $ex) {
             echo $ex;
             return $response->withStatus(404);

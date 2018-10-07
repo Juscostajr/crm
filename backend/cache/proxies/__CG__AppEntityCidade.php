@@ -191,7 +191,7 @@ class Cidade extends \App\Entity\Cidade implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setIbge(int $ibge)
+    public function setIbge($ibge)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setIbge', [$ibge]);

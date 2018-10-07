@@ -26,7 +26,6 @@ export default {
             list: [],
             loading: false,
             key: '',
-            label: '',
             value: '',
         }
     },

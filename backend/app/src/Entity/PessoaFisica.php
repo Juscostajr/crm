@@ -56,7 +56,7 @@ class PessoaFisica extends Pessoa
      */
     public function setCpf(Cpf $cpf)
     {
-        $this->cpf = $cpf;
+        $this->cpf = $cpf->getNumero();
     }
 
     /**

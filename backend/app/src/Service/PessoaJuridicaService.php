@@ -45,6 +45,15 @@ class PessoaJuridicaService
         return $pessoaJuridica;
     }
 
+    public function findByName(array $name)
+    {
+        $pessoaJuridica = $this->em->getRepository('\App\Entity\PessoaJuridica')->findBy($name);
+        if (!$pessoaJuridica) {
+            throw new \Exception("PessoaJuridica not found", 404);
+        }
+        return $pessoaJuridica;
+    }
+
     public function create(DoctrineParamsMapper $pessoaJuridica)
     {
         $this->em->persist($pessoaJuridica->map());

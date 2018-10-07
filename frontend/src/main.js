@@ -1,4 +1,4 @@
-import Vue from "Vue";
+import Vue from "vue";
 import ElementUI from "element-ui";
 import locale from "element-ui/lib/locale/lang/pt-br";
 import Router from "vue-router";
@@ -22,7 +22,7 @@ Vue.filter('capitalize', function (value) {
 });
 Vue.prototype.$request = Axios.create({
     baseURL: 'http://localhost:8080/',
-    timeout: 5000,
+    timeout: 10000,
 });
 Vue.prototype.$cnpj = Axios.create({
     baseURL: 'https://www.receitaws.com.br/v1/cnpj/',

@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Factory\DoctrineParamsMapper;
 use Doctrine\ORM\EntityManager;
 use App\Entity\PessoaFisica;
 
@@ -47,20 +48,9 @@ class PessoaFisicaService {
         $this->em->flush();
     }
 
-    public function create($nome, $telefones, $enderecos, $email, $acoes, $grupos, $dtNascimento)
+    public function create(DoctrineParamsMapper $pessoaFisica)
     {
-        $pessoaFisica = new PessoaFisica();
-        $pessoaFisica->setNome($nome);
-        $pessoaFisica->setTelefones($telefones);
-        $pessoaFisica->setEnderecos($enderecos);
-        $pessoaFisica->setEmail($email);
-        $pessoaFisica->setAcoes($acoes);
-        $pessoaFisica->setGrupos($grupos);
-        $pessoaFisica->setCpf($nome);
-        $pessoaFisica->setDtNascimento( $dtNascimento);
-
-
-        $this->em->persist($pessoaFisica);
+        $this->em->persist($pessoaFisica->map());
         $this->em->flush();
     }
 

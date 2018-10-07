@@ -67,7 +67,6 @@ class DoctrineParamsMapper
 
     public function map()
     {
-        echo $this->reflectionClass->getName() . "\n";
         if ($this->isReference()) {
             return $this->em->getReference($this->reflectionClass->getName(), $this->inputData[$this->primaryKey]);
         }
@@ -113,7 +112,6 @@ class DoctrineParamsMapper
                 $this->inputData[$method->getParameters()[0]->getName()],
                 $this->em
             );
-            echo var_dump($this->inputData[$method->getParameters()[0]->getName()]);
             $this->instance->$methodName($dpm->map());
         }
     }

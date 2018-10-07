@@ -1,10 +1,13 @@
 <template>
-    <el-dialog title="Cadastrar Empresa" :visible.sync="teste" width="80%">
+    <el-dialog title="Cadastrar Empresa" :visible.sync="modal" width="80%">
 
         <el-form :model="form">
             <el-row :gutter="10">
                 <el-col :span="8">
-                    <el-form-item label="CNPJ">
+                    <el-form-item 
+                    label="CNPJ" 
+                    :rules="{ required: true, message: 'Informe um cnpj válido', trigger:'blur' }"
+                    >
                         <el-input v-model="form.cnpj.numero" auto-complete="off" v-inputmask="'99.999.999/9999-99'" @blur="cnpjLoad()"></el-input>
                     </el-form-item>
                 </el-col>
@@ -54,7 +57,7 @@
                     <el-form-item label="Telefones">
                         <el-row>
                             <el-col :span="24">
-                                <el-row v-for="(telefone, index) in form.telefones" :gutter="10" :key="telefone.numero">
+                                <el-row v-for="(telefone, index) in form.telefones" :gutter="10" :key="index">
                                     <el-col :span="18">
                                         <el-input v-model="telefone.numero" auto-complete="off" v-inputmask="'(99) 9999[9]-9999'">
                                             <el-select v-model="telefone.tipo" slot="prepend" placeholder="Tipo">
@@ -92,7 +95,7 @@
             </el-row>
         </el-form>
         <span slot="footer" class="dialog-footer">
-            <el-button @click="teste = false">Cancelar</el-button>
+            <el-button @click="modal = false">Cancelar</el-button>
             <el-button type="primary" @click="save">Salvar</el-button>
         </span>
     </el-dialog>
@@ -103,7 +106,7 @@ import Endereco from './Endereco.vue';
 import RemoteSelect from '../RemoteSelect.vue';
 import RemoteSelectMultiple from '../RemoteSelectMultiple.vue';
 export default {
-    props: ['teste'],
+    props: ['teste','datamodel'],
     data() {
         return {
             formLabelWidth: '120px',
@@ -122,11 +125,7 @@ export default {
                 email: {
                     email: '',
                 },
-                grupos: [{
-                    tipo: '',
-                    descricao: '',
-                    membros: ''
-                }],
+                grupos: [],
                 nomeFantasia: '',
                 inscricaoEstadual: {
                     numero: ''
@@ -144,20 +143,21 @@ export default {
             formEndereco: {},
             telefoneTipos: [],
             operadoras: [],
-            enderecos: []
+            enderecos: [],
+            modal: false,
 
         }
     },
     mounted() {
-        console.log(this.$maps);
         this.$request.get('telefone')
             .then(response => {
                 this.telefoneTipos = response.data;
             })
             .catch(function(error) {
+                console.log(error);
                 this.$notify.error({
                     title: 'Erro!',
-                    message: error
+                    message: 'Não foi possível carregar os tipos de telefone'
                 });
             });
         this.$request.get('operadora')
@@ -165,18 +165,25 @@ export default {
                 this.operadoras = response.data;
             })
             .catch(error => {
+                console.log(error);
                 this.$notify.error({
                     title: 'Erro!',
-                    message: error
+                    message: 'Não foi possível carregar as operadoras de telefone'
                 });
             });
     },
     watch: {
+        modal() {
+            this.$emit('update:teste', this.modal)
+        },
         teste() {
-            this.$emit('update:teste', this.teste)
+            this.modal = this.teste;
+        },
+        datamodel() {
+            if(this.datamodel == null) return this.clearForm();
+            this.form = this.datamodel;
         }
-    }
-    ,
+    },
     components: { Endereco, RemoteSelect, RemoteSelectMultiple }
     ,
     methods: {
@@ -201,7 +208,33 @@ export default {
         }
         ,
         clearForm() {
-            this.form = {};
+            this.form = {
+                razaoSocial: '',
+                telefones: [{
+                    numero: '',
+                    proprietario: '',
+                    operadora: {
+                        id: '',
+                        nome: '',
+                    },
+                    tipo: ''
+                }],
+                enderecos: [],
+                email: {
+                    email: '',
+                },
+                grupos: [],
+                nomeFantasia: '',
+                inscricaoEstadual: {
+                    numero: ''
+                },
+                cnpj: {
+                    numero: ''
+                },
+                numeroFuncionarios: '',
+                representanteLegal: '',
+                ramoAtividade: {}
+            };
         }
         ,
         removeTelefone(item) {
@@ -221,8 +254,8 @@ export default {
 
         },
         cnpjLoad() {
-            if (this.form.cnpj.replace(/[\D]/gi, '').length < 14) return;
-            this.$cnpj.get(this.form.cnpj.replace(/[\D]/gi, ''))
+            if (this.form.cnpj.numero.replace(/[\D]/gi, '').length < 14) return;
+            this.$cnpj.get(this.form.cnpj.numero.replace(/[\D]/gi, ''))
                 .then(response => {
                     this.form.razaoSocial = response.data.nome;
                     this.form.nomeFantasia = response.data.fantasia;

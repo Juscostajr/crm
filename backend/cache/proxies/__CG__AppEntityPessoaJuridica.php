@@ -220,7 +220,7 @@ class PessoaJuridica extends \App\Entity\PessoaJuridica implements \Doctrine\ORM
     /**
      * {@inheritDoc}
      */
-    public function getRamoAtividade(): int
+    public function getRamoAtividade(): \App\Entity\RamoAtividade
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getRamoAtividade', []);

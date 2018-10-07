@@ -52,7 +52,7 @@ abstract class Pessoa
 
     /**
      * @ORM\JoinColumn(name="grupos", referencedColumnName="id")
-     * @ORM\ManyToMany(targetEntity="Grupo", inversedBy="membros", cascade={"persist", "remove"})
+     * @ORM\ManyToMany(targetEntity="Grupo", inversedBy="membros")
      */
     protected $grupos;
 
