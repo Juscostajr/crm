@@ -8,9 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="venda")
  */
-class Venda extends Acao
+class Venda
 {
-
     /** @var int
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -18,33 +17,34 @@ class Venda extends Acao
      */
     private $id;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="PessoaJuridica")
+     * @ORM\JoinColumn(name="pessoaJuridica", referencedColumnName="id")
+     */
+    private $pessoaJuridica;
+
     /** @var Etapa
      * @ORM\Column(type="string")
      */
     private $etapa;
 
-    /** @var Servico
-     * @ORM\ManyToMany(targetEntity="Servico",mappedBy="")
-     * @ORM\JoinColumn(name="interesses", referencedColumnName="id")
-     */
     /**
      * @ORM\ManyToMany(targetEntity="Servico")
      * @ORM\JoinTable(name="venda_interesses",
-     *      joinColumns={@ORM\JoinColumn(name="servico", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="venda", referencedColumnName="id")}
+     *      joinColumns={@ORM\JoinColumn(name="venda", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="servico", referencedColumnName="id")}
      *      )
      */
     private $interesses;
 
-    /** @var \DateTime
-     * @ORM\Column(type="date")
+    /**
+     * @ORM\ManyToMany(targetEntity="Interacao")
+     * @ORM\JoinTable(name="venda_interacoes",
+     *      joinColumns={@ORM\JoinColumn(name="venda", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="interacao", referencedColumnName="id")}
+     *      )
      */
-    private $data;
-
-    /** @var \DateTime
-     * @ORM\Column(type="time")
-     */
-    private $hora;
+    private $interacaos;
 
     /**
      * Venda constructor.
@@ -52,6 +52,7 @@ class Venda extends Acao
     public function __construct()
     {
         $this->interesses = new ArrayCollection();
+        $this->interacaos = new ArrayCollection();
     }
 
     /**
@@ -73,7 +74,7 @@ class Venda extends Acao
     /**
      * @return Etapa
      */
-    public function getEtapa(): Etapa
+    public function getEtapa(): string
     {
         return $this->etapa;
     }
@@ -81,54 +82,48 @@ class Venda extends Acao
     /**
      * @param Etapa $etapa
      */
-    public function setEtapa(Etapa $etapa)
+    public function setEtapa(string $etapa)
     {
         $this->etapa = $etapa;
     }
 
     /**
+     * @return PessoaJuridica
+     */
+    public function getPessoaJuridica(): PessoaJuridica
+    {
+        return $this->pessoaJuridica;
+    }
+
+    /**
+     * @param PessoaJuridica $pessoaJuridica
+     */
+    public function setPessoaJuridica(PessoaJuridica $pessoaJuridica)
+    {
+        $this->pessoaJuridica = $pessoaJuridica;
+    }
+
+    /**
      * @return Servico
      */
-    public function getInteresses(): Servico
+    public function getInteresses(): array
     {
-        return $this->interesses;
+        return $this->interesses->toArray();
     }
     
-    public function setInteresses(array $interesses)
+    public function addInteresses(Servico $servico)
     {
-        $this->interesses = new ArrayCollection($interesses);
+        $this->interesses->add($servico);
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getData(): \DateTime
+    public function getInteracaos(): array
     {
-        return $this->data;
+        return $this->interacaos->toArray();
     }
 
-    /**
-     * @param \DateTime $data
-     */
-    public function setData(\DateTime $data)
+    public function addInteracaos(Interacao $interacao)
     {
-        $this->data = $data;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getHora(): \DateTime
-    {
-        return $this->hora;
-    }
-
-    /**
-     * @param \DateTime $hora
-     */
-    public function setHora(\DateTime $hora)
-    {
-        $this->hora = $hora;
+        $this->interacaos->add($interacao);
     }
 
     public function toArray()

@@ -106,7 +106,7 @@ import Endereco from './Endereco.vue';
 import RemoteSelect from '../RemoteSelect.vue';
 import RemoteSelectMultiple from '../RemoteSelectMultiple.vue';
 export default {
-    props: ['teste','datamodel'],
+    props: ['visible','datamodel'],
     data() {
         return {
             formLabelWidth: '120px',
@@ -174,10 +174,10 @@ export default {
     },
     watch: {
         modal() {
-            this.$emit('update:teste', this.modal)
+            this.$emit('update:visible', this.modal)
         },
-        teste() {
-            this.modal = this.teste;
+        visible() {
+            this.modal = this.visible;
         },
         datamodel() {
             if(this.datamodel == null) return this.clearForm();
@@ -200,9 +200,10 @@ export default {
                     });
                 })
                 .catch(error => {
+                    console.log(error);
                     this.$notify.error({
                         title: 'Erro!',
-                        message: error
+                        message: 'Não foi possível cadastrar a empresa, consulte a área de sistemas'
                     });
                 });
         }

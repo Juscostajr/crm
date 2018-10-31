@@ -1,10 +1,15 @@
 <template>
     <el-row>
-        <el-col :span="8" :offset="16">
+        <el-col :span="16">
+            <div id="brand">
+                <img src="../../assets/teste.svg" height="160px">
+            </div>
+        </el-col>
+        <el-col :span="8">
             <el-dropdown trigger="click">
                 <span class="el-dropdown-link">
                     <el-badge :value="12" class="item">
-                        <el-button class="share-button" icon="el-icon-bell" type="primary" size="small">Notificações
+                        <el-button class="share-button" icon="el-icon-bell" type="primary" size="small">
                         </el-button>
                     </el-badge>
                 </span>
@@ -19,7 +24,7 @@
             <el-dropdown trigger="click">
                 <span class="el-dropdown-link">
                     <el-badge :value="12" class="item">
-                        <el-button class="share-button" icon="el-icon-message" type="primary" size="small">E-Mails
+                        <el-button class="share-button" icon="el-icon-message" type="primary" size="small">
                         </el-button>
                     </el-badge>
                 </span>
@@ -33,10 +38,9 @@
             </el-dropdown>
             <el-dropdown trigger="click">
                 <span class="el-dropdown-link">
-                    <el-badge :value="12" class="item">
-                        <el-button class="share-button" icon="el-icon-setting" type="primary" size="small">Juscelino
+                        <el-button class="share-button" type="primary" size="small" id="user-button">
+                            <icon name="user"/> Juscelino
                         </el-button>
-                    </el-badge>
                 </span>
                 <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item>Action 1</el-dropdown-item>
@@ -56,7 +60,18 @@
 </script>
 <style>
     .el-header {
-        background-color: #353535;
+        background-color: #272635;
         height: 10vh;
+    }
+    #brand img{
+        padding: 10px;
+    }
+    .el-badge {
+    margin-top: 0;
+    margin-right: 20px;
+    }
+
+    #user-button {
+        margin-top: 10px;
     }
 </style>

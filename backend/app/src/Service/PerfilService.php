@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Factory\DoctrineParamsMapper;
 use Doctrine\ORM\EntityManager;
 use App\Entity\Perfil;
 
@@ -47,15 +48,9 @@ class PerfilService {
         $this->em->flush();
     }
 
-    public function create($acessos, $descricao, $usuario)
+    public function create(DoctrineParamsMapper $perfil)
     {
-        $perfil = new Perfil();
-        $perfil->setAcessos( $acessos);
-$perfil->setDescricao( $descricao);
-$perfil->setUsuario( $usuario);
-
-
-        $this->em->persist($perfil);
+        $this->em->persist($perfil->map());
         $this->em->flush();
     }
 

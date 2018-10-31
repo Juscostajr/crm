@@ -3,29 +3,29 @@
 
         <el-form :model="form">
             <el-row :gutter="10">
-                <el-col :span="8">
+                <el-col :span="4">
                     <el-form-item label="CPF" :rules="{ required: true, message: 'Informe um cpf válido', trigger:'blur' }">
-                        <el-input v-model="form.cpf.numero" auto-complete="off" v-inputmask="'999.999.999-99'"></el-input>
+                        <el-input 
+                            v-model="form.cpf.numero" 
+                            auto-complete="off" 
+                            v-inputmask="'999.999.999-99'"
+                        ></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="16">
+                <el-col :span="14">
                     <el-form-item label="Nome">
                         <el-input v-model="form.nome" auto-complete="off"></el-input>
                     </el-form-item>
                 </el-col>
-            </el-row>
-            <el-row :gutter="10">
-
-                <el-col :span="8">
+                <el-col :span="4">
                     <el-form-item label="Data de Nascimento">
-                        <el-input v-model="form.dtNascimento" auto-complete="off"></el-input>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row :gutter="10">
-                <el-col :span="10">
-                    <el-form-item label="E-Mail">
-                        <el-input type="email" v-model="form.email.email" auto-complete="off"></el-input>
+                        <el-date-picker
+                            v-model="form.dtNascimento"
+                            type="date"
+                            format="dd/MM/yyyy"
+                            value-format="yyyy-MM-dd">
+                            placeholder="Selecione uma data">
+                        </el-date-picker>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -53,21 +53,33 @@
                                         </el-button-group>
                                     </el-col>
                                 </el-row>
+                                <el-row>
+                                    <el-col :span="24">
+                                        <el-form-item label="Enderecos">
+                                            <br>
+                                            <el-button type="success" icon="el-icon-plus" size="small" @click="innerVisible = true">
+                                                Adicionar
+                                            </el-button>
+                                            <endereco :isVisible.sync="innerVisible" :enderecos.sync="form.enderecos"></endereco>
+                                        </el-form-item>
+                                    </el-col>
+                                </el-row>
                             </el-col>
                         </el-row>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
+            <el-row :gutter="10">
+                <el-col :span="24">
+                    <el-form-item label="E-Mail">
+                        <el-input type="email" v-model="form.email.email" auto-complete="off"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
                     <el-form-item label="Grupos">
                         <remote-select-multiple data-source="grupo" id="id" label="descricao" :model.sync="form.grupos"></remote-select-multiple>
                     </el-form-item>
-                    <el-form-item label="Enderecos">
-                        <br>
-                        <el-button type="success" icon="el-icon-plus" size="small" @click="innerVisible = true">
-                            Adicionar
-                        </el-button>
-                        <endereco :isVisible.sync="innerVisible" :enderecos.sync="form.enderecos"></endereco>
-                    </el-form-item>
+                    
                 </el-col>
             </el-row>
         </el-form>
@@ -82,7 +94,7 @@ import Endereco from './Endereco.vue';
 import RemoteSelect from '../RemoteSelect.vue';
 import RemoteSelectMultiple from '../RemoteSelectMultiple.vue';
 export default {
-    props: ['teste','datamodel'],
+    props: ['visible','datamodel'],
     data() {
         return {
             formLabelWidth: '120px',
@@ -105,7 +117,7 @@ export default {
                 cpf: {
                     numero: ''
                 },
-                dtNascimetno: '',
+                dtNascimento: '',
             },
             dialogFormVisible: true,
             showTelefone: false,
@@ -144,10 +156,10 @@ export default {
     },
     watch: {
         modal() {
-            this.$emit('update:teste', this.modal)
+            this.$emit('update:visible', this.modal)
         },
-        teste() {
-            this.modal = this.teste;
+        visible() {
+            this.modal = this.visible;
         },
         datamodel() {
             if(this.datamodel == null) return this.clearForm();

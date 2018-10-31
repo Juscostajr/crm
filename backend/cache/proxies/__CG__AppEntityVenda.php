@@ -64,10 +64,10 @@ class Venda extends \App\Entity\Venda implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Venda' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Venda' . "\0" . 'etapa', '' . "\0" . 'App\\Entity\\Venda' . "\0" . 'interesses', '' . "\0" . 'App\\Entity\\Venda' . "\0" . 'data', '' . "\0" . 'App\\Entity\\Venda' . "\0" . 'hora'];
+            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Venda' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Venda' . "\0" . 'pessoaJuridica', '' . "\0" . 'App\\Entity\\Venda' . "\0" . 'etapa', '' . "\0" . 'App\\Entity\\Venda' . "\0" . 'interesses', '' . "\0" . 'App\\Entity\\Venda' . "\0" . 'interacaos'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Venda' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Venda' . "\0" . 'etapa', '' . "\0" . 'App\\Entity\\Venda' . "\0" . 'interesses', '' . "\0" . 'App\\Entity\\Venda' . "\0" . 'data', '' . "\0" . 'App\\Entity\\Venda' . "\0" . 'hora'];
+        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Venda' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Venda' . "\0" . 'pessoaJuridica', '' . "\0" . 'App\\Entity\\Venda' . "\0" . 'etapa', '' . "\0" . 'App\\Entity\\Venda' . "\0" . 'interesses', '' . "\0" . 'App\\Entity\\Venda' . "\0" . 'interacaos'];
     }
 
     /**
@@ -202,7 +202,7 @@ class Venda extends \App\Entity\Venda implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getEtapa(): \App\Entity\Etapa
+    public function getEtapa(): string
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getEtapa', []);
@@ -213,7 +213,7 @@ class Venda extends \App\Entity\Venda implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setEtapa(\App\Entity\Etapa $etapa)
+    public function setEtapa(string $etapa)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setEtapa', [$etapa]);
@@ -224,7 +224,29 @@ class Venda extends \App\Entity\Venda implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getInteresses(): \App\Entity\Servico
+    public function getPessoaJuridica(): \App\Entity\PessoaJuridica
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getPessoaJuridica', []);
+
+        return parent::getPessoaJuridica();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setPessoaJuridica(\App\Entity\PessoaJuridica $pessoaJuridica)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPessoaJuridica', [$pessoaJuridica]);
+
+        return parent::setPessoaJuridica($pessoaJuridica);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getInteresses(): array
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getInteresses', []);
@@ -246,45 +268,23 @@ class Venda extends \App\Entity\Venda implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getData(): \DateTime
+    public function getInteracaos(): array
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getData', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getInteracaos', []);
 
-        return parent::getData();
+        return parent::getInteracaos();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setData(\DateTime $data)
+    public function addInteracaos(\App\Entity\Interacao $interacao)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setData', [$data]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addInteracaos', [$interacao]);
 
-        return parent::setData($data);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getHora(): \DateTime
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getHora', []);
-
-        return parent::getHora();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setHora(\DateTime $hora)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setHora', [$hora]);
-
-        return parent::setHora($hora);
+        return parent::addInteracaos($interacao);
     }
 
     /**
@@ -296,50 +296,6 @@ class Venda extends \App\Entity\Venda implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'toArray', []);
 
         return parent::toArray();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getPessoa(): \App\Entity\Pessoa
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getPessoa', []);
-
-        return parent::getPessoa();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setPessoa(\App\Entity\Pessoa $pessoa)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPessoa', [$pessoa]);
-
-        return parent::setPessoa($pessoa);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getUsuario(): \App\Entity\Usuario
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getUsuario', []);
-
-        return parent::getUsuario();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setUsuario(\App\Entity\Usuario $usuario)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setUsuario', [$usuario]);
-
-        return parent::setUsuario($usuario);
     }
 
 }

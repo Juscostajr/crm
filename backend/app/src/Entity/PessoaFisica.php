@@ -21,7 +21,7 @@ class PessoaFisica extends Pessoa
     protected $nome;
 
     /** @var \DateTime
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="date")
      */
     private $dtNascimento;
 
@@ -64,15 +64,12 @@ class PessoaFisica extends Pessoa
      */
     public function getDtNascimento(): \DateTime
     {
-        return $this->dtNascimento;
+        return $this->dtNascimento->format('d/m/Y');
     }
 
-    /**
-     * @param \DateTime $dtNascimento
-     */
-    public function setDtNascimento(\DateTime $dtNascimento)
+    public function setDtNascimento(string $dtNascimento)
     {
-        $this->dtNascimento = $dtNascimento;
+        $this->dtNascimento = new \DateTime($dtNascimento);
     }
 
     public function toArray()

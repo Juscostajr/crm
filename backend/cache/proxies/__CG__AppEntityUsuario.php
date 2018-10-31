@@ -64,10 +64,10 @@ class Usuario extends \App\Entity\Usuario implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'login', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'pessoa', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'senha', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'perfis', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'acoes'];
+            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'login', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'pessoa', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'senha', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'perfils', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'senhaExpirada'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'login', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'pessoa', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'senha', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'perfis', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'acoes'];
+        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'login', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'pessoa', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'senha', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'perfils', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'senhaExpirada'];
     }
 
     /**
@@ -176,23 +176,23 @@ class Usuario extends \App\Entity\Usuario implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getAcoes(): \App\Entity\Acao
+    public function getSenhaExpirada(): bool
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getAcoes', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getSenhaExpirada', []);
 
-        return parent::getAcoes();
+        return parent::getSenhaExpirada();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function addAcoes(\App\Entity\Acao $acao)
+    public function setSenhaExpirada(bool $senhaExpirada)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addAcoes', [$acao]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setSenhaExpirada', [$senhaExpirada]);
 
-        return parent::addAcoes($acao);
+        return parent::setSenhaExpirada($senhaExpirada);
     }
 
     /**
@@ -290,34 +290,23 @@ class Usuario extends \App\Entity\Usuario implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getPerfis(): \App\Entity\Perfil
+    public function getPerfils(): \App\Entity\Perfil
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getPerfis', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getPerfils', []);
 
-        return parent::getPerfis();
+        return parent::getPerfils();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function addPerfis(\App\Entity\Perfil $perfil)
+    public function addPerfil(\App\Entity\Perfil $perfil)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addPerfis', [$perfil]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addPerfil', [$perfil]);
 
-        return parent::addPerfis($perfil);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setPerfis(array $perfis)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPerfis', [$perfis]);
-
-        return parent::setPerfis($perfis);
+        return parent::addPerfil($perfil);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Factory\DoctrineParamsMapper;
 use Doctrine\ORM\EntityManager;
 use App\Entity\Servico;
 
@@ -47,14 +48,9 @@ class ServicoService {
         $this->em->flush();
     }
 
-    public function create($descricao, $adesoes)
+    public function create(DoctrineParamsMapper $servico)
     {
-        $servico = new Servico();
-        $servico->setDescricao( $descricao);
-$servico->setAdesoes( $adesoes);
-
-
-        $this->em->persist($servico);
+        $this->em->persist($servico->map());
         $this->em->flush();
     }
 

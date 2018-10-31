@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="interacao")
  */
-class Interacao extends Acao
+class Interacao
 {
 
     /** @var int
@@ -24,11 +24,11 @@ class Interacao extends Acao
      */
     private $feedback;
 
-    /** @var Acao
-     * @ORM\JoinColumn(name="acao",referencedColumnName="id")
-     * @ORM\ManyToOne(targetEntity="Acao")
+    /** @var Usuario
+     * @ORM\JoinColumn(name="usuario", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Usuario")
      */
-    private $acao;
+    private $usuario;
 
     /** @var \DateTime
      * @ORM\Column(type="date")
@@ -45,18 +45,21 @@ class Interacao extends Acao
      */
     private $tipo;
 
-    /** @var Anotacao
-     * @ORM\JoinColumn(name="anotacoes",referencedColumnName="id")
-     * @ORM\OneToMany(targetEntity="Anotacao", mappedBy="interacao")
+    /**
+     * @ORM\ManyToMany(targetEntity="Anotacao", cascade={"persist", "remove"})
+     * @ORM\JoinTable(name="interacao_anotacoes",
+     *      joinColumns={@ORM\JoinColumn(name="interacao", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="anotacao", referencedColumnName="id")}
+     *      )
      */
-    private $anotacoes;
+    private $anotacaos;
 
     /**
      * Interacao constructor.
      */
     public function __construct()
     {
-        $this->anotacoes = new ArrayCollection();
+        $this->anotacaos = new ArrayCollection();
     }
 
 
@@ -92,36 +95,38 @@ class Interacao extends Acao
         $this->feedback = $feedback;
     }
 
+
     /**
-     * @return Acao
+     * @return Usuario
      */
-    public function getAcao(): Acao
+    public function getUsuario(): Usuario
     {
-        return $this->acao;
+        return $this->usuario;
     }
 
     /**
-     * @param Acao $acao
+     * @param Usuario $usuario
      */
-    public function setAcao(Acao $acao)
+    public function setUsuario(Usuario $usuario)
     {
-        $this->acao = $acao;
+        $this->usuario = $usuario;
     }
+
 
     /**
      * @return \DateTime
      */
-    public function getData(): \DateTime
+    public function getData(): string
     {
-        return $this->data;
+        return $this->data->format('d/m/Y');
     }
 
     /**
      * @param \DateTime $data
      */
-    public function setData(\DateTime $data)
+    public function setData(string $data)
     {
-        $this->data = $data;
+        $this->data = new \DateTime($data);
     }
 
     /**
@@ -135,15 +140,15 @@ class Interacao extends Acao
     /**
      * @param \DateTime $hora
      */
-    public function setHora(\DateTime $hora)
+    public function setHora(string $hora)
     {
-        $this->hora = $hora;
+        $this->hora = new \DateTime($hora);
     }
 
     /**
      * @return TipoInteracao
      */
-    public function getTipo(): TipoInteracao
+    public function getTipo(): string
     {
         return $this->tipo;
     }
@@ -151,7 +156,7 @@ class Interacao extends Acao
     /**
      * @param TipoInteracao $tipo
      */
-    public function setTipo(TipoInteracao $tipo)
+    public function setTipo(string $tipo)
     {
         $this->tipo = $tipo;
     }
@@ -159,22 +164,17 @@ class Interacao extends Acao
     /**
      * @return Anotacao
      */
-    public function getAnotacoes(): Anotacao
+    public function getAnotacaos(): array
     {
-        return $this->anotacoes;
+        return $this->anotacaos->toArray();
     }
 
     /**
      * @param Anotacao $anotacao
      */
-    public function addAnotacoes(Anotacao $anotacao)
+    public function addAnotacaos(Anotacao $anotacao)
     {
-        $this->anotacoes->add($anotacao);
-    }
-
-    public function setAnotacoes(array $anotacoes)
-    {
-        $this->anotacoes = new ArrayCollection($anotacoes);
+        $this->anotacaos->add($anotacao);
     }
 
     public function toArray()

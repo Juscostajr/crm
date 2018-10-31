@@ -20,8 +20,9 @@ class DoctrineParamsMapper
     private $addables;
     private $instance;
     private $em;
+    private $ignoreReference;
 
-    public function __construct($referenceClass, $inputData, EntityManager $em)
+    public function __construct($referenceClass, $inputData, EntityManager $em, $ignoreReference = false)
     {
         $this->em = $em;
         $this->reflectionClass = new \ReflectionClass($referenceClass);
@@ -31,6 +32,7 @@ class DoctrineParamsMapper
         $this->setters = $this->filterSetters($this->validMethods);
         $this->addables = $this->filterAddables($this->validMethods);
         $this->instance = new $referenceClass();
+        $this->ignoreReference = $ignoreReference;
     }
 
     private function findPk(\ReflectionClass $class)
@@ -67,7 +69,7 @@ class DoctrineParamsMapper
 
     public function map()
     {
-        if ($this->isReference()) {
+        if ($this->isReference() && !$this->ignoreReference) {
             return $this->em->getReference($this->reflectionClass->getName(), $this->inputData[$this->primaryKey]);
         }
         $this->fillValues();

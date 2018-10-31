@@ -9,7 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Anotacao
 {
-
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -18,11 +17,11 @@ class Anotacao
     private $id;
 
     /** @var \DateTime
-     * ORM\@ORM\Column(type="date")
+     * @ORM\Column(type="date")
      */
     private $data;
 
-    /** @var \Time
+    /** @var \DateTime
      * @ORM\Column(type="time")
      */
     private $hora;
@@ -30,29 +29,12 @@ class Anotacao
     /** @var String
      * @ORM\Column(type="string")
      */
+    private $titulo;
+
+    /** @var String
+     * @ORM\Column(type="string")
+     */
     private $descricao;
-    /**
-     * @ORM\JoinColumn(name="interacao", referencedColumnName="id")
-     * @ORM\ManyToOne(targetEntity="Interacao",inversedBy="anotacoes")
-     */
-    private $interacao;
-
-    /**
-     * @return mixed
-     */
-    public function getInteracao(): Interacao
-    {
-        return $this->interacao;
-    }
-
-    /**
-     * @param mixed $interacao
-     */
-    public function setInteracao(Interacao $interacao)
-    {
-        $this->interacao = $interacao;
-    }
-
 
     /**
      * @return int
@@ -100,6 +82,22 @@ class Anotacao
     public function setHora(\DateTime $hora)
     {
         $this->hora = $hora;
+    }
+
+    /**
+     * @return String
+     */
+    public function getTitulo(): String
+    {
+        return $this->titulo;
+    }
+
+    /**
+     * @param String $descricao
+     */
+    public function setTitulo(String $titulo)
+    {
+        $this->descricao = $titulo;
     }
 
     /**

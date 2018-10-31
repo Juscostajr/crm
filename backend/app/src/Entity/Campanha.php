@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="campanha")
  */
 
-class Campanha extends Acao{
+class Campanha {
 		
 			/** @var int
 			 * @ORM\Id
@@ -95,22 +95,6 @@ class Campanha extends Acao{
 	public function setFeedback(FeedBack $feedback)
 	{
 		$this->feedback = $feedback;
-	}
-
-	/**
-	 * @return Acao
-	 */
-	public function getAcao(): Acao
-	{
-		return $this->acao;
-	}
-
-	/**
-	 * @param Acao $acao
-	 */
-	public function setAcao(Acao $acao)
-	{
-		$this->acao = $acao;
 	}
 
 	/**

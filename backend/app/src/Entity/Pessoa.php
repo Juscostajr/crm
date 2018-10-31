@@ -22,11 +22,6 @@ abstract class Pessoa
      */
     protected $id;
 
-    /** @var Telefone
-     * @ORM\JoinColumn(name="telefone",referencedColumnName="id")
-     * @ORM\OneToMany(targetEntity="Telefone", cascade={"persist", "remove"})
-     */
-
     /**
      * @ORM\ManyToMany(targetEntity="Telefone", cascade={"persist"})
      * @ORM\JoinTable(name="telefone_pessoa",

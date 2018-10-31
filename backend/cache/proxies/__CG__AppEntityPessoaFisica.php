@@ -231,7 +231,7 @@ class PessoaFisica extends \App\Entity\PessoaFisica implements \Doctrine\ORM\Pro
     /**
      * {@inheritDoc}
      */
-    public function setDtNascimento(\DateTime $dtNascimento)
+    public function setDtNascimento(string $dtNascimento)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setDtNascimento', [$dtNascimento]);

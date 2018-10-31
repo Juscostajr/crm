@@ -8,8 +8,8 @@
                 <span>Pré-Venda</span>
             </template>
 
-            <el-menu-item index="prospect">Prospectar</el-menu-item>
-            <el-menu-item index="registrar-visita">Registrar Visita</el-menu-item>
+            <el-menu-item index="prevenda">Prospectar</el-menu-item>
+            <el-menu-item index="registrarVisita">Registrar Visita</el-menu-item>
 
         </el-submenu>
         <el-menu-item index="venda">

@@ -4,7 +4,7 @@
             {{msg}}
         </div>
 
-        <el-input placeholder="Type something" prefix-icon="el-icon-search">
+        <el-input placeholder="Type something" prefix-icon="el-icon-search"  @change="findPf()" v-model="search">
         </el-input>
 
         <el-table :data="tableData" style="width: 100%" empty-text="Nenhum resultado encontrado.">
@@ -16,8 +16,8 @@
             <el-table-column prop="email" label="E-Mail" width="100"></el-table-column>
             <el-table-column fixed="right" label="Ação" width="90">
                 <template slot-scope="scope">
-                    <el-button size="mini" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)" circle></el-button>
-                    <el-button size="mini" icon="el-icon-delete" type="danger" @click="handleDelete(scope.$index, scope.row)" circle></el-button>
+                    <el-button size="mini" icon="el-icon-edit" @click="handleEdit(scope.row)" circle></el-button>
+                    <el-button size="mini" icon="el-icon-delete" type="danger" @click="handleDelete(scope.row.id)" circle></el-button>
                 </template>
             </el-table-column>
 
@@ -32,10 +32,10 @@
             </el-col>
         </el-row>
 
-        <pessoa-fisica :teste.sync="dialogFormVisible">
+        <pessoa-fisica :datamodel="dataModel" :visible.sync="dialogFormVisible">
 
         </pessoa-fisica>
-        <el-button id="add" type="success" icon="el-icon-plus" circle @click="dialogFormVisible = true"></el-button>
+        <el-button id="add" type="success" icon="el-icon-plus" circle @click="handleCreate()"></el-button>
 
     </el-card>
 </template>
@@ -47,6 +47,8 @@ export default {
             msg: 'Pessoa Física',
             tableData: [],
             dialogFormVisible: false,
+            dataModel: null,
+            search: '',
 
         }
     },
@@ -58,7 +60,6 @@ export default {
             const property = column['property'];
             return row[property] === value;
         },
-
         findAll() {
             this.$request.get('pf')
                 .then(response => {
@@ -72,6 +73,55 @@ export default {
                     })
                 })
         },
+        findPf(){
+            this.$request.get(`pf/${this.search}`)
+            .then(response => {
+                this.tableData = response.data;
+            })
+        },
+        handleDelete(id) {
+            this.$confirm('Você tem certeza que desja excluir esta pessoa?')
+                .then(_ => {
+                    this.$request.delete(`pf/${id}`)
+                        .then(response => {
+                            this.$notify({
+                                type: 'success',
+                                title: 'Sucesso',
+                                message: 'Item excuído'
+                            })
+                        })
+                        .catch(error => {
+                            console.log(error);
+                            this.$notify.error({
+                                title: 'Erro!',
+                                message: 'Não foi possível excluir o item desejado'
+                            });
+                        });
+                    done();
+                })
+                .catch(_ => { });
+        },
+        handleCreate(){
+            this.dataModel = null;
+            this.dialogFormVisible = true;
+        },
+        handleEdit(data){
+            console.log(data);
+            this.dataModel = {
+                nome: data.nome,
+                telefones: data.telefones,
+                enderecos: data.enderecos,
+                email: {
+                    email: data.email,
+                },
+                grupos: data.grupos,
+                cpf: {
+                    numero: data.cpf
+                },
+                dtNascimento: data.dt_nascimento,
+            };
+            this.dialogFormVisible = true;
+        }
     },
     mounted: function() {
         this.findAll();
@@ -86,5 +136,6 @@ export default {
     position: fixed;
     bottom: 50px;
     right: 50px;
+    z-index: 100;
 }
 </style>

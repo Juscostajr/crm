@@ -2,36 +2,41 @@
 
 namespace App\Controller;
 
+use App\Entity\Interacao;
+use App\Factory\DoctrineParamsMapper;
 use App\Service\InteracaoService;
+use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
+use JMS\Serializer\Naming\SerializedNameAnnotationStrategy;
+use JMS\Serializer\SerializerBuilder;
 use Psr\Container\ContainerInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
 class InteracaoController {
 
+    private $em;
+    private $serializer;
     protected $container;
+    protected $service;
 
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
+        $this->em = $this->container->get('em');
+        $this->serializer = SerializerBuilder::create()
+            ->setPropertyNamingStrategy(new SerializedNameAnnotationStrategy(new IdenticalPropertyNamingStrategy()))
+            ->build();
+        $this->service = new InteracaoService($this->em);
     }
 
     public function findAll(Request $request, Response $response)
     {
         try {
-            $service = new InteracaoService($this->container->get('em'));
-
-            $interacaos = $service->findAll();
-
-            $interacaos = array_map(
-                function ($photo) {
-                    return $photo->toArray();
-                },
-                $interacaos
+            return $response->write(
+                $this->serializer->serialize($this->em->getRepository(Interacao::class)->findAll(), 'json')
             );
-
-            return $response->withJSON($interacaos);
         } catch (\Exception $ex) {
+            echo $ex;
             return $response->withStatus(404);
         }
     }
@@ -62,46 +67,20 @@ class InteracaoController {
         }
     }
 
-    public function create(Request $request, Response $response)
+    public function createOrUpdate(Request $request, Response $response)
     {
         try {
-            $service = new InteracaoService($this->container->get('em'));
-
-            $params = $request->getParams();
-            $service->create(
-                $params['feedback'],
-$params['acao'],
-$params['data'],
-$params['hora'],
-$params['tipo'],
-$params['anotacoes']
+            $this->service->create(
+                new DoctrineParamsMapper(
+                    Interacao::class,
+                    $request->getParams(),
+                    $this->em
+                )
             );
 
             return $response->withStatus(201);
         } catch (\Exception $ex) {
-            return $response->withStatus(500);
-        }
-    }
-
-    public function update(Request $request, Response $response, $args)
-    {
-        try {
-            $service = new InteracaoService($this->container->get('em'));
-
-            $params = $request->getParams();
-
-            $service->update(
-                $args['id'], 
-                $params['feedback'],
-$params['acao'],
-$params['data'],
-$params['hora'],
-$params['tipo'],
-$params['anotacoes']
-            );
-
-            return $response->withStatus(200);
-        } catch (\Exception $ex) {
+            echo $ex;
             return $response->withStatus(500);
         }
     }

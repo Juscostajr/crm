@@ -246,28 +246,6 @@ class Campanha extends \App\Entity\Campanha implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getAcao(): \App\Entity\Acao
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getAcao', []);
-
-        return parent::getAcao();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setAcao(\App\Entity\Acao $acao)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setAcao', [$acao]);
-
-        return parent::setAcao($acao);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function getNome(): string
     {
 
@@ -362,50 +340,6 @@ class Campanha extends \App\Entity\Campanha implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'toArray', []);
 
         return parent::toArray();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getPessoa(): \App\Entity\Pessoa
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getPessoa', []);
-
-        return parent::getPessoa();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setPessoa(\App\Entity\Pessoa $pessoa)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPessoa', [$pessoa]);
-
-        return parent::setPessoa($pessoa);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getUsuario(): \App\Entity\Usuario
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getUsuario', []);
-
-        return parent::getUsuario();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setUsuario(\App\Entity\Usuario $usuario)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setUsuario', [$usuario]);
-
-        return parent::setUsuario($usuario);
     }
 
 }

@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="grupo")
  */
 
+
 class Grupo {
 		
 			/** @var int

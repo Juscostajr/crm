@@ -2,6 +2,7 @@
 namespace App\Service;
 
 use App\Entity\Interacao;
+use App\Factory\DoctrineParamsMapper;
 use Doctrine\ORM\EntityManager;
 
 class InteracaoService
@@ -42,18 +43,9 @@ class InteracaoService
         return $interacao;
     }
 
-    public function create($feedback, $acao, $data, $hora, $tipo, $anotacoes, $pessoa, $usuario)
+    public function create(DoctrineParamsMapper $interacao)
     {
-        $interacao = new Interacao();
-        $interacao->setFeedback($feedback);
-        $interacao->setAcao($acao);
-        $interacao->setData($data);
-        $interacao->setHora($hora);
-        $interacao->setTipo($tipo);
-        $interacao->setAnotacoes($anotacoes);
-        $interacao->setPessoa($pessoa);
-        $interacao->setUsuario($usuario);
-        $this->em->persist($interacao);
+        $this->em->persist($interacao->map());
         $this->em->flush();
     }
 

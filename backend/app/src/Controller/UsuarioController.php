@@ -2,36 +2,38 @@
 
 namespace App\Controller;
 
+use App\Entity\Usuario;
+use App\Factory\DoctrineParamsMapper;
 use App\Service\UsuarioService;
+use JMS\Serializer\SerializerBuilder;
 use Psr\Container\ContainerInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
 class UsuarioController {
 
+    private $em;
+    private $serializer;
     protected $container;
+    protected $service;
 
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
+        $this->em = $this->container->get('em');
+        $this->serializer = SerializerBuilder::create()->build();
+        $this->service = new UsuarioService($this->em);
     }
+
 
     public function findAll(Request $request, Response $response)
     {
         try {
-            $service = new UsuarioService($this->container->get('em'));
-
-            $usuarios = $service->findAll();
-
-            $usuarios = array_map(
-                function ($photo) {
-                    return $photo->toArray();
-                },
-                $usuarios
+            return $response->write(
+                $this->serializer->serialize($this->em->getRepository(Usuario::class)->findAll(), 'json')
             );
-
-            return $response->withJSON($usuarios);
         } catch (\Exception $ex) {
+            echo $ex;
             return $response->withStatus(404);
         }
     }
@@ -65,19 +67,17 @@ class UsuarioController {
     public function create(Request $request, Response $response)
     {
         try {
-            $service = new UsuarioService($this->container->get('em'));
-
-            $params = $request->getParams();
-            $service->create(
-                $params['login'],
-$params['pessoa'],
-$params['senha'],
-$params['perfis'],
-$params['acoes']
+            $this->service->create(
+                new DoctrineParamsMapper(
+                    Usuario::class,
+                    $request->getParams(),
+                    $this->em
+                )
             );
 
             return $response->withStatus(201);
         } catch (\Exception $ex) {
+            $response->write($ex);
             return $response->withStatus(500);
         }
     }

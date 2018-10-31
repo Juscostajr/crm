@@ -34,37 +34,46 @@ class Usuario
      */
     private $senha;
 
-    /** @var Perfil
-     * @ORM\JoinColumn(name="perfis",referencedColumnName="id")
-     * @ORM\OneToMany(targetEntity="Perfil", mappedBy="usuario")
-     */
-    private $perfis;
     /**
-     * @ORM\JoinColumn(name="acoes", referencedColumnName="id")
-     * @ORM\OneToMany(targetEntity="Acao", mappedBy="usuario")
+     * @ORM\ManyToMany(targetEntity="Perfil")
+     * @ORM\JoinTable(name="perfil_usuario",
+     *      joinColumns={@ORM\JoinColumn(name="perfil", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="usuario", referencedColumnName="id")}
+     *      )
      */
-    private $acoes;
+    private $perfils;
+
+    /**
+     * @var bool
+     * @ORM\Column(type="boolean")
+     */
+    private $senhaExpirada;
+
 
     /**
      * Usuario constructor.
      */
     public function __construct()
     {
-        $this->perfis = new ArrayCollection();
+        $this->perfils = new ArrayCollection();
         $this->acoes = new ArrayCollection();
     }
 
-
-    public function getAcoes(): Acao
+    /**
+     * @return bool
+     */
+    public function getSenhaExpirada(): bool
     {
-        return $this->acoes;
+        return $this->senhaExpirada;
     }
 
-    public function addAcoes(Acao $acao)
+    /**
+     * @param bool $senhaExpirada
+     */
+    public function setSenhaExpirada(bool $senhaExpirada)
     {
-        $this->acoes->add($acao);
+        $this->senhaExpirada = $senhaExpirada;
     }
-
 
     /**
      * @return int
@@ -133,22 +142,17 @@ class Usuario
     /**
      * @return Perfil
      */
-    public function getPerfis(): Perfil
+    public function getPerfils(): Perfil
     {
-        return $this->perfis;
+        return $this->perfils->toArray();
     }
 
     /**
      * @param Perfil $perfil
      */
-    public function addPerfis(Perfil $perfil)
+    public function addPerfil(Perfil $perfil)
     {
-        $this->perfis->add($perfil);
-    }
-
-    public function setPerfis(array $perfis)
-    {
-        $this->perfis = new ArrayCollection($perfis);
+        $this->perfils->add($perfil);
     }
 
     public function toArray()

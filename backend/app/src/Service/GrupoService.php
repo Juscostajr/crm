@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Factory\DoctrineParamsMapper;
 use Doctrine\ORM\EntityManager;
 use App\Entity\Grupo;
 
@@ -47,15 +48,9 @@ class GrupoService {
         $this->em->flush();
     }
 
-    public function create($tipo, $descricao, $membros)
+    public function create(DoctrineParamsMapper $grupo)
     {
-        $grupo = new Grupo();
-        $grupo->setTipo( $tipo);
-$grupo->setDescricao( $descricao);
-$grupo->setMembros( $membros);
-
-
-        $this->em->persist($grupo);
+        $this->em->persist($grupo->map());
         $this->em->flush();
     }
 

@@ -64,10 +64,10 @@ class Anotacao extends \App\Entity\Anotacao implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Anotacao' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Anotacao' . "\0" . 'data', '' . "\0" . 'App\\Entity\\Anotacao' . "\0" . 'hora', '' . "\0" . 'App\\Entity\\Anotacao' . "\0" . 'descricao', '' . "\0" . 'App\\Entity\\Anotacao' . "\0" . 'interacao'];
+            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Anotacao' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Anotacao' . "\0" . 'data', '' . "\0" . 'App\\Entity\\Anotacao' . "\0" . 'hora', '' . "\0" . 'App\\Entity\\Anotacao' . "\0" . 'titulo', '' . "\0" . 'App\\Entity\\Anotacao' . "\0" . 'descricao'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Anotacao' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Anotacao' . "\0" . 'data', '' . "\0" . 'App\\Entity\\Anotacao' . "\0" . 'hora', '' . "\0" . 'App\\Entity\\Anotacao' . "\0" . 'descricao', '' . "\0" . 'App\\Entity\\Anotacao' . "\0" . 'interacao'];
+        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Anotacao' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Anotacao' . "\0" . 'data', '' . "\0" . 'App\\Entity\\Anotacao' . "\0" . 'hora', '' . "\0" . 'App\\Entity\\Anotacao' . "\0" . 'titulo', '' . "\0" . 'App\\Entity\\Anotacao' . "\0" . 'descricao'];
     }
 
     /**
@@ -176,28 +176,6 @@ class Anotacao extends \App\Entity\Anotacao implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getInteracao(): \App\Entity\Interacao
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getInteracao', []);
-
-        return parent::getInteracao();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setInteracao(\App\Entity\Interacao $interacao)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setInteracao', [$interacao]);
-
-        return parent::setInteracao($interacao);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function getId(): int
     {
         if ($this->__isInitialized__ === false) {
@@ -263,6 +241,28 @@ class Anotacao extends \App\Entity\Anotacao implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setHora', [$hora]);
 
         return parent::setHora($hora);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getTitulo(): string
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTitulo', []);
+
+        return parent::getTitulo();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setTitulo(string $titulo)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setTitulo', [$titulo]);
+
+        return parent::setTitulo($titulo);
     }
 
     /**

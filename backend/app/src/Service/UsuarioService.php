@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Factory\DoctrineParamsMapper;
 use Doctrine\ORM\EntityManager;
 use App\Entity\Usuario;
 
@@ -47,17 +48,9 @@ class UsuarioService {
         $this->em->flush();
     }
 
-    public function create($login, $pessoa, $senha, $perfis, $acoes)
+    public function create(DoctrineParamsMapper $usuario)
     {
-        $usuario = new Usuario();
-        $usuario->setLogin( $login);
-$usuario->setPessoa( $pessoa);
-$usuario->setSenha( $senha);
-$usuario->setPerfis( $perfis);
-$usuario->setAcoes( $acoes);
-
-
-        $this->em->persist($usuario);
+        $this->em->persist($usuario->map());
         $this->em->flush();
     }
 

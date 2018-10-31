@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Grupo;
+use App\Factory\DoctrineParamsMapper;
 use App\Service\GrupoService;
+use JMS\Serializer\SerializerBuilder;
 use Psr\Container\ContainerInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -10,28 +13,25 @@ use Slim\Http\Response;
 class GrupoController
 {
 
+    private $em;
+    private $serializer;
     protected $container;
+    protected $service;
 
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
+        $this->em = $this->container->get('em');
+        $this->serializer = SerializerBuilder::create()->build();
+        $this->service = new GrupoService($this->em);
     }
 
     public function findAll(Request $request, Response $response)
     {
         try {
-            $service = new GrupoService($this->container->get('em'));
-
-            $grupos = $service->findAll();
-
-            $grupos = array_map(
-                function ($photo) {
-                    return $photo->toArray();
-                },
-                $grupos
+            return $response->write(
+                $this->serializer->serialize($this->em->getRepository(Grupo::class)->findAll(), 'json')
             );
-
-            return $response->withJSON($grupos);
         } catch (\Exception $ex) {
             echo $ex;
             return $response->withStatus(404);
@@ -67,13 +67,12 @@ class GrupoController
     public function create(Request $request, Response $response)
     {
         try {
-            $service = new GrupoService($this->container->get('em'));
-
-            $params = $request->getParams();
-            $service->create(
-                $params['tipo'],
-                $params['descricao'],
-                $params['membros']
+            $this->service->create(
+                new DoctrineParamsMapper(
+                    Grupo::class,
+                    $request->getParams(),
+                    $this->em
+                )
             );
 
             return $response->withStatus(201);

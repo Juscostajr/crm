@@ -8,6 +8,9 @@ import VInputmask from 'v-inputmask';
 import Axios from 'axios';
 import AxiosAdapter from 'axios-jsonp';
 import GoogleMapsLoader from 'google-maps';
+import 'vue-awesome/icons';
+import Icon from "vue-awesome/components/Icon.vue";
+
 Vue.use(Router);
 Vue.use(ElementUI, { locale });
 Vue.use(VInputmask);
@@ -20,6 +23,9 @@ Vue.filter('capitalize', function (value) {
     value = value.toString()
     return value.charAt(0).toUpperCase() + value.slice(1)
 });
+
+Vue.component("icon", Icon);
+
 Vue.prototype.$request = Axios.create({
     baseURL: 'http://localhost:8080/',
     timeout: 10000,
@@ -37,9 +43,6 @@ Vue.prototype.$viacep = Axios.create({
     baseURL: 'https://viacep.com.br/ws/',
     timeout: 10000,
 });
-
-
-
 
 new Vue({
     router,

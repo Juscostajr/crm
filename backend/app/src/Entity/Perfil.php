@@ -1,105 +1,101 @@
 <?php
 
 namespace App\Entity;
+
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="perfil")
  */
+class Perfil
+{
 
-class Perfil {
-		
-			/** @var int
-			 * @ORM\Id
-			 * @ORM\GeneratedValue(strategy="AUTO")
-			 * @ORM\Column(type="integer")
-			 */
-			private $id;
-		
-			/** @var Acesso
-			 * @ORM\Column(type="string")
-			 */
-			private $acessos;
-		
-			/** @var String
-			 * @ORM\Column(type="string")
-			 */
-			private $descricao;
-	/**
-	 * @var Usuario
-	 * @ORM\ManyToOne(targetEntity="Usuario", inversedBy="perfis")
-	 * @ORM\JoinColumn(name="usuario", referencedColumnName="id")
-	 */
-	private $usuario;
+    /** @var int
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="integer")
+     */
+    private $id;
 
-	/**
-	 * @return Usuario
-	 */
-	public function getUsuario(): Usuario
-	{
-		return $this->usuario;
-	}
+    /**
+     * @ORM\ManyToMany(targetEntity="Acesso", cascade={"persist", "remove"})
+     * @ORM\JoinTable(name="perfil_acesso",
+     *      joinColumns={@ORM\JoinColumn(name="acesso", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="perfil", referencedColumnName="id", unique=true)}
+     *      )
+     */
+    private $acessos;
 
-	/**
-	 * @param Usuario $usuario
-	 */
-	public function setUsuario(Usuario $usuario)
-	{
-		$this->usuario = $usuario;
-	}
+    /** @var String
+     * @ORM\Column(type="string")
+     */
+    private $descricao;
 
-	/**
-	 * @return int
-	 */
-	public function getId(): int
-	{
-		return $this->id;
-	}
+    /**
+     * Perfil constructor.
+     * @param $acessos
+     */
+    public function __construct()
+    {
+        $this->acessos = new ArrayCollection();
+    }
 
-	/**
-	 * @param int $id
-	 */
-	public function setId(int $id)
-	{
-		$this->id = $id;
-	}
 
-	/**
-	 * @return Acesso
-	 */
-	public function getAcessos(): Acesso
-	{
-		return $this->acessos;
-	}
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
 
-	/**
-	 * @param Acesso $acessos
-	 */
-	public function setAcessos(Acesso $acessos)
-	{
-		$this->acessos = $acessos;
-	}
+    /**
+     * @param int $id
+     */
+    public function setId(int $id)
+    {
+        $this->id = $id;
+    }
 
-	/**
-	 * @return String
-	 */
-	public function getDescricao(): String
-	{
-		return $this->descricao;
-	}
+    /**
+     * @return Acesso
+     */
+    public function getAcessos(): array
+    {
+        return $this->acessos->toArray();
+    }
 
-	/**
-	 * @param String $descricao
-	 */
-	public function setDescricao(String $descricao)
-	{
-		$this->descricao = $descricao;
-	}
 
-	public function toArray()
-	{
-		return get_object_vars($this);
-	}
+    /**
+     * @param Acesso $acesso
+     */
+    public function addAcesso(Acesso $acesso)
+    {
+        $this->acessos->add($acesso);
+    }
+
+    /**
+     * @return String
+     */
+    public function getDescricao(): String
+    {
+        return $this->descricao;
+    }
+
+    /**
+     * @param String $descricao
+     */
+    public function setDescricao(String $descricao)
+    {
+        $this->descricao = $descricao;
+    }
+
+    public function toArray()
+    {
+        return get_object_vars($this);
+    }
 }
+
 ?>

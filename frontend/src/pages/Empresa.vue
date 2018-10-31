@@ -1,12 +1,11 @@
 <template>
     <el-card class="box-card">
         <div slot="header" class="clearfix">
-            {{msg}}
+            {{title}}
         </div>
 
-        <el-input placeholder="Nome Fantasia" prefix-icon="el-icon-search" @change="findEmpresa()" v-model="search">
-        </el-input>
-
+        <el-input placeholder="Nome Fantasia" prefix-icon="el-icon-search" @change="findEmpresa()" v-model="search"></el-input>
+        
         <el-table :data="tableData" style="width: 100%" empty-text="Nenhum resultado encontrado.">
             <el-table-column prop="cnpj" label="Cnpj" sortable width="150"></el-table-column>
             <el-table-column prop="razao_social" label="Razão Social" width="260"></el-table-column>
@@ -28,23 +27,19 @@
 
         <hr/>
 
-        <el-row :gutter="20">
-            <el-col :span="12" :offset="6">
-                <el-pagination :page-size="20" :pager-count="11" layout="prev, pager, next" :total="1000">
-                </el-pagination>
-            </el-col>
-        </el-row>
-        <cadastrar-empresa :teste.sync="dialogFormVisible" :datamodel="dataModel"></cadastrar-empresa>
+        <cadastrar-empresa :visible.sync="dialogFormVisible" :datamodel="dataModel"></cadastrar-empresa>
+
         <el-button id="add" type="success" icon="el-icon-plus" circle @click="handleCreate()"></el-button>
 
     </el-card>
 </template>
+
 <script>
 import CadastrarEmpresa from '../components/register/Empresa.vue';
 export default {
     data() {
         return {
-            msg: 'Empresas',
+            title: 'Empresas',
             tableData: [],
             dialogFormVisible: false,
             dataModel: null,
@@ -59,7 +54,6 @@ export default {
             const property = column['property'];
             return row[property] === value;
         },
-
         findAll() {
             this.$request.get('pj')
                 .then(response => {
@@ -74,7 +68,6 @@ export default {
                 })
         },
         findEmpresa(){
-            alert('evento ok');
             this.$request.get(`pj/${this.search}`)
             .then(response => {
                 this.tableData = response.data;
@@ -131,16 +124,16 @@ export default {
     },
     mounted: function() {
         this.findAll();
-
     },
     components: { CadastrarEmpresa }
 }
-
 </script>
+
 <style>
 #add {
     position: fixed;
     bottom: 50px;
     right: 50px;
+    z-index: 100;
 }
 </style>

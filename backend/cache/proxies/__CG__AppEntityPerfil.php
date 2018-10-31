@@ -64,10 +64,10 @@ class Perfil extends \App\Entity\Perfil implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Perfil' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Perfil' . "\0" . 'acessos', '' . "\0" . 'App\\Entity\\Perfil' . "\0" . 'descricao', '' . "\0" . 'App\\Entity\\Perfil' . "\0" . 'usuario'];
+            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Perfil' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Perfil' . "\0" . 'acessos', '' . "\0" . 'App\\Entity\\Perfil' . "\0" . 'descricao'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Perfil' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Perfil' . "\0" . 'acessos', '' . "\0" . 'App\\Entity\\Perfil' . "\0" . 'descricao', '' . "\0" . 'App\\Entity\\Perfil' . "\0" . 'usuario'];
+        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Perfil' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Perfil' . "\0" . 'acessos', '' . "\0" . 'App\\Entity\\Perfil' . "\0" . 'descricao'];
     }
 
     /**
@@ -176,28 +176,6 @@ class Perfil extends \App\Entity\Perfil implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getUsuario(): \App\Entity\Usuario
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getUsuario', []);
-
-        return parent::getUsuario();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setUsuario(\App\Entity\Usuario $usuario)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setUsuario', [$usuario]);
-
-        return parent::setUsuario($usuario);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function getId(): int
     {
         if ($this->__isInitialized__ === false) {
@@ -224,7 +202,7 @@ class Perfil extends \App\Entity\Perfil implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getAcessos(): \App\Entity\Acesso
+    public function getAcessos(): array
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getAcessos', []);
@@ -235,12 +213,12 @@ class Perfil extends \App\Entity\Perfil implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setAcessos(\App\Entity\Acesso $acessos)
+    public function addAcesso(\App\Entity\Acesso $acesso)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setAcessos', [$acessos]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addAcesso', [$acesso]);
 
-        return parent::setAcessos($acessos);
+        return parent::addAcesso($acesso);
     }
 
     /**

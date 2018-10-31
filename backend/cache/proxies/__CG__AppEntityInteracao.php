@@ -64,10 +64,10 @@ class Interacao extends \App\Entity\Interacao implements \Doctrine\ORM\Proxy\Pro
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'feedback', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'acao', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'data', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'hora', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'tipo', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'anotacoes'];
+            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'feedback', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'usuario', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'data', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'hora', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'tipo', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'anotacaos'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'feedback', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'acao', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'data', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'hora', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'tipo', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'anotacoes'];
+        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'feedback', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'usuario', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'data', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'hora', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'tipo', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'anotacaos'];
     }
 
     /**
@@ -224,29 +224,29 @@ class Interacao extends \App\Entity\Interacao implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
-    public function getAcao(): \App\Entity\Acao
+    public function getUsuario(): \App\Entity\Usuario
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getAcao', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getUsuario', []);
 
-        return parent::getAcao();
+        return parent::getUsuario();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setAcao(\App\Entity\Acao $acao)
+    public function setUsuario(\App\Entity\Usuario $usuario)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setAcao', [$acao]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setUsuario', [$usuario]);
 
-        return parent::setAcao($acao);
+        return parent::setUsuario($usuario);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getData(): \DateTime
+    public function getData(): string
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getData', []);
@@ -257,7 +257,7 @@ class Interacao extends \App\Entity\Interacao implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
-    public function setData(\DateTime $data)
+    public function setData(string $data)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setData', [$data]);
@@ -279,7 +279,7 @@ class Interacao extends \App\Entity\Interacao implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
-    public function setHora(\DateTime $hora)
+    public function setHora(string $hora)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setHora', [$hora]);
@@ -290,7 +290,7 @@ class Interacao extends \App\Entity\Interacao implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
-    public function getTipo(): \App\Entity\TipoInteracao
+    public function getTipo(): string
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTipo', []);
@@ -301,7 +301,7 @@ class Interacao extends \App\Entity\Interacao implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
-    public function setTipo(\App\Entity\TipoInteracao $tipo)
+    public function setTipo(string $tipo)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setTipo', [$tipo]);
@@ -312,34 +312,23 @@ class Interacao extends \App\Entity\Interacao implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
-    public function getAnotacoes(): \App\Entity\Anotacao
+    public function getAnotacaos(): array
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getAnotacoes', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getAnotacaos', []);
 
-        return parent::getAnotacoes();
+        return parent::getAnotacaos();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function addAnotacoes(\App\Entity\Anotacao $anotacao)
+    public function addAnotacaos(\App\Entity\Anotacao $anotacao)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addAnotacoes', [$anotacao]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addAnotacaos', [$anotacao]);
 
-        return parent::addAnotacoes($anotacao);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setAnotacoes(array $anotacoes)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setAnotacoes', [$anotacoes]);
-
-        return parent::setAnotacoes($anotacoes);
+        return parent::addAnotacaos($anotacao);
     }
 
     /**
@@ -351,50 +340,6 @@ class Interacao extends \App\Entity\Interacao implements \Doctrine\ORM\Proxy\Pro
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'toArray', []);
 
         return parent::toArray();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getPessoa(): \App\Entity\Pessoa
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getPessoa', []);
-
-        return parent::getPessoa();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setPessoa(\App\Entity\Pessoa $pessoa)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPessoa', [$pessoa]);
-
-        return parent::setPessoa($pessoa);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getUsuario(): \App\Entity\Usuario
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getUsuario', []);
-
-        return parent::getUsuario();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setUsuario(\App\Entity\Usuario $usuario)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setUsuario', [$usuario]);
-
-        return parent::setUsuario($usuario);
     }
 
 }

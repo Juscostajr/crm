@@ -1,12 +1,18 @@
 <?php
 namespace App\Entity;
-
 class Etapa {
-    const PROSPECCAO = 'prospecção';
-    const QUALIFICACAO = 'qualificação';
-    const APRESENTACAO = 'apresentação';
-    const AMADURECIMENTO = 'amadurecimento';
-    const NEGOCIACAO = 'negociação';
-    const FECHAMENTO = 'fechamento do negócio';
+    const PROSPECTAR = 'Prospecção';
+    const QUALIFICACAO = 'Qualificação';
+    const APRESENTACAO = 'Apresentaçao';
+    const AMADURECIMENTO = 'Amadurecimento';
+    const NEGOCIACAO = 'Negociacao';
+    const FECHAMENTO = 'Fechamento';
+
+    private $value;
+
+    public static function getAll(){
+        return [self::PROSPECTAR,self::QUALIFICACAO,self::APRESENTACAO,self::AMADURECIMENTO,self::NEGOCIACAO,self::FECHAMENTO];
+    }
+
 }
 ?>

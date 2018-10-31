@@ -2,36 +2,40 @@
 
 namespace App\Controller;
 
+use App\Entity\Venda;
 use App\Service\VendaService;
+use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
+use JMS\Serializer\Naming\SerializedNameAnnotationStrategy;
+use JMS\Serializer\SerializerBuilder;
 use Psr\Container\ContainerInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
 class VendaController {
 
+    private $em;
+    private $serializer;
     protected $container;
+    protected $service;
 
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
+        $this->em = $this->container->get('em');
+        $this->serializer = SerializerBuilder::create()
+            ->setPropertyNamingStrategy(new SerializedNameAnnotationStrategy(new IdenticalPropertyNamingStrategy()))
+            ->build();
+        $this->service = new VendaService($this->em);
     }
 
     public function findAll(Request $request, Response $response)
     {
         try {
-            $service = new VendaService($this->container->get('em'));
-
-            $vendas = $service->findAll();
-
-            $vendas = array_map(
-                function ($photo) {
-                    return $photo->toArray();
-                },
-                $vendas
+            return $response->write(
+                $this->serializer->serialize($this->em->getRepository(Venda::class)->findAll(), 'json')
             );
-
-            return $response->withJSON($vendas);
         } catch (\Exception $ex) {
+            echo $ex;
             return $response->withStatus(404);
         }
     }
@@ -70,9 +74,9 @@ class VendaController {
             $params = $request->getParams();
             $service->create(
                 $params['etapa'],
-$params['interesses'],
-$params['data'],
-$params['hora']
+                $params['interesses'],
+                $params['data'],
+                $params['hora']
             );
 
             return $response->withStatus(201);
@@ -89,15 +93,16 @@ $params['hora']
             $params = $request->getParams();
 
             $service->update(
-                $args['id'], 
+                $args['id'],
                 $params['etapa'],
-$params['interesses'],
-$params['data'],
-$params['hora']
+                $params['interacaos'],
+                $params['interesses'],
+                $params['pessoaJuridica']
             );
 
             return $response->withStatus(200);
         } catch (\Exception $ex) {
+            echo $ex;
             return $response->withStatus(500);
         }
     }

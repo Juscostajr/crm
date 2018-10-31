@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Factory\DoctrineParamsMapper;
 use Doctrine\ORM\EntityManager;
 use App\Entity\Operadora;
 
@@ -47,13 +48,9 @@ class OperadoraService {
         $this->em->flush();
     }
 
-    public function create($nome)
+    public function create(DoctrineParamsMapper $operadora)
     {
-        $operadora = new Operadora();
-        $operadora->setNome( $nome);
-
-
-        $this->em->persist($operadora);
+        $this->em->persist($operadora->map());
         $this->em->flush();
     }
 
