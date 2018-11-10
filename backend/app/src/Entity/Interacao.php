@@ -55,6 +55,11 @@ class Interacao
     private $anotacaos;
 
     /**
+     * @ORM\Column(name="sentido", type="string")
+     */
+    private $sentido;
+
+    /**
      * Interacao constructor.
      */
     public function __construct()
@@ -176,6 +181,23 @@ class Interacao
     {
         $this->anotacaos->add($anotacao);
     }
+
+    /**
+     * @return mixed
+     */
+    public function getSentido(): string
+    {
+        return $this->sentido;
+    }
+
+    /**
+     * @param Sentido $sentido
+     */
+    public function setSentido(string $sentido)
+    {
+        $this->sentido = $sentido;
+    }
+
 
     public function toArray()
     {

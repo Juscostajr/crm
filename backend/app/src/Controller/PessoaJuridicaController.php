@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Factory\DoctrineParamsMapper;
 use App\Service\PessoaJuridicaService;
+use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
+use JMS\Serializer\Naming\SerializedNameAnnotationStrategy;
 use JMS\Serializer\SerializerBuilder;
 use Psr\Container\ContainerInterface;
 use App\Entity;
@@ -16,11 +18,15 @@ class PessoaJuridicaController
     protected $container;
     private $em;
     private $service;
+    private $serializer;
 
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
         $this->em = $this->container->get('em');
+        $this->serializer = SerializerBuilder::create()
+            ->setPropertyNamingStrategy(new SerializedNameAnnotationStrategy(new IdenticalPropertyNamingStrategy()))
+            ->build();
         $this->service = new PessoaJuridicaService($this->em);
     }
 
@@ -28,9 +34,8 @@ class PessoaJuridicaController
     {
         try {
             $em = $this->container->get('em');
-            $serializer = SerializerBuilder::create()->build();
             return $response->write(
-                $serializer->serialize($em->getRepository('\App\Entity\PessoaJuridica')->findAll(), 'json')
+                $this->serializer->serialize($em->getRepository('\App\Entity\PessoaJuridica')->findAll(), 'json')
             );
         } catch (\Exception $ex) {
             echo $ex;

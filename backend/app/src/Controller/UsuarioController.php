@@ -5,17 +5,19 @@ namespace App\Controller;
 use App\Entity\Usuario;
 use App\Factory\DoctrineParamsMapper;
 use App\Service\UsuarioService;
+use Doctrine\Common\Proxy\Exception\OutOfBoundsException;
 use JMS\Serializer\SerializerBuilder;
 use Psr\Container\ContainerInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-class UsuarioController {
+class UsuarioController
+{
 
-    private $em;
-    private $serializer;
     protected $container;
     protected $service;
+    private $em;
+    private $serializer;
 
     public function __construct(ContainerInterface $container)
     {
@@ -25,6 +27,27 @@ class UsuarioController {
         $this->service = new UsuarioService($this->em);
     }
 
+    public function auth(Request $request, Response $response)
+    {
+        try {
+        $search = $this->em->getRepository(Usuario::class)->findBy($request->getParams());
+        if(empty($search)) throw new OutOfBoundsException();
+
+            return $response->write(
+                $this->serializer->serialize($search[0], 'json')
+            );
+        } catch (\OutOfBoundsException $ex){
+            return $response->withStatus(403);
+        } catch (\Exception $ex) {
+            return $response->withStatus(404);
+        }
+    }
+
+    public function getAccess(Request $request, Response $response, $args){
+        print_r($this
+            ->service
+            ->getPermissions($args['id']));
+    }
 
     public function findAll(Request $request, Response $response)
     {
@@ -38,15 +61,16 @@ class UsuarioController {
         }
     }
 
-    public function findOne(Request $request, Response $response, $args)
+    public function findByName(Request $request, Response $response, $args)
     {
         try {
-            $service = new UsuarioService($this->container->get('em'));
-
-            $usuario = $service->findOne($args['id']);
-
-            return $response->withJSON($usuario->toArray());
+            $em = $this->container->get('em');
+            $serializer = SerializerBuilder::create()->build();
+            return $response->write(
+                $serializer->serialize($em->getRepository(Usuario::class)->findBy($args)[0], 'json')
+            );
         } catch (\Exception $ex) {
+            echo $ex;
             return $response->withStatus(404);
         }
     }
@@ -90,12 +114,12 @@ class UsuarioController {
             $params = $request->getParams();
 
             $service->update(
-                $args['id'], 
+                $args['id'],
                 $params['login'],
-$params['pessoa'],
-$params['senha'],
-$params['perfis'],
-$params['acoes']
+                $params['pessoa'],
+                $params['senha'],
+                $params['perfis'],
+                $params['acoes']
             );
 
             return $response->withStatus(200);

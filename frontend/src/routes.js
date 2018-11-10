@@ -12,21 +12,43 @@ import Servico from "./pages/Servico.vue";
 import Secao from "./pages/Secao.vue";
 import TipoGrupo from "./pages/TipoGrupo.vue";
 import RegistrarVisita from "./pages/RegistrarVisita.vue";
+import Axios from "axios";
 
 export const routes = [
-  { path: "/", component: Home },
-  { path: "/prevenda", component: Prevenda },
-  { path: "/venda", component: Venda },
-  { path: "/posvenda", component: Posvenda },
-  { path: "/empresa", component: Empresa },
-  { path: "/pf", component: PessoaFisica },
-  { path: "/grupo", component: Grupo },
-  { path: "/usuario", component: Usuario },
-  { path: "/operadora", component: Operadora },
-  { path: "/perfil", component: Perfil },
-  { path: "/servico", component: Servico },
-  { path: "/secao", component: Secao },
-  { path: "/tipoGrupo", component: TipoGrupo },  
-  { path: "/registrarVisita", component: RegistrarVisita },
-  
+  { path: "/prevenda", component: Prevenda, method: "venda" },
+  { path: "/venda", component: Venda, method: "venda" },
+  { path: "/posvenda", component: Posvenda, method: "interacao" },
+  { path: "/empresa", component: Empresa, method: "pj" },
+  { path: "/pf", component: PessoaFisica, method: "pf" },
+  { path: "/grupo", component: Grupo, method: "grupo" },
+  { path: "/usuario", component: Usuario, method: "usuario" },
+  { path: "/operadora", component: Operadora, method: "operadora" },
+  { path: "/perfil", component: Perfil, method: "perfil" },
+  { path: "/servico", component: Servico, method: "servico" },
+  { path: "/secao", component: Secao, method: "secao" },
+  { path: "/tipoGrupo", component: TipoGrupo, method: "tipogrupo" },
+  { path: "/registrarVisita", component: RegistrarVisita, method: "venda" }
 ];
+/** 
+export default {
+  getRoutes: (user ) => {
+    
+    let userProfiles = user.perfils;
+    let filteredArray = userProfiles.map(profile => {
+      return profile.acessos.map(acesso => {
+        return acesso.entidade;
+      });
+    });
+
+    filteredArray = [].concat.apply([], filteredArray);
+
+    return views
+      .filter(view => {
+        return filteredArray.includes(view.method);
+      })
+      .map(route => {
+        return { path: route.path, method: route.component };
+      });
+  }
+};
+*/

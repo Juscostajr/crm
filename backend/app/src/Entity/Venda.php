@@ -38,7 +38,7 @@ class Venda
     private $interesses;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Interacao")
+     * @ORM\ManyToMany(targetEntity="Interacao", cascade={"persist", "remove"})
      * @ORM\JoinTable(name="venda_interacoes",
      *      joinColumns={@ORM\JoinColumn(name="venda", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="interacao", referencedColumnName="id")}
@@ -116,6 +116,8 @@ class Venda
         $this->interesses->add($servico);
     }
 
+
+
     public function getInteracaos(): array
     {
         return $this->interacaos->toArray();
@@ -124,6 +126,11 @@ class Venda
     public function addInteracaos(Interacao $interacao)
     {
         $this->interacaos->add($interacao);
+    }
+
+    public function cleanArrays()
+    {
+        $this->interesses = new ArrayCollection();
     }
 
     public function toArray()

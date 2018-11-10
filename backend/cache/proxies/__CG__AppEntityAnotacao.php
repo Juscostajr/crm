@@ -202,7 +202,7 @@ class Anotacao extends \App\Entity\Anotacao implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getData(): \DateTime
+    public function getData(): string
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getData', []);
@@ -213,7 +213,7 @@ class Anotacao extends \App\Entity\Anotacao implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setData(\DateTime $data)
+    public function setData(string $data)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setData', [$data]);
@@ -235,7 +235,7 @@ class Anotacao extends \App\Entity\Anotacao implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setHora(\DateTime $hora)
+    public function setHora(string $hora)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setHora', [$hora]);

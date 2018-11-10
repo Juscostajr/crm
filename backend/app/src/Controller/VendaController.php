@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Venda;
+use App\Factory\DoctrineParamsMapper;
 use App\Service\VendaService;
 use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
 use JMS\Serializer\Naming\SerializedNameAnnotationStrategy;
@@ -69,19 +70,18 @@ class VendaController {
     public function create(Request $request, Response $response)
     {
         try {
-            $service = new VendaService($this->container->get('em'));
-
-            $params = $request->getParams();
-            $service->create(
-                $params['etapa'],
-                $params['interesses'],
-                $params['data'],
-                $params['hora']
+            $this->service->create(
+                new DoctrineParamsMapper(
+                    Venda::class,
+                    $request->getParams(),
+                    $this->em
+                )
             );
 
             return $response->withStatus(201);
         } catch (\Exception $ex) {
-            return $response->withStatus(500);
+            echo $ex;
+            return $response->withStatus(500,$ex);
         }
     }
 

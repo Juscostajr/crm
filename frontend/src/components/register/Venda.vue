@@ -96,12 +96,19 @@
                     </el-select>
                 </el-col>
             </el-row>
-
             <registrar-interacao @interacao-saved="interacaoCallBack" :visible.sync="interacaoVisible" :datamodel="{tipo:interacaoTipo}" :pj="formulario.pessoaJuridica"></registrar-interacao>
+            <associado :visible.sync="associadoVisible" :pessoa="formulario.pessoaJuridica"></associado>
         </el-form>
         <span slot="footer" class="dialog-footer">
             <el-button @click="modal = false">Cancelar</el-button>
-            <el-button type="primary" @click="save">Salvar</el-button>
+            <span v-if="formulario.hasOwnProperty('id') && formulario.id != ''">
+            <el-button type="primary" v-if="formulario.etapa != 'Fechamento'" @click="save">Avançar</el-button>
+            <el-button type="warning" v-if="formulario.etapa == 'Fechamento'" @click="associadoVisible = true">Registrar Associação</el-button>
+            </span>
+            <span v-if="!formulario.hasOwnProperty('id')">
+            <el-button type="success" v-if="formulario.etapa != 'Fechamento'" @click="create">Iniciar Venda</el-button>
+            <el-button type="warning" v-if="formulario.etapa == 'Fechamento'" @click="associadoVisible = true">Registrar Associação</el-button>
+            </span>
         </span>
     </el-dialog>
 </template>
@@ -109,8 +116,9 @@
 import Usuario from './Usuario.vue';
 import RemoteSelect from '../RemoteSelect.vue';
 import RegistrarInteracao from './Interacao.vue';
+import Associado from './Associado.vue';
 export default {
-    props: ['visible', 'datamodel'],
+    props: ['visible', 'vendaModel'],
     data() {
         return {
             form: {
@@ -123,10 +131,12 @@ export default {
                     nomeFantasia: '',
                 },
                 etapa: '',
-                interacaos: []
+                interacaos: [],
+                interesses: [],
             },
             dialogFormVisible: true,
             interacaoVisible: false,
+            associadoVisible: false,
             innerVisible: false,
             modal: false,
             perfis: [],
@@ -143,14 +153,13 @@ export default {
         },
         visible() {
             this.modal = this.visible;
+            if(this.visible){
+                this.init();
+            }
+            console.log(this.vendaModel);
         },
-        datamodel() {
-            if (this.datamodel == null) return this.clearForm();
-            this.formulario = this.datamodel;
-            this.interesses = this.formulario.interesses.map(value => { return value.descricao });
-        }
     },
-    components: { RemoteSelect, RegistrarInteracao }
+    components: { RemoteSelect, RegistrarInteracao, Associado }
     ,
     methods: {
         save() {
@@ -158,24 +167,46 @@ export default {
                 return this.servicos.find(obj => obj.descricao == interesse);
             });
 
+            this.$request.put(`venda/${this.formulario.id}`, this.formulario)
+                .then(response => {
+                    this.clearForm();
+                    this.dialogFormVisible = false;
+                    this.$notify({
+                        title: 'Sucesso!',
+                        message: 'Atualizado status da venda!',
+                        type: 'success'
+                    });
+                })
+                .catch(error => {
+                    console.log(error);
+                    this.$notify.error({
+                        title: 'Erro!',
+                        message: 'Não foi registrar o avanço da venda'
+                    });
+                });
+        },
+        create(){
+            this.formulario.interesses = this.interesses.map(interesse => {
+                return this.servicos.find(obj => obj.descricao == interesse);
+            });
 
-                        this.$request.put(`venda/${this.formulario.id}`, this.formulario)
-                            .then(response => {
-                                this.clearForm();
-                                this.dialogFormVisible = false;
-                                this.$notify({
-                                    title: 'Sucesso!',
-                                    message: 'Usuario salvo corretamente',
-                                    type: 'success'
-                                });
-                            })
-                            .catch(error => {
-                                console.log(error);
-                                this.$notify.error({
-                                    title: 'Erro!',
-                                    message: 'Não foi possível cadastrar o usuário, consulte a área de sistemas'
-                                });
-                            });
+            this.$request.post('venda', this.formulario)
+                .then(response => {
+                    this.clearForm();
+                    this.dialogFormVisible = false;
+                    this.$notify({
+                        title: 'Sucesso!',
+                        message: 'Venda iniciada',
+                        type: 'success'
+                    });
+                })
+                .catch(error => {
+                    console.log(error);
+                    this.$notify.error({
+                        title: 'Erro!',
+                        message: 'Não foi possível registrar o início de venda'
+                    });
+                });
         },
         clearForm() {
             this.form = {}
@@ -186,7 +217,12 @@ export default {
         },
         interacaoCallBack(data) {
             this.formulario.interacaos.push(data);
-            console.log(this.formulario);
+        },
+        init(){
+            if (this.vendaModel == null) return this.clearForm();
+
+            this.formulario = this.vendaModel;
+            this.interesses = this.vendaModel.interesses.map(interesse => interesse.descricao);
         }
     },
     mounted() {

@@ -64,10 +64,10 @@ class Associado extends \App\Entity\Associado implements \Doctrine\ORM\Proxy\Pro
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'pessoa', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'dataFiliacao', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'status', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'valorMensalidade', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'adesoes'];
+            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'pessoaJuridica', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'dataFiliacao', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'statusAssociado', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'valorMensalidade', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'adesoes'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'pessoa', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'dataFiliacao', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'status', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'valorMensalidade', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'adesoes'];
+        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'pessoaJuridica', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'dataFiliacao', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'statusAssociado', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'valorMensalidade', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'adesoes'];
     }
 
     /**
@@ -202,29 +202,29 @@ class Associado extends \App\Entity\Associado implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
-    public function getPessoa(): \App\Entity\Pessoa
+    public function getPessoaJuridica(): \App\Entity\PessoaJuridica
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getPessoa', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getPessoaJuridica', []);
 
-        return parent::getPessoa();
+        return parent::getPessoaJuridica();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setPessoa(\App\Entity\Pessoa $pessoa)
+    public function setPessoaJuridica(\App\Entity\PessoaJuridica $pessoaJuridica)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPessoa', [$pessoa]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPessoaJuridica', [$pessoaJuridica]);
 
-        return parent::setPessoa($pessoa);
+        return parent::setPessoaJuridica($pessoaJuridica);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getDataFiliacao(): \DateTime
+    public function getDataFiliacao(): string
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getDataFiliacao', []);
@@ -235,7 +235,7 @@ class Associado extends \App\Entity\Associado implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
-    public function setDataFiliacao(\DateTime $dataFiliacao)
+    public function setDataFiliacao(string $dataFiliacao)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setDataFiliacao', [$dataFiliacao]);
@@ -246,23 +246,23 @@ class Associado extends \App\Entity\Associado implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
-    public function getStatus(): \App\Entity\StatusAssociado
+    public function getStatusAssociado(): string
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getStatus', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getStatusAssociado', []);
 
-        return parent::getStatus();
+        return parent::getStatusAssociado();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setStatus(\App\Entity\StatusAssociado $status)
+    public function setStatusAssociado(\App\Entity\StatusAssociado $statusAssociado)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setStatus', [$status]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setStatusAssociado', [$statusAssociado]);
 
-        return parent::setStatus($status);
+        return parent::setStatusAssociado($statusAssociado);
     }
 
     /**
@@ -312,7 +312,7 @@ class Associado extends \App\Entity\Associado implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
-    public function getAdesoes(): \App\Entity\Adesao
+    public function getAdesoes(): array
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getAdesoes', []);
@@ -323,12 +323,12 @@ class Associado extends \App\Entity\Associado implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
-    public function setAdesoes(array $adesoes)
+    public function addAdesoes(\App\Entity\Adesao $adesao)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setAdesoes', [$adesoes]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addAdesoes', [$adesao]);
 
-        return parent::setAdesoes($adesoes);
+        return parent::addAdesoes($adesao);
     }
 
     /**

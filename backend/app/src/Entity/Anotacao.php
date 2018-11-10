@@ -55,17 +55,17 @@ class Anotacao
     /**
      * @return \DateTime
      */
-    public function getData(): \DateTime
+    public function getData(): string
     {
-        return $this->data;
+        return $this->data->format('d/m/Y');
     }
 
     /**
      * @param \DateTime $data
      */
-    public function setData(\DateTime $data)
+    public function setData(string $data)
     {
-        $this->data = $data;
+        $this->data = new \DateTime($data);
     }
 
     /**
@@ -79,15 +79,15 @@ class Anotacao
     /**
      * @param \DateTime $hora
      */
-    public function setHora(\DateTime $hora)
+    public function setHora(string $hora)
     {
-        $this->hora = $hora;
+        $this->hora = new \DateTime($hora);
     }
 
     /**
      * @return String
      */
-    public function getTitulo(): String
+    public function getTitulo(): string
     {
         return $this->titulo;
     }
@@ -95,15 +95,15 @@ class Anotacao
     /**
      * @param String $descricao
      */
-    public function setTitulo(String $titulo)
+    public function setTitulo(string $titulo)
     {
-        $this->descricao = $titulo;
+        $this->titulo = $titulo;
     }
 
     /**
      * @return String
      */
-    public function getDescricao(): String
+    public function getDescricao(): string
     {
         return $this->descricao;
     }

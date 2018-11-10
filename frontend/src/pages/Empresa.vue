@@ -8,15 +8,15 @@
         
         <el-table :data="tableData" style="width: 100%" empty-text="Nenhum resultado encontrado.">
             <el-table-column prop="cnpj" label="Cnpj" sortable width="150"></el-table-column>
-            <el-table-column prop="razao_social" label="Razão Social" width="260"></el-table-column>
-            <el-table-column prop="nome_fantasia" label="Nome Fantasia" width="140"></el-table-column>
+            <el-table-column prop="razaoSocial" label="Razão Social" width="260"></el-table-column>
+            <el-table-column prop="nomeFantasia" label="Nome Fantasia" width="140"></el-table-column>
             <el-table-column prop="telefones[0].numero" label="Telefones" width="130"></el-table-column>
             <el-table-column prop="enderecos[0].logradouro" label="Enderecos" width="260"></el-table-column>
             <el-table-column prop="email" label="E-Mail" width="100"></el-table-column>
-            <el-table-column prop="ramo_atividade" label="Ramo de Atividade" width="150"></el-table-column>
-            <el-table-column prop="inscricao_estadual," label="Inscrição Est." width="120"></el-table-column>
-            <el-table-column prop="numero_funcionarios" label="Funcionarios" width="120"></el-table-column>
-            <el-table-column prop="representante_legal.nome" label="Representante Legal" width="120"></el-table-column>
+            <el-table-column prop="ramoAtividade" label="Ramo de Atividade" width="150"></el-table-column>
+            <el-table-column prop="inscricaoEstadual," label="Inscrição Est." width="120"></el-table-column>
+            <el-table-column prop="numeroFuncionarios" label="Funcionarios" width="120"></el-table-column>
+            <el-table-column prop="representanteLegal.nome" label="Representante Legal" width="120"></el-table-column>
             <el-table-column fixed="right" label="Ação" width="90">
                 <template slot-scope="scope">
                     <el-button size="mini" icon="el-icon-edit" @click="handleEdit(scope.row)" circle></el-button>
@@ -101,23 +101,23 @@ export default {
         },
         handleEdit(data){
             this.dataModel = {
-                razaoSocial: data.razao_social,
+                razaoSocial: data.razaoSocial,
                 telefones: data.telefones,
                 enderecos: data.enderecos,
                 email: {
                     email: data.email,
                 },
                 grupos: data.grupos,
-                nomeFantasia: data.nome_fantasia,
+                nomeFantasia: data.nomeFantasia,
                 inscricaoEstadual: {
-                    numero: data.inscricao_estadual
+                    numero: data.inscricaoEstadual
                 },
                 cnpj: {
                     numero: data.cnpj
                 },
-                numeroFuncionarios: data.numero_funcionarios,
-                representanteLegal: data.representante_legal,
-                ramoAtividade: data.ramo_atividade
+                numeroFuncionarios: data.numeroFuncionarios,
+                representanteLegal: data.representanteLegal,
+                ramoAtividade: data.ramoAtividade
             };
             this.dialogFormVisible = true;
         }

@@ -2,10 +2,16 @@
 
 namespace App\Service;
 
-use Doctrine\ORM\EntityManager;
+use App\Entity\Adesao;
 use App\Entity\Associado;
+use App\Entity\Pessoa;
+use App\Entity\PessoaJuridica;
+use App\Entity\Servico;
+use App\Entity\StatusAssociado;
+use Doctrine\ORM\EntityManager;
 
-class AssociadoService {
+class AssociadoService
+{
 
     /**
      * @var EntityManager
@@ -28,6 +34,14 @@ class AssociadoService {
         return $associados;
     }
 
+    public function delete(int $id)
+    {
+        $associado = $this->findOne($id);
+
+        $this->em->remove($associado);
+        $this->em->flush();
+    }
+
     public function findOne(int $id): Associado
     {
         $associado = $this->em->getRepository('\App\Entity\Associado')->find($id);
@@ -39,24 +53,31 @@ class AssociadoService {
         return $associado;
     }
 
-    public function delete(int $id)
+    public function create($pessoaJuridica, $dataFiliacao, $statusAssociado, $valorMensalidade, $adesoes, $id)
     {
-        $associado = $this->findOne($id);
+        $associado = is_null($id) ? new Associado() : $this->findOne($id);
 
-        $this->em->remove($associado);
-        $this->em->flush();
-    }
+        $this
+            ->em
+            ->createQueryBuilder()
+            ->delete(Adesao::class, 'a')
+            ->where('a.associado = :associado')
+            ->setParameter('associado',$associado)
+            ->getQuery()
+            ->execute();
 
-    public function create($pessoa, $dataFiliacao, $status, $valorMensalidade, $adesoes)
-    {
-        $associado = new Associado();
-        $associado->setPessoa( $pessoa);
-$associado->setDataFiliacao( $dataFiliacao);
-$associado->setStatus( $status);
-$associado->setValorMensalidade( $valorMensalidade);
-$associado->setAdesoes( $adesoes);
+        $associado->setPessoaJuridica($this->em->getReference(PessoaJuridica::class, $pessoaJuridica));
+        $associado->setDataFiliacao($dataFiliacao);
+        $associado->setStatusAssociado(new StatusAssociado($statusAssociado));
+        $associado->setValorMensalidade($valorMensalidade);
 
-
+        foreach ($adesoes as $adesao){
+            $objAdesao = new Adesao();
+            $objAdesao->setData($dataFiliacao);
+            $objAdesao->setAssociado($associado);
+            $objAdesao->setServico($this->em->getReference(Servico::class, $adesao['id']));
+            $associado->addAdesoes($objAdesao);
+        }
         $this->em->persist($associado);
         $this->em->flush();
     }
@@ -65,11 +86,11 @@ $associado->setAdesoes( $adesoes);
     {
         $associado = $this->findOne($id);
 
-        $associado->setPessoa( $pessoa);
-$associado->setDataFiliacao( $dataFiliacao);
-$associado->setStatus( $status);
-$associado->setValorMensalidade( $valorMensalidade);
-$associado->setAdesoes( $adesoes);
+        $associado->setPessoa($pessoa);
+        $associado->setDataFiliacao($dataFiliacao);
+        $associado->setStatus($status);
+        $associado->setValorMensalidade($valorMensalidade);
+        $associado->setAdesoes($adesoes);
 
 
         $this->em->persist($associado);

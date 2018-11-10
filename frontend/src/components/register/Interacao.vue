@@ -1,6 +1,21 @@
 <template>
     <el-dialog title="Interação" :visible.sync="modal" width="80%" append-to-body>
 
+        <el-row>
+            <el-col :span="24" class="contato">
+                <div v-if="form.tipo == 'Telefonema'">
+                    <span v-for="(telefone, index) in pj.telefones" :key="index">
+                        <icon name="phone" /> {{telefone.numero}}</span>
+                </div>
+                <div v-if="form.tipo == 'Visita'">
+                    <span v-for="(endereco, index) in pj.enderecos" :key="index">
+                        <icon name="user" /> {{endereco.logradouro}}, {{endereco.nrImovel}}</span>
+                </div>
+                <span v-if="form.tipo == 'Email'">
+                    <icon name="envelope" />{{pj.email}}</span>
+            </el-col>
+        </el-row>
+
         <el-row :gutter="15">
             <el-col :span="16">
                 <b>Razão Social</b> {{pj.razaoSocial}}
@@ -27,10 +42,21 @@
                         <el-time-picker v-model="form.hora" readonly></el-time-picker>
                     </el-form-item>
                 </el-col>
-                <el-col :span="10">
+                <el-col :span="4">
                     <el-form-item label="Tipo">
                         <el-input v-model="form.tipo"></el-input>
                     </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                    <el-form-item label="Sentido">
+                        <br/>
+                        <el-radio-group v-model="form.sentido">
+                            <el-radio-button label="out">Enviado</el-radio-button>
+                            <el-radio-button label="in">Recebido</el-radio-button>
+                        </el-radio-group>
+
+                    </el-form-item>
+
                 </el-col>
             </el-row>
             <el-row :gutter="15" v-for="(anotacao, index) in form.anotacaos" :key="anotacao.id">
@@ -83,8 +109,8 @@ function model() {
         tipo: '',
         anotacaos: [
             {
-                data: new Date().getTime(),
-                hora: new Date().getTime(),
+                data: new Date().toUTCString(),
+                hora: new Date().toUTCString(),
                 titulo: '',
                 descricao: ''
             }
@@ -126,11 +152,12 @@ export default {
             this.form = model();
         },
         updateData() {
-            this.form.data = new Date().getTime();
-            this.form.hora = new Date().getTime();
+            this.form.data = new Date().toUTCString();
+            this.form.hora = new Date().toUTCString();
+            console.log(this.pj);
         },
         addAnotacao() {
-            this.form.anotacaos.push(model());
+            this.form.anotacaos.push(model().anotacaos[0]);
         },
         removeAnotacao(item) {
             var index = this.form.anotacaos.indexOf(item);
@@ -143,8 +170,21 @@ export default {
 }
 
 </script>
-<style>
+<style scope>
 #btn_plus {
     width: 100%;
+}
+
+.contato {
+    font-size: 2em;
+    padding: 0.5em;
+    margin-bottom: 20px;
+    background-color: #3a8ee6;
+    color: white;
+    border-radius: 12px;
+}
+
+.fa-icon {
+    margin-bottom: -0.2em;
 }
 </style>

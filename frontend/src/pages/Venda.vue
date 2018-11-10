@@ -84,7 +84,7 @@
 
         </el-col>
         <el-col :span="8"></el-col>
-        <registrar-venda :visible.sync="showRegisterView" :datamodel="currentData"></registrar-venda>
+        <registrar-venda :visible.sync="showRegisterView" :vendaModel="currentData"></registrar-venda>
     </el-row>
 </template>
 <script>
@@ -134,6 +134,7 @@ export default {
             showRegisterView: false,
             currentData: {},
             vendas: [],
+            interacaosEmVendas: []
         }
     },
     components: { RegistrarVenda },

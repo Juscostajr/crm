@@ -257,12 +257,12 @@ class Venda extends \App\Entity\Venda implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setInteresses(array $interesses)
+    public function addInteresses(\App\Entity\Servico $servico)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setInteresses', [$interesses]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addInteresses', [$servico]);
 
-        return parent::setInteresses($interesses);
+        return parent::addInteresses($servico);
     }
 
     /**

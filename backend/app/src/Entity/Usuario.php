@@ -37,8 +37,8 @@ class Usuario
     /**
      * @ORM\ManyToMany(targetEntity="Perfil")
      * @ORM\JoinTable(name="perfil_usuario",
-     *      joinColumns={@ORM\JoinColumn(name="perfil", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="usuario", referencedColumnName="id")}
+     *      joinColumns={@ORM\JoinColumn(name="usuario", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="perfil", referencedColumnName="id")}
      *      )
      */
     private $perfils;
@@ -121,14 +121,6 @@ class Usuario
     public function setPessoa(PessoaFisica $pessoa)
     {
         $this->pessoa = $pessoa;
-    }
-
-    /**
-     * @return String
-     */
-    public function getSenha(): String
-    {
-        return $this->senha;
     }
 
     /**

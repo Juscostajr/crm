@@ -1,5 +1,5 @@
 <template>
-    <el-select class="remote-select" v-model="model" :value-key="id" filterable remote reserve-keyword placeholder="Digite o que procura" :remote-method="remoteMethod" :loading="loading">
+    <el-select class="remote-select" v-model="innerModel" :value-key="id" filterable remote reserve-keyword placeholder="Digite o que procura" :remote-method="remoteMethod" :loading="loading">
         <el-option v-for="item in filteredOptions" :key="getKey(item)" :label="getLabel(item)" :value="item">
         </el-option>
     </el-select>
@@ -13,6 +13,7 @@ export default {
             filteredOptions: [],
             list: [],
             loading: false,
+            innerModel: this.model[this.label],
         }
     },
     mounted() {
@@ -31,7 +32,7 @@ export default {
     methods: {
         remoteMethod(query) {
             this.filteredOptions = [];
-            if (query === '') return 
+            if (query === '') return
             this.loading = true;
             setTimeout(() => {
                 this.loading = false;
@@ -50,8 +51,19 @@ export default {
         }
     },
     watch: {
-        model() {
-            this.$emit('update:model', this.model);
+        innerModel() {
+            if (this.filteredOptions.length > 0) {
+                this.$emit('update:model', this.innerModel);
+                this.filteredOptions = [];
+            } 
+        },
+        model(){
+            if (this.filteredOptions.length === 0) {
+                this.innerModel = this.model[this.label];
+                console.log(this.model);
+            }
+
+            
         }
     }
 }
@@ -61,6 +73,7 @@ export default {
 .remote-select .el-input {
     width: 100%;
 }
+
 .el-select-dropdown {
     max-width: 400px;
 }

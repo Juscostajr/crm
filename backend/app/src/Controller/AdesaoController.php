@@ -52,6 +52,21 @@ class AdesaoController
         }
     }
 
+
+
+    public function deleteByAssociado(Request $request, Response $response, $args)
+    {
+        try {
+            $service = new AdesaoService($this->container->get('em'));
+            $service->delete($args['id']);
+            return $response->withStatus(204);
+        } catch (\Exception $ex) {
+            return $response->withStatus(404);
+        }
+    }
+
+
+
     public function create(Request $request, Response $response)
     {
         try {

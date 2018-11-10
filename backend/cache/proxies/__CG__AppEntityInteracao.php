@@ -64,10 +64,10 @@ class Interacao extends \App\Entity\Interacao implements \Doctrine\ORM\Proxy\Pro
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'feedback', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'usuario', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'data', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'hora', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'tipo', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'anotacaos'];
+            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'feedback', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'usuario', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'data', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'hora', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'tipo', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'anotacaos', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'sentido'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'feedback', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'usuario', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'data', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'hora', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'tipo', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'anotacaos'];
+        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'feedback', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'usuario', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'data', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'hora', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'tipo', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'anotacaos', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'sentido'];
     }
 
     /**
@@ -329,6 +329,28 @@ class Interacao extends \App\Entity\Interacao implements \Doctrine\ORM\Proxy\Pro
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'addAnotacaos', [$anotacao]);
 
         return parent::addAnotacaos($anotacao);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getSentido(): \App\Entity\Sentido
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getSentido', []);
+
+        return parent::getSentido();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setSentido(\App\Entity\Sentido $sentido)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setSentido', [$sentido]);
+
+        return parent::setSentido($sentido);
     }
 
     /**

@@ -44,7 +44,8 @@
 </template>
 <script>
 export default {
-    name: 'v-menu'
+    name: 'v-menu',
+
 }
 </script>
 <style>

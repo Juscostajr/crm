@@ -1,8 +1,8 @@
 <template>
     <div id="app">
-        <el-container>
+        <el-container v-if="autenticado">
             <el-header>
-                <h-menu></h-menu>
+                <h-menu @logout="autenticado = false"></h-menu>
             </el-header>
             <el-container>
                 <el-aside width="200px">
@@ -14,14 +14,26 @@
                 </el-main>
             </el-container>
         </el-container>
+        <login v-if="!autenticado" @autorizado="autenticado = true" />
     </div>
 </template>
 
 <script>
 import HMenu from './components/body/Hmenu.vue';
 import VMenu from './components/body/Vmenu.vue';
+import Login from './Login.vue';
 export default {
-    components: { HMenu, VMenu },
+    data(){
+        return {
+            autenticado: false,
+        }
+    },
+    components: { HMenu, VMenu, Login },
+    mounted() {
+        if(localStorage.getItem('token') !== null) {
+            this.autenticado = true;
+        }
+    },
 }
 </script>
 

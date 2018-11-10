@@ -190,14 +190,14 @@ export default {
         save() {
             this.$request.post('pj', this.form)
                 .then(response => {
-                    this.findAll();
-                    this.clearForm();
-                    this.dialogFormVisible = false;
+                    this.modal = false;
                     this.$notify({
                         title: 'Sucesso!',
                         message: 'Empresa salva corretamente',
                         type: 'success'
                     });
+                    this.$emit('empresa-callback', this.form);
+                    this.clearForm();
                 })
                 .catch(error => {
                     console.log(error);

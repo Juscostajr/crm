@@ -3,6 +3,13 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: *");
 header("Access-Control-Allow-Headers: *");
 
+$app->get('/associado/{id}', \App\Controller\AssociadoController::class . ':findOne');
+$app->get('/associado/pessoa/{pessoaJuridica}', \App\Controller\AssociadoController::class . ':findByPessoa');
+$app->post('/associado', App\Controller\AssociadoController::class . ':create');
+
+$app->post('/auth', App\Controller\UsuarioController::class . ':auth');
+$app->get('/acesso/usuario/{id}', \App\Controller\UsuarioController::class . ':getAccess');
+
 $app->get('/telefone', App\Controller\TIpoTelefoneController::class . ':getAll');
 $app->get('/etapa', App\Controller\EtapaController::class . ':getAll');
 
@@ -55,6 +62,7 @@ $app->delete('/pj/{id}', App\Controller\PessoaJuridicaController::class . ':dele
 
 $app->get('/venda', App\Controller\VendaController::class . ':findAll');
 $app->put('/venda/{id}', App\Controller\VendaController::class . ':update');
+$app->post('/venda', \App\Controller\VendaController::class . ':create');
 //$app->get('/pj/{nomeFantasia}', App\Controller\PessoaJuridicaController::class . ':findByName');
 //$app->post('/pj', App\Controller\PessoaJuridicaController::class . ':create');
 //$app->delete('/pj/{id}', App\Controller\PessoaJuridicaController::class . ':delete');

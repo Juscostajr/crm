@@ -2,7 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Associado;
 use App\Service\AssociadoService;
+use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
+use JMS\Serializer\Naming\SerializedNameAnnotationStrategy;
+use JMS\Serializer\SerializerBuilder;
 use Psr\Container\ContainerInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -10,28 +14,30 @@ use Slim\Http\Response;
 class AssociadoController {
 
     protected $container;
+    private  $em;
+    private $service;
+    private $serializer;
 
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
+        $this->em = $this->container->get('em');
+        $this->service = new AssociadoService($this->em);
+        $this->serializer = SerializerBuilder::create()
+            ->setPropertyNamingStrategy(new SerializedNameAnnotationStrategy(new IdenticalPropertyNamingStrategy()))
+            ->build();
     }
 
     public function findAll(Request $request, Response $response)
     {
         try {
-            $service = new AssociadoService($this->container->get('em'));
 
-            $associados = $service->findAll();
-
-            $associados = array_map(
-                function ($photo) {
-                    return $photo->toArray();
-                },
-                $associados
+            $em = $this->container->get('em');
+            return $response->write(
+                $this->serializer->serialize($em->getRepository(Associado::class)->findAll(), 'json')
             );
-
-            return $response->withJSON($associados);
         } catch (\Exception $ex) {
+            echo $ex;
             return $response->withStatus(404);
         }
     }
@@ -41,14 +47,28 @@ class AssociadoController {
         try {
             $service = new AssociadoService($this->container->get('em'));
 
-            $associado = $service->findOne($args['id']);
+            $pessoaFisica = $service->findOne($args['id']);
 
-            return $response->withJSON($associado->toArray());
+            return $response->withJSON($pessoaFisica->toArray());
         } catch (\Exception $ex) {
             return $response->withStatus(404);
         }
     }
 
+    public function findByPessoa(Request $request, Response $response,array $args)
+    {
+
+        try {
+            $em = $this->container->get('em');
+            $search = $em->getRepository(Associado::class)->findBy($args)[0];
+            if(empty($search)) throw new \OutOfBoundsException();
+            return $response->write(
+                $this->serializer->serialize($search, 'json')
+            );
+        } catch (\Exception $ex) {
+            return $response->withStatus(404);
+        }
+    }
     public function delete(Request $request, Response $response, $args)
     {
         try {
@@ -66,19 +86,19 @@ class AssociadoController {
     {
         try {
             $service = new AssociadoService($this->container->get('em'));
-
             $params = $request->getParams();
             $service->create(
-                $params['pessoa'],
-$params['dataFiliacao'],
-$params['status'],
-$params['valorMensalidade'],
-$params['adesoes']
+                $params['pessoaJuridica']['id'],
+                $params['dataFiliacao'],
+                $params['statusAssociado'],
+                numfmt_parse(numfmt_create( 'pt_BR', \NumberFormatter::DECIMAL ), $params['valorMensalidade']),
+                $params['adesoes'],
+                $params['id'] ?? null
             );
 
             return $response->withStatus(201);
         } catch (\Exception $ex) {
-            return $response->withStatus(500);
+            return $response->withStatus(500,$ex);
         }
     }
 

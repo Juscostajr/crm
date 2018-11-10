@@ -19,10 +19,10 @@ class Associado {
 			private $id;
 		
 			/** @var Pessoa
-			 * @ORM\JoinColumn(name="pessoa", referencedColumnName="id")
-			 * @ORM\OneToOne(targetEntity="Pessoa")
+			 * @ORM\JoinColumn(name="pessoaJuridica", referencedColumnName="id")
+			 * @ORM\OneToOne(targetEntity="PessoaJuridica")
 			 */
-			private $pessoa;
+			private $pessoaJuridica;
 		
 			/** @var \DateTime
 			 * @ORM\Column(type="date")
@@ -32,7 +32,7 @@ class Associado {
 			/** @var StatusAssociado
 			 * @ORM\Column(type="string")
 			 */
-			private $status;
+			private $statusAssociado;
 
 			/** @var double
 			 * @ORM\Column(type="float")
@@ -41,7 +41,7 @@ class Associado {
 		
 			/** @var Adesao
 			 * @ORM\JoinColumn(name="adesoes", referencedColumnName="id")
-			 * @ORM\OneToMany(targetEntity="Adesao", mappedBy="associado")
+			 * @ORM\OneToMany(targetEntity="Adesao", mappedBy="associado", cascade={"persist", "remove"})
 			 */
 			private $adesoes;
 	
@@ -70,49 +70,49 @@ class Associado {
 	/**
 	 * @return Pessoa
 	 */
-	public function getPessoa(): Pessoa
+	public function getPessoaJuridica(): PessoaJuridica
 	{
-		return $this->pessoa;
+		return $this->pessoaJuridica;
 	}
 
 	/**
 	 * @param Pessoa $pessoa
 	 */
-	public function setPessoa(Pessoa $pessoa)
+	public function setPessoaJuridica(PessoaJuridica $pessoaJuridica)
 	{
-		$this->pessoa = $pessoa;
+		$this->pessoaJuridica = $pessoaJuridica;
 	}
 
 	/**
 	 * @return \DateTime
 	 */
-	public function getDataFiliacao(): \DateTime
+	public function getDataFiliacao(): string
 	{
-		return $this->dataFiliacao;
+        return $this->dataFiliacao->format('d/m/Y');
 	}
 
 	/**
 	 * @param \DateTime $dataFiliacao
 	 */
-	public function setDataFiliacao(\DateTime $dataFiliacao)
+	public function setDataFiliacao(string $dataFiliacao)
 	{
-		$this->dataFiliacao = $dataFiliacao;
+		$this->dataFiliacao = new \DateTime($dataFiliacao);
 	}
 
 	/**
 	 * @return StatusAssociado
 	 */
-	public function getStatus(): StatusAssociado
+	public function getStatusAssociado(): string
 	{
-		return $this->status;
+		return $this->statusAssociado;
 	}
 
 	/**
 	 * @param StatusAssociado $status
 	 */
-	public function setStatus(StatusAssociado $status)
+	public function setStatusAssociado(StatusAssociado $statusAssociado)
 	{
-		$this->status = $status;
+		$this->statusAssociado = $statusAssociado->getValue();
 	}
 
 	/**
@@ -150,14 +150,14 @@ class Associado {
 	/**
 	 * @return Adesao
 	 */
-	public function getAdesoes(): Adesao
+	public function getAdesoes(): array
 	{
-		return $this->adesoes;
+		return $this->adesoes->toArray();
 	}
 
-	public function setAdesoes(array $adesoes)
+	public function addAdesoes(Adesao $adesao)
 	{
-		$this->adesoes = new ArrayCollection($adesoes);
+		$this->adesoes->add($adesao);
 	}
 
 	public function toArray()

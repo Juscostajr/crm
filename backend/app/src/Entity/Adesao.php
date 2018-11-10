@@ -18,7 +18,7 @@ class Adesao {
 			private $id;
 		
 			/** @var \DateTime
-			 * @ORM\Column(type="string")
+			 * @ORM\Column(type="date")
 			 */
 			private $data;
 		
@@ -53,17 +53,17 @@ class Adesao {
 	/**
 	 * @return \DateTime
 	 */
-	public function getData(): \DateTime
+	public function getData(): string
 	{
-		return $this->data;
+		return $this->data->format('d/m/Y');
 	}
 
 	/**
 	 * @param Date $data
 	 */
-	public function setData(\DateTime $data)
+	public function setData(string $data)
 	{
-		$this->data = $data;
+		$this->data = new \DateTime($data);
 	}
 
 	/**
