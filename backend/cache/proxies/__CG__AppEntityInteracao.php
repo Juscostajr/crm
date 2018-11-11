@@ -334,7 +334,7 @@ class Interacao extends \App\Entity\Interacao implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
-    public function getSentido(): \App\Entity\Sentido
+    public function getSentido(): string
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getSentido', []);
@@ -345,7 +345,7 @@ class Interacao extends \App\Entity\Interacao implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
-    public function setSentido(\App\Entity\Sentido $sentido)
+    public function setSentido(string $sentido)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setSentido', [$sentido]);

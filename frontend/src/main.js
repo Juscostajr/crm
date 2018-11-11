@@ -9,11 +9,13 @@ import AxiosAdapter from "axios-jsonp";
 import GoogleMapsLoader from "google-maps";
 import "vue-awesome/icons";
 import Icon from "vue-awesome/components/Icon.vue";
+import Moment from "vue-moment";
 import {routes} from "./routes";
 
 Vue.use(Router);
 Vue.use(ElementUI, { locale });
 Vue.use(VInputmask);
+Vue.use(Moment);
 
 import App from "./App.vue";
 

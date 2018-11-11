@@ -28,7 +28,7 @@ class FeedBack {
 			private $data;
 		
 			/** @var Satisfacao
-			 * @ORM\Column(type="string")
+			 * @ORM\Column(type="integer")
 			 */
 			private $indicador;
 		
@@ -77,23 +77,23 @@ class FeedBack {
 	/**
 	 * @return \DateTime
 	 */
-	public function getData(): \DateTime
+	public function getData(): string
 	{
-		return $this->data;
+		return $this->data->format('d/m/Y');;
 	}
 
 	/**
 	 * @param \DateTime $data
 	 */
-	public function setData(\DateTime $data)
+	public function setData(string $data)
 	{
-		$this->data = $data;
+		$this->data = new \DateTime($data);
 	}
 
 	/**
 	 * @return Satisfacao
 	 */
-	public function getIndicador(): Satisfacao
+	public function getIndicador(): int
 	{
 		return $this->indicador;
 	}
@@ -101,7 +101,7 @@ class FeedBack {
 	/**
 	 * @param Satisfacao $indicador
 	 */
-	public function setIndicador(Satisfacao $indicador)
+	public function setIndicador(int $indicador)
 	{
 		$this->indicador = $indicador;
 	}
@@ -109,17 +109,17 @@ class FeedBack {
 	/**
 	 * @return \DateTime
 	 */
-	public function getHora(): \DateTime
+	public function getHora(): string
 	{
-		return $this->hora;
+		return $this->hora->format('hh:mm:ss');
 	}
 
 	/**
 	 * @param \DateTime $hora
 	 */
-	public function setHora(\DateTime $hora)
+	public function setHora(string $hora)
 	{
-		$this->hora = $hora;
+		$this->hora = new \DateTime($hora);
 	}
 
 	/**

@@ -224,7 +224,7 @@ class FeedBack extends \App\Entity\FeedBack implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getData(): \DateTime
+    public function getData(): string
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getData', []);
@@ -235,7 +235,7 @@ class FeedBack extends \App\Entity\FeedBack implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setData(\DateTime $data)
+    public function setData(string $data)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setData', [$data]);
@@ -246,7 +246,7 @@ class FeedBack extends \App\Entity\FeedBack implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getIndicador(): \App\Entity\Satisfacao
+    public function getIndicador(): int
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getIndicador', []);
@@ -257,7 +257,7 @@ class FeedBack extends \App\Entity\FeedBack implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setIndicador(\App\Entity\Satisfacao $indicador)
+    public function setIndicador(int $indicador)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setIndicador', [$indicador]);
@@ -268,7 +268,7 @@ class FeedBack extends \App\Entity\FeedBack implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getHora(): \DateTime
+    public function getHora(): string
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getHora', []);
@@ -279,7 +279,7 @@ class FeedBack extends \App\Entity\FeedBack implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setHora(\DateTime $hora)
+    public function setHora(string $hora)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setHora', [$hora]);

@@ -72,5 +72,8 @@ $app->post('/venda', \App\Controller\VendaController::class . ':create');
 //$app->post('/pj', App\Controller\PessoaJuridicaController::class . ':create');
 //$app->delete('/pj/{id}', App\Controller\PessoaJuridicaController::class . ':delete');
 $app->put('/interacao', App\Controller\InteracaoController::class . ':createOrUpdate');
+$app->put('/interacao/feedback', \App\Controller\InteracaoController::class . ':registerFeedback');
+
+$app->post('/feedback', \App\Controller\FeedBackController::class . ':create');
 
 

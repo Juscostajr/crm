@@ -1,6 +1,7 @@
 <?php
 namespace App\Service;
 
+use App\Entity\FeedBack;
 use App\Entity\Interacao;
 use App\Factory\DoctrineParamsMapper;
 use Doctrine\ORM\EntityManager;
@@ -46,6 +47,18 @@ class InteracaoService
     public function create(DoctrineParamsMapper $interacao)
     {
         $this->em->persist($interacao->map());
+        $this->em->flush();
+    }
+    public function registerFeedback($interacao, $justificativa, $data, $hora, $indicador, $observacao){
+        $interacao = $this->findOne($interacao);
+        $feedback = new FeedBack();
+        $feedback->setJustificativa($justificativa);
+        $feedback->setData($data);
+        $feedback->setHora($hora);
+        $feedback->setIndicador($indicador);
+        $feedback->setObservacao($observacao);
+        $interacao->setFeedback($feedback);
+        $this->em->persist($interacao);
         $this->em->flush();
     }
 

@@ -12,6 +12,7 @@ import Servico from "./pages/Servico.vue";
 import Secao from "./pages/Secao.vue";
 import TipoGrupo from "./pages/TipoGrupo.vue";
 import RegistrarVisita from "./pages/RegistrarVisita.vue";
+import Campanha from './pages/Campanha.vue';
 import Axios from "axios";
 
 export const routes = [
@@ -27,7 +28,8 @@ export const routes = [
   { path: "/servico", component: Servico, method: "servico" },
   { path: "/secao", component: Secao, method: "secao" },
   { path: "/tipoGrupo", component: TipoGrupo, method: "tipogrupo" },
-  { path: "/registrarVisita", component: RegistrarVisita, method: "venda" }
+  { path: "/registrarVisita", component: RegistrarVisita, method: "venda" },
+  { path: "/campanha", component: Campanha, method: "campanha" }
 ];
 /** 
 export default {

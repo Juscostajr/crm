@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Factory\DoctrineParamsMapper;
 use Doctrine\ORM\EntityManager;
 use App\Entity\FeedBack;
 
@@ -47,17 +48,9 @@ class FeedBackService {
         $this->em->flush();
     }
 
-    public function create($justificativa, $data, $indicador, $hora, $observacao)
+    public function create(DoctrineParamsMapper $feedback)
     {
-        $feedBack = new FeedBack();
-        $feedBack->setJustificativa( $justificativa);
-$feedBack->setData( $data);
-$feedBack->setIndicador( $indicador);
-$feedBack->setHora( $hora);
-$feedBack->setObservacao( $observacao);
-
-
-        $this->em->persist($feedBack);
+        $this->em->persist($feedback->map());
         $this->em->flush();
     }
 

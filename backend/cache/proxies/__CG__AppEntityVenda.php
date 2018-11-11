@@ -290,6 +290,17 @@ class Venda extends \App\Entity\Venda implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
+    public function cleanArrays()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'cleanArrays', []);
+
+        return parent::cleanArrays();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function toArray()
     {
 

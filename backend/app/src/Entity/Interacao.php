@@ -20,7 +20,7 @@ class Interacao
 
     /** @var FeedBack
      * @ORM\JoinColumn(name="feedback", referencedColumnName="id")
-     * @ORM\ManyToOne(targetEntity="FeedBack")
+     * @ORM\ManyToOne(targetEntity="FeedBack", cascade={"persist", "remove"})
      */
     private $feedback;
 

@@ -66,6 +66,24 @@ class InteracaoController {
             return $response->withStatus(404);
         }
     }
+    public function registerFeedback(Request $request, Response $response){
+        try {
+            $params = $request->getParams();
+            $this->service->registerFeedback(
+                $params['interacao'],
+                $params['justificativa'],
+                $params['data'],
+                $params['hora'],
+                $params['indicador'],
+                $params['observacao']
+            );
+
+            return $response->withStatus(201);
+        } catch (\Exception $ex) {
+            echo $ex;
+            return $response->withStatus(500);
+        }
+    }
 
     public function createOrUpdate(Request $request, Response $response)
     {
