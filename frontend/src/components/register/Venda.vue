@@ -19,7 +19,7 @@
                 <el-col :span="24">
                     <el-form-item label="Interesses">
                         <br>
-                        <el-checkbox v-for="servico in servicos" :key="servico.id" :label="servico.descricao" border v-model="interesses" size="small" /></el-checkbox>
+                        <el-checkbox v-for="servico in servicos" :key="servico.id" :label="servico.descricao" border v-model="interesses" size="small" />
                     </el-form-item>
                 </el-col>
             </el-row>
