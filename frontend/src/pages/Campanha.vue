@@ -28,7 +28,8 @@
       label="Nome">
     </el-table-column>
   </el-table>
-  <el-button type="success" icon="el-icon-plus">Nova Campanha</el-button>
+  <el-button type="success" icon="el-icon-plus" @click="campanhaRegisterVisible = true">Nova Campanha</el-button>
+  <campanha :visible.sync="campanhaRegisterVisible"></campanha>
       </el-card>
       <p v-if="currentRow === null">Selecione uma campanha</p>
         <el-tabs v-model="activeName" v-if="currentRow !== null">
@@ -109,6 +110,7 @@
     
 </template>
 <script>
+import Campanha from '../components/register/Campanha.vue';
 export default {
   data() {
     return {
@@ -135,32 +137,33 @@ export default {
           address: "No. 189, Grove St, Los Angeles"
         }
       ],
-      currentRow: null
+      currentRow: null,
+      campanhaRegisterVisible: false,
     };
   },
-   methods: {
-      setCurrent(row) {
-        this.$refs.singleTable.setCurrentRow(row);
-      },
-      handleCurrentChange(val) {
-        this.currentRow = val;
-      }
+  methods: {
+    setCurrent(row) {
+      this.$refs.singleTable.setCurrentRow(row);
+    },
+    handleCurrentChange(val) {
+      this.currentRow = val;
     }
-  
+  },
+  components: {Campanha}
 };
 </script>
 <style scoped>
 .data-campanha {
-    color: white;
-    text-align: center;
+  color: white;
+  text-align: center;
 }
 .data-campanha h1 {
-    font-size: 4em;
-    margin: 0;
-    line-height: 0.8em;
+  font-size: 4em;
+  margin: 0;
+  line-height: 0.8em;
 }
 .data-campanha h3 {
-    line-height: 0.2em;
+  line-height: 0.2em;
 }
 </style>
 
