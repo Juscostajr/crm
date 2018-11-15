@@ -9,3 +9,4 @@ backend//logs/*
 backend/logs/README.md
 backend/nbproject/*
 backend/composer.lock
+backend/logs/app.log
