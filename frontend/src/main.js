@@ -11,6 +11,7 @@ import "vue-awesome/icons";
 import Icon from "vue-awesome/components/Icon.vue";
 import Moment from "vue-moment";
 import {routes} from "./routes";
+import store from "./store";
 
 Vue.use(Router);
 Vue.use(ElementUI, { locale });
@@ -47,6 +48,7 @@ Vue.prototype.$viacep = Axios.create({
 });
 
 new Vue({
+  store,
   router,
   el: "#app",
   render: h => h(App)
