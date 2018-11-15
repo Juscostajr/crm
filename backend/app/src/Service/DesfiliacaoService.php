@@ -1,7 +1,10 @@
 <?php
 namespace App\Service;
 
+use App\Entity\Associado;
 use App\Entity\Desfiliacao;
+use App\Entity\MotivoDesfiliacao;
+use App\Factory\DoctrineParamsMapper;
 use Doctrine\ORM\EntityManager;
 
 class DesfiliacaoService
@@ -42,12 +45,21 @@ class DesfiliacaoService
         return $desfiliacao;
     }
 
-    public function create($associado, $data, $motivo)
+    public function create(int $associado, string $data, string $motivo)
     {
+        /**
+         * @var Desfiliacao $d
+         */
         $desfiliacao = new Desfiliacao();
-        $desfiliacao->setAssociado($associado);
+        $associadoService = new AssociadoService($this->em);
+
+
+        $desfiliacao->setAssociado($this->em->getReference(Associado::class, $associado));
         $desfiliacao->setData($data);
-        $desfiliacao->setMotivo($motivo);
+        $desfiliacao->setMotivo(new MotivoDesfiliacao($motivo));
+
+        $associadoService->inactivate($desfiliacao->getAssociado()->getId());
+
         $this->em->persist($desfiliacao);
         $this->em->flush();
     }

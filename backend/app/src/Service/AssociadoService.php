@@ -82,6 +82,13 @@ class AssociadoService
         $this->em->flush();
     }
 
+    public function inactivate(int $id){
+        $associado = $this->findOne($id);
+        $associado->setStatusAssociado(new StatusAssociado('Inativo'));
+        $this->em->persist($associado);
+        $this->em->flush();
+    }
+
     public function update(int $id, $pessoa, $dataFiliacao, $status, $valorMensalidade, $adesoes)
     {
         $associado = $this->findOne($id);

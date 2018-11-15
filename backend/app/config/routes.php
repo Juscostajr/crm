@@ -5,7 +5,12 @@ header("Access-Control-Allow-Headers: *");
 
 $app->get('/associado/{id}', \App\Controller\AssociadoController::class . ':findOne');
 $app->get('/associado/pessoa/{pessoaJuridica}', \App\Controller\AssociadoController::class . ':findByPessoa');
+$app->get('/associado/status/{statusAssociado}', \App\Controller\AssociadoController::class . ':findBy');
 $app->post('/associado', App\Controller\AssociadoController::class . ':create');
+$app->get('/associado', \App\Controller\AssociadoController::class . ':findAll');
+
+$app->get('/desfiliacao/motivo', \App\Controller\MotivoDesfiliacaoController::class . ':getAll');
+$app->post('/desfiliacao', \App\Controller\DesfiliacaoController::class . ':create');
 
 $app->post('/auth', App\Controller\UsuarioController::class . ':auth');
 $app->get('/acesso/usuario/{id}', \App\Controller\UsuarioController::class . ':getAccess');
@@ -29,6 +34,7 @@ $app->get('/usuario', App\Controller\UsuarioController::class . ':findAll');
 $app->post('/usuario', App\Controller\UsuarioController::class . ':create');
 $app->get('/usuario/{login}', App\Controller\UsuarioController::class . ':findByName');
 $app->delete('/usuario/{id}', App\Controller\UsuarioController::class . ':delete');
+$app->put('/senha', \App\Controller\UsuarioController::class . ':alterOwnPass');
 
 $app->get('/operadora', App\Controller\OperadoraController::class . ':findAll');
 $app->post('/operadora', App\Controller\OperadoraController::class . ':create');
@@ -73,6 +79,7 @@ $app->post('/venda', \App\Controller\VendaController::class . ':create');
 //$app->delete('/pj/{id}', App\Controller\PessoaJuridicaController::class . ':delete');
 $app->put('/interacao', App\Controller\InteracaoController::class . ':createOrUpdate');
 $app->put('/interacao/feedback', \App\Controller\InteracaoController::class . ':registerFeedback');
+
 
 $app->post('/feedback', \App\Controller\FeedBackController::class . ':create');
 

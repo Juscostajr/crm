@@ -224,7 +224,7 @@ class Desfiliacao extends \App\Entity\Desfiliacao implements \Doctrine\ORM\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getData(): \DateTime
+    public function getData(): string
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getData', []);
@@ -235,7 +235,7 @@ class Desfiliacao extends \App\Entity\Desfiliacao implements \Doctrine\ORM\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setData(\DateTime $data)
+    public function setData(string $data)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setData', [$data]);
@@ -246,7 +246,7 @@ class Desfiliacao extends \App\Entity\Desfiliacao implements \Doctrine\ORM\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getMotivo(): \App\Entity\MotivoDesfiliacao
+    public function getMotivo(): string
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getMotivo', []);
@@ -257,7 +257,7 @@ class Desfiliacao extends \App\Entity\Desfiliacao implements \Doctrine\ORM\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setMotivo(\App\Entity\MotivoDesfiliacao $motivo)
+    public function setMotivo(string $motivo)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setMotivo', [$motivo]);

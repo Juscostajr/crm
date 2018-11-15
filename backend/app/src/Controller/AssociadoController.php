@@ -34,7 +34,7 @@ class AssociadoController {
 
             $em = $this->container->get('em');
             return $response->write(
-                $this->serializer->serialize($em->getRepository(Associado::class)->findAll(), 'json')
+                $this->serializer->serialize($em->getRepository(Associado::class)->find(), 'json')
             );
         } catch (\Exception $ex) {
             echo $ex;
@@ -69,6 +69,22 @@ class AssociadoController {
             return $response->withStatus(404);
         }
     }
+
+    public function findBy(Request $request, Response $response,array $args)
+    {
+
+        try {
+            $em = $this->container->get('em');
+            $search = $em->getRepository(Associado::class)->findBy($args);
+            if(empty($search)) throw new \OutOfBoundsException();
+            return $response->write(
+                $this->serializer->serialize($search, 'json')
+            );
+        } catch (\Exception $ex) {
+            return $response->withStatus(404);
+        }
+    }
+
     public function delete(Request $request, Response $response, $args)
     {
         try {
@@ -112,10 +128,10 @@ class AssociadoController {
             $service->update(
                 $args['id'], 
                 $params['pessoa'],
-$params['dataFiliacao'],
-$params['status'],
-$params['valorMensalidade'],
-$params['adesoes']
+                $params['dataFiliacao'],
+                $params['status'],
+                $params['valorMensalidade'],
+                $params['adesoes']
             );
 
             return $response->withStatus(200);

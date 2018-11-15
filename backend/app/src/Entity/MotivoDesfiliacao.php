@@ -1,12 +1,22 @@
 <?php
 namespace App\Entity;
-class MotivoDesfiliacao {
-    const INSATISFACAO = 'Insatisfação';
-    const FECHAMENTO = 'Fechamento da Empresa';
-    const INUTILIDADE = 'Inutilização dos Serviços';
-    const FINANCEIRO = 'Financeiro';
-    const MUDANCA = 'Mudança de Cidade';
-    const ESTRATEGICO = 'Desfiliação Estratégica';
-    const POLITICO = 'Politico';
+use App\Factory\Enum;
+
+class MotivoDesfiliacao extends Enum {
+
+    protected $values =  array(
+        'Insatisfação',
+        'Fechamento',
+        'Inutilização',
+        'Financeiro',
+        'Mudança de Cidade',
+        'Desfiliação Estratégica',
+        'Política'
+    );
+
+    public function __construct($value = null)
+    {
+        if(!is_null($value)) $this->setValue($value);
+    }
 }
 ?>

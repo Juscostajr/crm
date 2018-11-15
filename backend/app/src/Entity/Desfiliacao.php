@@ -1,102 +1,109 @@
 <?php
 
 namespace App\Entity;
+
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="desfiliacao")
  */
+class Desfiliacao
+{
 
-class Desfiliacao {
+    /** @var int
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="integer")
+     */
+    private $id;
 
-			/** @var int
-			 * @ORM\Id
-			 * @ORM\GeneratedValue(strategy="AUTO")
-			 * @ORM\Column(type="integer")
-			 */
-			private $id;
+    /**
+     * @ORM\ManyToOne(targetEntity="Associado")
+     * @ORM\JoinColumn(name="associado", referencedColumnName="id")
+     */
+    private $associado;
 
-			/** @var Associado
-			 * @ORM\ManyToOne(targetEntity="associado")
-			 * @ORM\JoinColumn(name="associado", referencedColumnName="id")
-			 */
-			private $associado;
+    /** @var \DateTime
+     * @ORM\Column(type="date")
+     */
+    private $data;
 
-			/** @var \DateTime
-			 * @ORM\Column(type="date")
-			 */
-			private $data;
+    /**
+     * @var MotivoDesfiliacao $motivo
+     * @ORM\Column(type="string")
+     *
+     */
+    private $motivo;
 
-			private $motivo;
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
 
-	/**
-	 * @return int
-	 */
-	public function getId(): int
-	{
-		return $this->id;
-	}
+    /**
+     * @param int $id
+     */
+    public function setId(int $id)
+    {
+        $this->id = $id;
+    }
 
-	/**
-	 * @param int $id
-	 */
-	public function setId(int $id)
-	{
-		$this->id = $id;
-	}
+    /**
+     * @return Associado
+     */
+    public function getAssociado(): Associado
+    {
+        return $this->associado;
+    }
 
-	/**
-	 * @return Associado
-	 */
-	public function getAssociado(): Associado
-	{
-		return $this->associado;
-	}
+    /**
+     * @param Associado $associado
+     */
+    public function setAssociado(Associado $associado)
+    {
+        $this->associado = $associado;
+    }
 
-	/**
-	 * @param Associado $associado
-	 */
-	public function setAssociado(Associado $associado)
-	{
-		$this->associado = $associado;
-	}
+    /**
+     * @return \DateTime
+     */
+    public function getData(): string
+    {
+        return $this->data->format('d/m/Y');
+    }
 
-	/**
-	 * @return \DateTime
-	 */
-	public function getData(): \DateTime
-	{
-		return $this->data;
-	}
+    /**
+     * @param \DateTime $data
+     */
+    public function setData(string $data)
+    {
+        $this->data = new \DateTime($data);
+    }
 
-	/**
-	 * @param \DateTime $data
-	 */
-	public function setData(\DateTime $data)
-	{
-		$this->data = $data;
-	}
+    /**
+     * @return MotivoDesfiliacao
+     */
+    public function getMotivo(): string
+    {
+        return $this->motivo;
+    }
 
-	/**
-	 * @return MotivoDesfiliacao
-	 */
-	public function getMotivo(): MotivoDesfiliacao
-	{
-		return $this->motivos;
-	}
+    /**
+     * @param MotivoDesfiliacao $motivo
+     */
+    public function setMotivo(MotivoDesfiliacao $motivo)
+    {
+        $this->motivo = $motivo->getValue();
+    }
 
-	/**
-	 * @param MotivoDesfiliacao $motivo
-	 */
-	public function setMotivo(MotivoDesfiliacao $motivo)
-	{
-		$this->motivo = $motivo;
-	}
-
-	public function toArray()
-	{
-		return get_object_vars($this);
-	}
+    public function toArray()
+    {
+        return get_object_vars($this);
+    }
 }
+
 ?>
