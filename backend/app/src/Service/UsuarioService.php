@@ -6,6 +6,7 @@ use App\Entity\Usuario;
 use App\Factory\DoctrineParamsMapper;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManager;
+use Psr\Log\InvalidArgumentException;
 
 class UsuarioService
 {
@@ -39,9 +40,17 @@ class UsuarioService
         $this->em->flush();
     }
 
-    public function findOne(array $id): Usuario
+    public function alterOwnPass($id, $oldPass, $newPass){
+        $usuario = $this->findOne($id);
+        if ($oldPass != $usuario->getSenha()) throw new InvalidArgumentException();
+        $usuario->setSenha($newPass);
+        $this->em->persist($usuario);
+        $this->em->flush();
+    }
+
+    public function findOne(int $id): Usuario
     {
-        $usuario = $this->em->getRepository('\App\Entity\Usuario')->findBy($id);
+        $usuario = $this->em->getRepository('\App\Entity\Usuario')->find($id);
 
         if (!$usuario) {
             throw new \Exception("Usuario not found", 404);
