@@ -8,6 +8,7 @@ use App\Service\UsuarioService;
 use Doctrine\Common\Proxy\Exception\OutOfBoundsException;
 use JMS\Serializer\SerializerBuilder;
 use Psr\Container\ContainerInterface;
+use Psr\Log\InvalidArgumentException;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -103,6 +104,23 @@ class UsuarioController
         } catch (\Exception $ex) {
             $response->write($ex);
             return $response->withStatus(500);
+        }
+    }
+
+    public function alterOwnPass(Request $request, Response $response)
+    {
+        try {
+            $params = $request->getParams();
+            $this->service->alterOwnPass(
+                $params['usuario']['id'],
+                $params['senha'],
+                $params['novaSenha']
+            );
+            return $response->withStatus(201);
+        } catch (InvalidArgumentException $ex) {
+            return $response->withStatus(403,$ex);
+        } catch (\Exception $ex) {
+            return $response->withStatus(500,$ex);
         }
     }
 

@@ -41,7 +41,7 @@ export default {
             this.$request.post('/auth', this.usuario)
                 .then(response => {
                    // this.$router.addRoutes(routes.getRoutes(response.data));
-                   localStorage.setItem('token', response.data);
+                   localStorage.setItem('token', JSON.stringify(response.data));
                     this.$emit('autorizado', response.data);
                     //document.dispatchEvent(new Event('rld'));
                 })

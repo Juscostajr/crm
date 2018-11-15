@@ -126,9 +126,14 @@ class Usuario
     /**
      * @param String $senha
      */
-    public function setSenha(String $senha)
+    public function setSenha(string $senha)
     {
         $this->senha = $senha;
+    }
+
+    public function getSenha(): string
+    {
+        return $this->senha;
     }
 
     /**

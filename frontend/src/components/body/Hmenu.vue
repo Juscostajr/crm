@@ -1,5 +1,6 @@
 <template>
     <el-row>
+        <senha :visible="senhaVisible"/>
         <el-col :lg="6" :sm="4">
             <div id="brand">
                 <img src="../../assets/teste.svg">
@@ -38,48 +39,56 @@
     </el-row>
 </template>
 <script>
+import Senha from "../register/Senha.vue";
 export default {
-    name: 'h-menu',
-    data() {
-        return {
-            user: [
-                { icon: 'lock', title: 'Trocar minha senha', action: '' },
-                { icon: 'sign-out-alt', title: 'Logout', action: 'logout' }
-            ]
-        }
-    },
-    methods: {
-        handleUserCommand(command) {
-            switch (command) {
-                case 'logout':
-                    localStorage.removeItem('token');
-                    this.$emit('logout');
-                    break;
-                default:
-                    console.log(command);
-                    break;
-            }
-        }
+  name: "h-menu",
+  data() {
+    
+    return {
+      user: [
+        { icon: "lock", title: "Trocar minha senha", action: "senha" },
+        { icon: "sign-out-alt", title: "Logout", action: "logout" }
+      ],
+      senhaVisible: false,
+      
+    };
+  },
+  methods: {
+    handleUserCommand(command) {
+      switch (command) {
+        case "logout":
+          localStorage.removeItem("token");
+          this.$emit("logout");
+          break;
+        case "senha":
+          this.senhaVisible = true;
+          break;
+        default:
+          console.log(command);
+          break;
+      }
     }
-}
+  },
+  components: { Senha }
+};
 </script>
 <style>
 .el-header {
-    background-color: #272635;
-    height: 10vh;
+  background-color: #272635;
+  height: 10vh;
 }
 
 #brand img {
-    padding: 10px 25px;
-    height: 30px;
+  padding: 10px 25px;
+  height: 30px;
 }
 
 .el-badge {
-    margin-top: 0;
-    margin-right: 20px;
+  margin-top: 0;
+  margin-right: 20px;
 }
 
 #user-button {
-    margin-top: 10px;
+  margin-top: 10px;
 }
 </style>

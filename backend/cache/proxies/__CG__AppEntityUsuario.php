@@ -279,6 +279,17 @@ class Usuario extends \App\Entity\Usuario implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
+    public function getSenha(): string
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getSenha', []);
+
+        return parent::getSenha();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getPerfils(): \App\Entity\Perfil
     {
 
