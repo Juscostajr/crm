@@ -64,10 +64,10 @@ class Pergunta extends \App\Entity\Pergunta implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Pergunta' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Pergunta' . "\0" . 'descricao', '' . "\0" . 'App\\Entity\\Pergunta' . "\0" . 'checklist'];
+            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Pergunta' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Pergunta' . "\0" . 'descricao', '' . "\0" . 'App\\Entity\\Pergunta' . "\0" . 'campanha'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Pergunta' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Pergunta' . "\0" . 'descricao', '' . "\0" . 'App\\Entity\\Pergunta' . "\0" . 'checklist'];
+        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Pergunta' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Pergunta' . "\0" . 'descricao', '' . "\0" . 'App\\Entity\\Pergunta' . "\0" . 'campanha'];
     }
 
     /**
@@ -176,28 +176,6 @@ class Pergunta extends \App\Entity\Pergunta implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getChecklist(): \App\Entity\CheckList
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getChecklist', []);
-
-        return parent::getChecklist();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setChecklist(\App\Entity\CheckList $checklist)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setChecklist', [$checklist]);
-
-        return parent::setChecklist($checklist);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function getId(): int
     {
         if ($this->__isInitialized__ === false) {
@@ -241,6 +219,28 @@ class Pergunta extends \App\Entity\Pergunta implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setDescricao', [$descricao]);
 
         return parent::setDescricao($descricao);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getCampanha(): \App\Entity\Campanha
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCampanha', []);
+
+        return parent::getCampanha();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setCampanha(\App\Entity\Campanha $campanha)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setCampanha', [$campanha]);
+
+        return parent::setCampanha($campanha);
     }
 
     /**

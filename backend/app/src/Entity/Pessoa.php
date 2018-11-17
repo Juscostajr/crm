@@ -46,8 +46,8 @@ abstract class Pessoa
     protected $email;
 
     /**
-     * @ORM\JoinColumn(name="grupos", referencedColumnName="id")
      * @ORM\ManyToMany(targetEntity="Grupo", inversedBy="membros")
+     * @ORM\JoinTable(name="pessoas_grupo")
      */
     protected $grupos;
 

@@ -12,6 +12,12 @@ $app->get('/associado', \App\Controller\AssociadoController::class . ':findAll')
 $app->get('/desfiliacao/motivo', \App\Controller\MotivoDesfiliacaoController::class . ':getAll');
 $app->post('/desfiliacao', \App\Controller\DesfiliacaoController::class . ':create');
 
+$app->post('/campanha', \App\Controller\CampanhaController::class . ':create');
+$app->put('/campanha/perguntas', \App\Controller\CampanhaController::class . ':addPerguntas');
+$app->get('/campanha', \App\Controller\CampanhaController::class . ':findAll');
+
+$app->post('/perguntapessoa', \App\Controller\PerguntaPessoaController::class . ':createOrUpdate');
+
 $app->post('/auth', App\Controller\UsuarioController::class . ':auth');
 $app->get('/acesso/usuario/{id}', \App\Controller\UsuarioController::class . ':getAccess');
 

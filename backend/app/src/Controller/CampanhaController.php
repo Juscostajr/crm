@@ -2,36 +2,40 @@
 
 namespace App\Controller;
 
+use App\Entity\Campanha;
 use App\Service\CampanhaService;
+use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
+use JMS\Serializer\Naming\SerializedNameAnnotationStrategy;
+use JMS\Serializer\SerializerBuilder;
 use Psr\Container\ContainerInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
 class CampanhaController {
 
+    private $em;
+    private $serializer;
     protected $container;
+    protected $service;
 
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
+        $this->em = $this->container->get('em');
+        $this->serializer = SerializerBuilder::create()
+            ->setPropertyNamingStrategy(new SerializedNameAnnotationStrategy(new IdenticalPropertyNamingStrategy()))
+            ->build();
+        $this->service = new CampanhaService($this->em);
     }
 
     public function findAll(Request $request, Response $response)
     {
         try {
-            $service = new CampanhaService($this->container->get('em'));
-
-            $campanhas = $service->findAll();
-
-            $campanhas = array_map(
-                function ($photo) {
-                    return $photo->toArray();
-                },
-                $campanhas
+            return $response->write(
+                $this->serializer->serialize($this->em->getRepository(Campanha::class)->findAll(), 'json')
             );
-
-            return $response->withJSON($campanhas);
         } catch (\Exception $ex) {
+            echo $ex;
             return $response->withStatus(404);
         }
     }
@@ -69,17 +73,34 @@ class CampanhaController {
 
             $params = $request->getParams();
             $service->create(
-                $params['target'],
-$params['feedback'],
-$params['nome'],
-$params['descricao'],
-$params['inicio'],
-$params['final']
+                $params['servico']['id'],
+                $params['target']['id'],
+                $params['nome'],
+                $params['descricao'],
+                $params['inicio'],
+                $params['final']
             );
 
             return $response->withStatus(201);
         } catch (\Exception $ex) {
             return $response->withStatus(500);
+        }
+    }
+
+    public function addPerguntas(Request $request, Response $response)
+    {
+        try {
+            $service = new CampanhaService($this->container->get('em'));
+
+            $params = $request->getParams();
+            $service->addPerguntas(
+                $params['id'],
+                $params['perguntas']
+            );
+
+            return $response->withStatus(201);
+        } catch (\Exception $ex) {
+            return $response->withStatus(500, $ex);
         }
     }
 

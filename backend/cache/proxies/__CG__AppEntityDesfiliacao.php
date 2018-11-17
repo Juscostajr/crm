@@ -257,7 +257,7 @@ class Desfiliacao extends \App\Entity\Desfiliacao implements \Doctrine\ORM\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setMotivo(string $motivo)
+    public function setMotivo(\App\Entity\MotivoDesfiliacao $motivo)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setMotivo', [$motivo]);

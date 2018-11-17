@@ -67,17 +67,16 @@ class GrupoController
     public function create(Request $request, Response $response)
     {
         try {
+            $params = $request->getParams();
             $this->service->create(
-                new DoctrineParamsMapper(
-                    Grupo::class,
-                    $request->getParams(),
-                    $this->em
-                )
+                $params['tipo'],
+                $params['descricao'],
+                $params['membros']
             );
 
             return $response->withStatus(201);
         } catch (\Exception $ex) {
-            return $response->withStatus(500);
+            return $response->withStatus(500,$ex);
         }
     }
 

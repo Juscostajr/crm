@@ -2,8 +2,11 @@
 
 namespace App\Service;
 
+use App\Entity\Pergunta;
+use App\Entity\Pessoa;
 use Doctrine\ORM\EntityManager;
 use App\Entity\PerguntaPessoa;
+use Doctrine\ORM\NoResultException;
 
 class PerguntaPessoaService {
 
@@ -28,12 +31,13 @@ class PerguntaPessoaService {
         return $perguntaPessoas;
     }
 
-    public function findOne(int $id): PerguntaPessoa
+    public function findOne(int $idPergunta, int $idPessoa): PerguntaPessoa
     {
-        $perguntaPessoa = $this->em->getRepository('\App\Entity\PerguntaPessoa')->find($id);
+
+        $perguntaPessoa = $this->em->getRepository('\App\Entity\PerguntaPessoa')->findOneBy(['pessoa'=>$idPessoa, 'pergunta'=>$idPergunta]);
 
         if (!$perguntaPessoa) {
-            throw new \Exception("PerguntaPessoa not found", 404);
+            throw new NoResultException();
         }
 
         return $perguntaPessoa;
@@ -47,17 +51,26 @@ class PerguntaPessoaService {
         $this->em->flush();
     }
 
-    public function create($pessoa, $pergunta, $resposta, $data)
+    public function createOrUpdate($pessoa, $pergunta, $resposta, $data)
     {
-        $perguntaPessoa = new PerguntaPessoa();
-        $perguntaPessoa->setPessoa( $pessoa);
-$perguntaPessoa->setPergunta( $pergunta);
-$perguntaPessoa->setResposta( $resposta);
-$perguntaPessoa->setData( $data);
+        try
+        {
+            $perguntaPessoa = $this->findOne($pergunta,$pessoa);
+        }
+        catch (NoResultException $ex)
+        {
+            $perguntaPessoa = new PerguntaPessoa();
+            $perguntaPessoa->setPessoa($this->em->getReference(Pessoa::class, $pessoa));
+            $perguntaPessoa->setPergunta($this->em->getReference(Pergunta::class,$pergunta));
+        }
+        finally
+        {
+            $perguntaPessoa->setResposta($resposta);
+            $perguntaPessoa->setData($data);
 
-
-        $this->em->persist($perguntaPessoa);
-        $this->em->flush();
+            $this->em->persist($perguntaPessoa);
+            $this->em->flush();
+        }
     }
 
     public function update(int $id, $pessoa, $pergunta, $resposta, $data)

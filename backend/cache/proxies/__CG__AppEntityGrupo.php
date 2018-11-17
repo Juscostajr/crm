@@ -246,7 +246,7 @@ class Grupo extends \App\Entity\Grupo implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getMembros(): \App\Entity\Pessoa
+    public function getMembros(): array
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getMembros', []);

@@ -268,7 +268,7 @@ class PerguntaPessoa extends \App\Entity\PerguntaPessoa implements \Doctrine\ORM
     /**
      * {@inheritDoc}
      */
-    public function getData(): \DateTime
+    public function getData(): string
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getData', []);
@@ -279,7 +279,7 @@ class PerguntaPessoa extends \App\Entity\PerguntaPessoa implements \Doctrine\ORM
     /**
      * {@inheritDoc}
      */
-    public function setData(\DateTime $data)
+    public function setData(string $data)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setData', [$data]);

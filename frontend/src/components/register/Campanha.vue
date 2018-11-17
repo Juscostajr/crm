@@ -8,10 +8,10 @@
           <el-input v-model="form.descricao"></el-input>
       </el-form-item>
       <el-form-item label="Target">
-          <el-input v-model="form.target"></el-input>
+        <remote-select data-source='grupo' id='id' label='descricao' :model.sync='form.target'></remote-select>
       </el-form-item>
       <el-form-item label="Serviço">
-          <el-input v-model="form.servico"></el-input>
+          <remote-select data-source='servico' id='id' label='descricao' :model.sync='form.servico'></remote-select>
       </el-form-item>
       <el-form-item label="Início">
           <el-date-picker v-model="form.inicio" format="dd/MM/yyyy"/>
@@ -20,9 +20,15 @@
           <el-date-picker v-model="form.final" format="dd/MM/yyyy"></el-date-picker>
       </el-form-item>
     </el-form>
+    <div slot="footer">
+      <el-button @click="dialogVisible = false">Cancelar</el-button>
+      <el-button type="success" @click="save">Salvar</el-button>
+      {{this.usuario}}
+    </div>
 </el-dialog>    
 </template>
 <script>
+import RemoteSelect from '../RemoteSelect.vue'
 export default {
   props: {
     visible: Boolean,
@@ -36,7 +42,6 @@ export default {
       form: {
         target: {},
         servico: {},
-        feedback: {},
         nome: '',
         descricao: '',
         inicio: '',
@@ -61,13 +66,12 @@ export default {
   },
   methods: {
     save() {
-      this.form.interacao = this.data.id;
       this.$request
-        .put("interacao/feedback", this.form)
+        .post("campanha", this.form)
         .then(response => {
           this.$notify({
             title: "Sucesso!",
-            message: "Feedback registrado!",
+            message: "Campanha cadastrada!",
             type: "success"
           });
         })
@@ -88,6 +92,9 @@ export default {
           this.dialogVisible = false;
         });
     }
+  },
+  components: {
+    RemoteSelect
   }
 };
 </script>

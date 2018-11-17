@@ -13,6 +13,8 @@ import Moment from "vue-moment";
 import {routes} from "./routes";
 import store from "./store";
 
+
+
 Vue.use(Router);
 Vue.use(ElementUI, { locale });
 Vue.use(VInputmask);

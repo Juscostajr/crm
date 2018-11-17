@@ -64,10 +64,10 @@ class Campanha extends \App\Entity\Campanha implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Campanha' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Campanha' . "\0" . 'target', '' . "\0" . 'App\\Entity\\Campanha' . "\0" . 'feedback', '' . "\0" . 'App\\Entity\\Campanha' . "\0" . 'nome', '' . "\0" . 'App\\Entity\\Campanha' . "\0" . 'descricao', '' . "\0" . 'App\\Entity\\Campanha' . "\0" . 'inicio', '' . "\0" . 'App\\Entity\\Campanha' . "\0" . 'final'];
+            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Campanha' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Campanha' . "\0" . 'target', '' . "\0" . 'App\\Entity\\Campanha' . "\0" . 'servico', '' . "\0" . 'App\\Entity\\Campanha' . "\0" . 'feedback', '' . "\0" . 'App\\Entity\\Campanha' . "\0" . 'nome', '' . "\0" . 'App\\Entity\\Campanha' . "\0" . 'descricao', '' . "\0" . 'App\\Entity\\Campanha' . "\0" . 'inicio', '' . "\0" . 'App\\Entity\\Campanha' . "\0" . 'final', '' . "\0" . 'App\\Entity\\Campanha' . "\0" . 'perguntas'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Campanha' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Campanha' . "\0" . 'target', '' . "\0" . 'App\\Entity\\Campanha' . "\0" . 'feedback', '' . "\0" . 'App\\Entity\\Campanha' . "\0" . 'nome', '' . "\0" . 'App\\Entity\\Campanha' . "\0" . 'descricao', '' . "\0" . 'App\\Entity\\Campanha' . "\0" . 'inicio', '' . "\0" . 'App\\Entity\\Campanha' . "\0" . 'final'];
+        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Campanha' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Campanha' . "\0" . 'target', '' . "\0" . 'App\\Entity\\Campanha' . "\0" . 'servico', '' . "\0" . 'App\\Entity\\Campanha' . "\0" . 'feedback', '' . "\0" . 'App\\Entity\\Campanha' . "\0" . 'nome', '' . "\0" . 'App\\Entity\\Campanha' . "\0" . 'descricao', '' . "\0" . 'App\\Entity\\Campanha' . "\0" . 'inicio', '' . "\0" . 'App\\Entity\\Campanha' . "\0" . 'final', '' . "\0" . 'App\\Entity\\Campanha' . "\0" . 'perguntas'];
     }
 
     /**
@@ -246,6 +246,28 @@ class Campanha extends \App\Entity\Campanha implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
+    public function getServico(): \App\Entity\Servico
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getServico', []);
+
+        return parent::getServico();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setServico(\App\Entity\Servico $servico)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setServico', [$servico]);
+
+        return parent::setServico($servico);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getNome(): string
     {
 
@@ -290,7 +312,7 @@ class Campanha extends \App\Entity\Campanha implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getInicio(): \DateTime
+    public function getInicio(): string
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getInicio', []);
@@ -301,7 +323,7 @@ class Campanha extends \App\Entity\Campanha implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setInicio(\DateTime $inicio)
+    public function setInicio(string $inicio)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setInicio', [$inicio]);
@@ -312,7 +334,7 @@ class Campanha extends \App\Entity\Campanha implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getFinal(): \DateTime
+    public function getFinal(): string
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getFinal', []);
@@ -323,12 +345,34 @@ class Campanha extends \App\Entity\Campanha implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setFinal(\DateTime $final)
+    public function setFinal(string $final)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setFinal', [$final]);
 
         return parent::setFinal($final);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function addPergunta(\App\Entity\Pergunta $pergunta)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addPergunta', [$pergunta]);
+
+        return parent::addPergunta($pergunta);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getPergunta(): array
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getPergunta', []);
+
+        return parent::getPergunta();
     }
 
     /**

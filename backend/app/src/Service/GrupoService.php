@@ -2,6 +2,8 @@
 
 namespace App\Service;
 
+use App\Entity\Pessoa;
+use App\Entity\TipoGrupo;
 use App\Factory\DoctrineParamsMapper;
 use Doctrine\ORM\EntityManager;
 use App\Entity\Grupo;
@@ -48,9 +50,16 @@ class GrupoService {
         $this->em->flush();
     }
 
-    public function create(DoctrineParamsMapper $grupo)
+    public function create($tipo, $descricao, $membros)
     {
-        $this->em->persist($grupo->map());
+        $grupo = new Grupo();
+        $grupo->setTipo($this->em->getReference(TipoGrupo::class,$tipo['id']));
+        $grupo->setDescricao($descricao);
+        foreach ($membros as $membro) {
+            $grupo->addMembro($this->em->getReference(Pessoa::class,$membro));
+        }
+
+        $this->em->persist($grupo);
         $this->em->flush();
     }
 

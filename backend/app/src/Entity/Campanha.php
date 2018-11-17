@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -10,6 +11,14 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Campanha
 {
+
+    /**
+     * Campanha constructor.
+     */
+    public function __construct()
+    {
+        $this->perguntas = new ArrayCollection();
+    }
 
     /** @var int
      * @ORM\Id
@@ -55,6 +64,12 @@ class Campanha
      * @ORM\Column(type="date")
      */
     private $final;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Pergunta", mappedBy="campanha", cascade={"persist","remove"})
+     */
+    private $perguntas;
+
 
     /**
      * @return int
@@ -112,7 +127,7 @@ class Campanha
         return $this->servico;
     }
 
-  
+
     public function setServico(Servico $servico)
     {
         $this->servico = $servico;
@@ -153,33 +168,42 @@ class Campanha
     /**
      * @return \DateTime
      */
-    public function getInicio(): \DateTime
+    public function getInicio(): string
     {
-        return $this->inicio;
+        return $this->inicio->format('d/m/Y');
     }
 
     /**
      * @param \DateTime $inicio
      */
-    public function setInicio(\DateTime $inicio)
+    public function setInicio(string $inicio)
     {
-        $this->inicio = $inicio;
+        $this->inicio = new \DateTime($inicio);
     }
 
     /**
      * @return \DateTime
      */
-    public function getFinal(): \DateTime
+    public function getFinal(): string
     {
-        return $this->final;
+        return $this->final->format('d/m/Y');
     }
 
     /**
      * @param \DateTime $final
      */
-    public function setFinal(\DateTime $final)
+    public function setFinal(string $final)
     {
-        $this->final = $final;
+        $this->final = new \DateTime($final);
+    }
+
+    public function addPergunta(Pergunta $pergunta){
+        $this->perguntas->add($pergunta);
+    }
+
+    public function getPergunta(): array
+    {
+        return $this->perguntas->toArray();
     }
 
     public function toArray()

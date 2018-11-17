@@ -30,8 +30,7 @@ class Grupo {
 			 */
 			private $descricao;
 		
-			/** @var Pessoa
-			 * @ORM\JoinColumn(name="membros", referencedColumnName="id")
+			/**
 			 * @ORM\ManyToMany(targetEntity="Pessoa",mappedBy="grupos")
 			 */
 			private $membros;
@@ -80,7 +79,7 @@ class Grupo {
 	/**
 	 * @return String
 	 */
-	public function getDescricao(): String
+	public function getDescricao(): string
 	{
 		return $this->descricao;
 	}
@@ -88,7 +87,7 @@ class Grupo {
 	/**
 	 * @param String $descricao
 	 */
-	public function setDescricao(String $descricao)
+	public function setDescricao(string $descricao)
 	{
 		$this->descricao = $descricao;
 	}
@@ -96,9 +95,9 @@ class Grupo {
 	/**
 	 * @return Pessoa
 	 */
-	public function getMembros(): Pessoa
+	public function getMembros(): array
 	{
-		return $this->membros;
+		return $this->membros->toArray();
 	}
 
 	/**
@@ -106,7 +105,8 @@ class Grupo {
 	 */
 	public function addMembro(Pessoa $membro)
 	{
-		$this->membros->add($membro);
+		$membro->addGrupos($this);
+	    $this->membros->add($membro);
 	}
 
 	public function toArray()

@@ -23,26 +23,10 @@ class Pergunta
     private $descricao;
 
     /**
-     * @ORM\JoinColumn(name="checklist", referencedColumnName="id")
-     * @ORM\ManyToOne(targetEntity="CheckList", inversedBy="perguntas")
+     * @ORM\ManyToOne(targetEntity="Campanha", inversedBy="perguntas", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="campanha", referencedColumnName="id")
      */
-    private $checklist;
-
-    /**
-     * @return CheckList
-     */
-    public function getChecklist(): CheckList
-    {
-        return $this->checklist;
-    }
-
-    /**
-     * @param CheckList $checklist
-     */
-    public function setChecklist(CheckList $checklist)
-    {
-        $this->checklist = $checklist;
-    }
+    private $campanha;
 
     /**
      * @return int
@@ -75,6 +59,24 @@ class Pergunta
     {
         $this->descricao = $descricao;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getCampanha(): Campanha
+    {
+        return $this->campanha;
+    }
+
+    /**
+     * @param mixed $campanha
+     */
+    public function setCampanha(Campanha $campanha)
+    {
+        $this->campanha = $campanha;
+    }
+
+
 
     public function toArray()
     {

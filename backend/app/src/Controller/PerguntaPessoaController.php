@@ -62,17 +62,17 @@ class PerguntaPessoaController {
         }
     }
 
-    public function create(Request $request, Response $response)
+    public function createOrUpdate(Request $request, Response $response)
     {
         try {
             $service = new PerguntaPessoaService($this->container->get('em'));
 
             $params = $request->getParams();
-            $service->create(
-                $params['pessoa'],
-$params['pergunta'],
-$params['resposta'],
-$params['data']
+            $service->createOrUpdate(
+                $params['pessoa']['id'],
+                $params['pergunta']['id'],
+                $params['resposta'],
+                $params['data']
             );
 
             return $response->withStatus(201);

@@ -5,65 +5,41 @@
       <el-card header="Campanhas">
           <el-table
     ref="singleTable"
-    :data="tableData"
+    :data="campanhas"
     highlight-current-row
     @current-change="handleCurrentChange"
     style="width: 100%">
-    <el-table-column
-      type="index"
-      width="50">
+    <el-table-column type="index" width="50"/>
+    <el-table-column property="nome" label="Nome"/>
+    <el-table-column property="descricao" label="Descrição" />
+    <el-table-column label="Inicio">
+      <template slot-scope="scope">
+        {{ scope.row.inicio | moment('DD/MM/YYYY') }}
+      </template>
     </el-table-column>
-    <el-table-column
-      property="date"
-      label="Inicio"
-      width="120">
-    </el-table-column>
-    <el-table-column
-      property="name"
-      label="Término"
-      width="120">
-    </el-table-column>
-    <el-table-column
-      property="address"
-      label="Nome">
+    <el-table-column label="Termino">
+      <template slot-scope="scope">
+        {{scope.row.final | moment('DD/MM/YYYY')}}
+      </template>
     </el-table-column>
   </el-table>
   <el-button type="success" icon="el-icon-plus" @click="campanhaRegisterVisible = true">Nova Campanha</el-button>
   <campanha :visible.sync="campanhaRegisterVisible"></campanha>
       </el-card>
       <p v-if="currentRow === null">Selecione uma campanha</p>
-        <el-tabs v-model="activeName" v-if="currentRow !== null">
+        <el-tabs  v-if="currentRow !== null">
     <el-tab-pane label="Parâmetros" name="first">
         <el-row :gutter="15">
           <el-col :span="14">
               <el-card header="Checklists">
-              <el-table
-    ref="singleTable"
-    :data="tableData"
-    highlight-current-row
-    @current-change="handleCurrentChange"
-    style="width: 100%">
-    <el-table-column
-      type="index"
-      width="50">
-    </el-table-column>
-    <el-table-column
-      property="date"
-      label="Inicio"
-      width="120">
-    </el-table-column>
-    <el-table-column
-      property="name"
-      label="Término"
-      width="120">
-    </el-table-column>
-    <el-table-column
-      property="address"
-      label="Nome">
-    </el-table-column>
+              <el-table :data="currentRow.perguntas" style="width: 100%">
+    <el-table-column type="index"/>
+    <el-table-column property="descricao" label="Inicio"/>
   </el-table>
-  <el-button type="success" icon="el-icon-edit"></el-button>
-  <el-button type="warning">Listar</el-button>
+  <el-button type="success" icon="el-icon-edit" @click="perguntasCampanhaVisible = true"></el-button>
+  <el-button type="warning" @click="listaCampanhaVisible = true">Listar</el-button>
+  <perguntas-campanha :visible.sync="perguntasCampanhaVisible" :data="this.currentRow"/>
+  <lista-campanha :visible.sync="listaCampanhaVisible" :data="this.currentRow"/>
   </el-card>
           </el-col>
           <el-col :span="6">
@@ -72,33 +48,34 @@
                   <h1><icon name="bullseye"/></h1>
                   <hr/>
                   <h5>Serviço</h5>
-                  <h3>Certificado Digital</h3>
+                  <h3>{{this.currentRow.servico.descricao}}</h3>
                   <br/>
                   <hr/>
                   <h5>Grupo</h5>
-                  <h3>Contadores</h3>
+                  <h3>{{this.currentRow.target.descricao}}</h3>
               </el-card>
           </el-col>
           <el-col :span="4">
               <el-row>
                 <el-col :span="24"><el-card :body-style="{'background-color': '#67c23a'}" class="data-campanha">
                     <h5>Inicio</h5>
-                    <h1>24</h1>
-                    <h3>Out 2018</h3>
+                    <h1>{{this.currentRow.inicio | moment('DD')}}</h1>
+                    <h3>{{this.currentRow.inicio | moment('MMM YYYY')}}</h3>
                     </el-card></el-col>
               </el-row>
               <el-row>
                 <el-col :span="24">
                     <el-card :body-style="{'background-color': '#f56c6c'}" class="data-campanha">
                         <h5>Termino</h5>
-                        <h1>22</h1>
-                        <h3>Nov 2018</h3>
+                    <h1>{{this.currentRow.final | moment('DD')}}</h1>
+                    <h3>{{this.currentRow.final | moment('MMM YYYY')}}</h3>
                     </el-card>
                 </el-col>
               </el-row>
               
           </el-col>
         </el-row>
+        
     </el-tab-pane>
     <el-tab-pane label="Resultados" name="second">Resultados</el-tab-pane>
   </el-tabs>
@@ -110,35 +87,18 @@
     
 </template>
 <script>
-import Campanha from '../components/register/Campanha.vue';
+import Campanha from "../components/register/Campanha.vue";
+import PerguntasCampanha from "../components/register/PerguntasCampanha.vue";
+import ListaCampanha from "../components/register/ListaCampanha.vue";
 export default {
   data() {
     return {
       title: "Campanha",
-      tableData: [
-        {
-          date: "2016-05-03",
-          name: "Tom",
-          address: "No. 189, Grove St, Los Angeles"
-        },
-        {
-          date: "2016-05-02",
-          name: "Tom",
-          address: "No. 189, Grove St, Los Angeles"
-        },
-        {
-          date: "2016-05-04",
-          name: "Tom",
-          address: "No. 189, Grove St, Los Angeles"
-        },
-        {
-          date: "2016-05-01",
-          name: "Tom",
-          address: "No. 189, Grove St, Los Angeles"
-        }
-      ],
       currentRow: null,
       campanhaRegisterVisible: false,
+      perguntasCampanhaVisible: false,
+      listaCampanhaVisible: false,
+      campanhas: []
     };
   },
   methods: {
@@ -149,7 +109,29 @@ export default {
       this.currentRow = val;
     }
   },
-  components: {Campanha}
+  components: { Campanha, PerguntasCampanha, ListaCampanha },
+  mounted() {
+    this.$request.get("campanha").then(response => {
+      this.campanhas = response.data;
+    });
+
+    this.$moment.updateLocale("en", {
+      monthsShort: [
+        "Jan",
+        "Fev",
+        "Mar",
+        "Abr",
+        "Mai",
+        "Jun",
+        "Jul",
+        "Ago",
+        "Set",
+        "Out",
+        "Nov",
+        "Dez"
+      ]
+    });
+  }
 };
 </script>
 <style scoped>

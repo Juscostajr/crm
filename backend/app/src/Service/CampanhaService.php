@@ -2,6 +2,10 @@
 namespace App\Service;
 
 use App\Entity\Campanha;
+use App\Entity\Grupo;
+use App\Entity\Pergunta;
+use App\Entity\Pessoa;
+use App\Entity\Servico;
 use Doctrine\ORM\EntityManager;
 
 class CampanhaService
@@ -42,20 +46,34 @@ class CampanhaService
         return $campanha;
     }
 
-    public function create($target, $feedback, $nome, $descricao, $inicio, $final, $usuario, $pessoa)
+    public function create($servico, $target, $nome, $descricao, $inicio, $final)
     {
         $campanha = new Campanha();
-        $campanha->setTarget($target);
-        $campanha->setFeedback($feedback);
+        $campanha->setServico($this->em->getReference(Servico::class,$servico));
+        $campanha->setTarget($this->em->getReference(Grupo::class,$target));
         $campanha->setNome($nome);
         $campanha->setDescricao($descricao);
         $campanha->setInicio($inicio);
         $campanha->setFinal($final);
-        $campanha->setUsuario($usuario);
-        $campanha->setPessoa($pessoa);
         $this->em->persist($campanha);
         $this->em->flush();
     }
+
+    public function addPerguntas($id, $perguntas)
+    {
+        $campanha = $this->findOne($id);
+
+        foreach ($perguntas as $pergunta){
+            $objPergunta = new Pergunta();
+            $objPergunta->setDescricao($pergunta['descricao']);
+            $objPergunta->setCampanha($campanha);
+            $campanha->addPergunta($objPergunta);
+        }
+        $this->em->persist($campanha);
+        $this->em->flush();
+    }
+
+
 
     public function update(int $id, $target, $feedback, $nome, $descricao, $inicio, $final, $usuario, $pessoa)
     {
