@@ -5,30 +5,132 @@
             <div slot="header" class="clearfix">
                 Cobertura
             </div>
-            <mapa :coordenadas="coordenadas" type="heatmap"></mapa>
+                <!--
+                <mapa :coordenadas="coordenadas" type="heatmap"></mapa>
+                -->
         </el-card>
+        <el-row :gutter="15">
+          <el-col :span="12">
+              <el-card header="Empresas não associadas">
+                  <el-table :data="naoAssociados">
+                    <el-table-column label="Bairro" prop="bairro"/>
+                    <el-table-column label="Logradouro" prop="logradouro"/>
+                    <el-table-column label="Número" prop="nrImovel"/>
+                    <el-table-column label="Empresa" prop="nomeFantasia"/>
+                  </el-table>
+              </el-card>
+          </el-col>
+          <el-col :span="12">
+              <el-card header="Relatório">
+                  <label>Bairro</label>
+                      <el-select v-model="bairro" placeholder="">
+                    <el-option v-for="(item, index) in bairros" :key="index" :value="item"/>
+                  </el-select>
+                    <label>Logradouro</label>
+                      <el-select v-model="logradouro" placeholder="">
+                    <el-option v-for="(item, index) in logradouros" :key="index" :value="item"/>
+                  </el-select>
+                        <div class="bottom clearfix">
+          <el-button type="default" icon="el-icon-printer" @click="renderReport">Gerar Relatório</el-button>
+        </div>
+              </el-card>
+          </el-col>
+        </el-row>
     </div>
 </template>
 <script>
-    import Mapa from '../components/Mapa.vue';
-    export default {
-        data () {
-            return {
-                msg: 'Pré-Venda',
-                coordenadas: [
-                    {latitude: -24.04086982060015, longitude: -52.377187129732874},
-                    {latitude: -24.041173563330954, longitude: -52.37754118132284},
-                    {latitude: -24.04135972787545, longitude: -52.37784158873251},
-                    {latitude: -24.04154589215009, longitude: -52.3780561654537},
-                    {latitude: -24.041683065653473, longitude: -52.3780561654541},
-                    {latitude: -24.04191821988987, longitude: -52.37863352260092},
-                    {latitude: -24.04236893097285, longitude: -52.37912704905966},
-                    {latitude: -24.042800044441783, longitude: -52.37976877922324},
-                ]
-            }
-        },
-        components: {Mapa},
-        methods: {},
+import jsPDF from "jspdf";
+require("jspdf-autotable");
+import Mapa from "../components/Mapa.vue";
+export default {
+  data() {
+    return {
+      msg: "Pré-Venda",
+      coordenadas: [],
+      naoAssociados: [],
+      bairro: "",
+      logradouro: "",
+      bairros: [],
+      logradouros: []
+    };
+  },
+  components: { Mapa },
+  methods: {
+    filterUnique(data, field) {
+      return data
+        .map(empresa => empresa[field])
+        .filter((value, index, self) => {
+          return self.indexOf(value) === index;
+        });
+    },
+    filterReport() {
+      if (this.logradouro != "") {
+        return this.naoAssociados.filter(
+          obj => obj.logradouro == this.logradouro
+        );
+      }
+
+      if (this.bairro != "") {
+        return this.naoAssociados.filter(obj => obj.bairro == this.bairro);
+      }
+
+      return this.naoAssociados;
+    },
+    renderReport() {
+      var columns = [
+        { title: "Empresa", dataKey: "nomeFantasia" },
+        { title: "Bairro", dataKey: "bairro" },
+        { title: "Logradouro", dataKey: "logradouro" },
+        { title: "Número", dataKey: "nrImovel" }
+      ];
+      var rows = this.filterReport();
+
+      // Only pt supported (not mm or in)
+      var doc = new jsPDF("p", "pt");
+      doc.autoTable(columns, rows,{
+          margin: {top: 80},
+            addPageContent: function(data) {
+        doc.text("(Logo) Nome da Empresa", 40, 30);
+        doc.setFontSize(12);
+        doc.text("Guia para visitação", 40, 50);
+        }
+      });
+      doc.save("report.pdf");
     }
+  },
+  mounted() {
+    this.$request.get("naoassociado").then(response => {
+      this.naoAssociados = response.data;
+      this.bairros = this.filterUnique(response.data, "bairro");
+      this.logradouros = this.filterUnique(response.data, "logradouro");
+      this.coordenadas = response.data.map(obj => {
+        return {
+          latitude: parseFloat(obj.latitude),
+          longitude: parseFloat(obj.longitude)
+        };
+      });
+    });
+  }
+};
 </script>
-<style></style>
+<style scoped>
+.bottom {
+  margin-top: 13px;
+  line-height: 12px;
+}
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+}
+
+.clearfix:after {
+  clear: both;
+}
+.el-card .el-button {
+  float: right;
+}
+.el-card {
+    margin-bottom: 15px;
+}
+</style>

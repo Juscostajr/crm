@@ -64,10 +64,10 @@ class Associado extends \App\Entity\Associado implements \Doctrine\ORM\Proxy\Pro
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'pessoaJuridica', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'dataFiliacao', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'statusAssociado', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'valorMensalidade', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'adesoes'];
+            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'pessoaJuridica', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'dataFiliacao', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'statusAssociado', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'interacaos', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'valorMensalidade', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'adesoes'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'pessoaJuridica', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'dataFiliacao', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'statusAssociado', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'valorMensalidade', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'adesoes'];
+        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'pessoaJuridica', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'dataFiliacao', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'statusAssociado', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'interacaos', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'valorMensalidade', '' . "\0" . 'App\\Entity\\Associado' . "\0" . 'adesoes'];
     }
 
     /**
@@ -329,6 +329,28 @@ class Associado extends \App\Entity\Associado implements \Doctrine\ORM\Proxy\Pro
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'addAdesoes', [$adesao]);
 
         return parent::addAdesoes($adesao);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getInteracaos(): array
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getInteracaos', []);
+
+        return parent::getInteracaos();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function addInteracaos(\App\Entity\Interacao $interacao)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addInteracaos', [$interacao]);
+
+        return parent::addInteracaos($interacao);
     }
 
     /**

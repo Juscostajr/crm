@@ -54,6 +54,13 @@ class VendaController {
         }
     }
 
+    public function findNaoAssociado(Request $request, Response $response){
+        try{
+            return $response->withJson($this->service->findNaoAssociados());
+        } catch (\Exception $ex){
+            return $response->withStatus(404,$ex);
+        }
+    }
     public function delete(Request $request, Response $response, $args)
     {
         try {

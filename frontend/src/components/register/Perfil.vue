@@ -8,15 +8,15 @@
                 <br/>
                 <el-row v-for="(acesso, index) in form.acessos" :key="index" :gutter="15" >
                     <el-col :span="8">
-                        <el-select v-model="form.acessos[index].entidade" filterable placeholder="Selecione um acesso">
+                        <el-select v-model="form.acessos[index].rota" filterable placeholder="Selecione um acesso">
                             <el-option v-for="(item,index) in listaAcessos" :key="index" :label="item" :value="item"></el-option>
                         </el-select>
                     </el-col>
                     <el-col :span="12">
-                        <el-checkbox v-model="form.acessos[index].ler" label="Leitura" border></el-checkbox>
-                        <el-checkbox v-model="form.acessos[index].gravar" label="Gravação" border></el-checkbox>
-                        <el-checkbox v-model="form.acessos[index].modificar" label="Alteração" border></el-checkbox>
-                        <el-checkbox v-model="form.acessos[index].excluir" label="Exclusão" border></el-checkbox>
+                        <el-checkbox v-model="form.acessos[index].GET" label="Leitura" border></el-checkbox>
+                        <el-checkbox v-model="form.acessos[index].POST" label="Gravação" border></el-checkbox>
+                        <el-checkbox v-model="form.acessos[index].PUT" label="Alteração" border></el-checkbox>
+                        <el-checkbox v-model="form.acessos[index].DELETE" label="Exclusão" border></el-checkbox>
                     </el-col>
                     <el-col :span="4">
                         <el-button-group>
@@ -43,11 +43,11 @@ export default {
             form: {
                 descricao: '',
                 acessos: [{
-                    entidade: '',
-                    ler: false,
-                    gravar: false,
-                    modificar: false,
-                    excluir: false,
+                    rota: '',
+                    GET: false,
+                    POST: false,
+                    PUT: false,
+                    DELETE: false,
                 }],
             },
             dialogFormVisible: true,
@@ -65,6 +65,7 @@ export default {
         },
         datamodel() {
             if (this.datamodel == null) return this.clearForm();
+            console.log(this.datamodel);
             this.form = this.datamodel;
         }
     },
@@ -103,11 +104,11 @@ export default {
         },
         addAcesso(){
             this.form.acessos.push({
-                entidade: '',
-                ler: false,
-                gravar: false,
-                modificar: false,
-                excluir: false,
+                rota: '',
+                GET: false,
+                POST: false,
+                PUT: false,
+                DELETE: false,
             });
         },
         removeAcesso(item){

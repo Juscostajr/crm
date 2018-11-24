@@ -21,27 +21,27 @@ class Acesso {
      * @var string
      * @ORM\Column(type="string")
      */
-    private $entidade;
+    private $rota;
     /**
      * @var bool
      * @ORM\Column(type="boolean")
      */
-    private $ler;
+    private $GET;
     /**
      * @var bool
      * @ORM\Column(type="boolean")
      */
-    private $gravar;
+    private $POST;
     /**
      * @var bool
      * @ORM\Column(type="boolean")
      */
-    private $modificar;
+    private $PUT;
     /**
      * @var bool
      * @ORM\Column(type="boolean")
      */
-    private $excluir;
+    private $DELETE;
 
     /**
      * @return int
@@ -62,81 +62,81 @@ class Acesso {
     /**
      * @return string
      */
-    public function getEntidade(): string
+    public function getRota(): string
     {
-        return $this->entidade;
+        return $this->rota;
     }
 
     /**
      * @param string $entidade
      */
-    public function setEntidade(string $entidade)
+    public function setRota(string $rota)
     {
-        $this->entidade = $entidade;
+        $this->rota = $rota;
     }
 
     /**
      * @return bool
      */
-    public function isLer(): bool
+    public function isGet(): bool
     {
-        return $this->ler;
+        return $this->GET;
     }
 
     /**
      * @param bool $ler
      */
-    public function setLer(bool $ler)
+    public function setGet(bool $GET)
     {
-        $this->ler = $ler;
+        $this->GET = $GET;
     }
 
     /**
      * @return bool
      */
-    public function isGravar(): bool
+    public function isPost(): bool
     {
-        return $this->gravar;
+        return $this->POST;
     }
 
     /**
      * @param bool $gravar
      */
-    public function setGravar(bool $gravar)
+    public function setPosta(bool $POST)
     {
-        $this->gravar = $gravar;
+        $this->POST = $POST;
     }
 
     /**
      * @return bool
      */
-    public function isModificar(): bool
+    public function isPut(): bool
     {
-        return $this->modificar;
+        return $this->PUT;
     }
 
     /**
      * @param bool $modificar
      */
-    public function setModificar(bool $modificar)
+    public function setPut(bool $PUT)
     {
-        $this->modificar = $modificar;
+        $this->PUT = $PUT;
     }
 
     /**
      * @return bool
      */
-    public function isExcluir(): bool
+    public function isDelete(): bool
     {
-        return $this->excluir;
+        return $this->DELETE;
     }
 
     /**
      * @param bool $excluir
      */
-    public function setExcluir(bool $excluir)
+    public function setDelete(bool $DELETE)
     {
-        $this->excluir = $excluir;
+        $this->DELETE = $DELETE;
     }
 
     public function toArray()

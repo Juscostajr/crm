@@ -75,16 +75,14 @@ class UsuarioService
         /**
          * @var Connection
          */
-        $stmt = $this->em->getConnection()->prepare('SELECT a.entidade FROM crmanalytic.usuario u 
+        $stmt = $this->em->getConnection()->prepare('SELECT a.* FROM crmanalytic.usuario u 
 inner join crmanalytic.perfil_usuario pu on pu.usuario = u.id 
 inner join crmanalytic.perfil_acesso pa on pa.perfil = pu.perfil 
 inner join crmanalytic.acesso a on a.id = pa.acesso 
 where u.id = ?');
         $stmt->bindValue(1, $id, \PDO::PARAM_INT);
         $stmt->execute();
-        return array_map(function ($val) {
-            return $val['entidade'];
-        },$stmt->fetchAll());
+        return $stmt->fetchAll();
     }
 
     public function update(int $id, $login, $pessoa, $senha, $perfis, $acoes)

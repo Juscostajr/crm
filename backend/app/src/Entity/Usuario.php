@@ -50,6 +50,25 @@ class Usuario
     private $senhaExpirada;
 
 
+    private $rotas;
+
+    /**
+     * @return mixed
+     */
+    public function getRotas(): array
+    {
+        return $this->rotas;
+    }
+
+    /**
+     * @param mixed $rotas
+     */
+    public function setRotas(array $rotas)
+    {
+        $this->rotas = $rotas;
+    }
+
+
     /**
      * Usuario constructor.
      */

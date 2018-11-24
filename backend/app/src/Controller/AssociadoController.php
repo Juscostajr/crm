@@ -114,7 +114,7 @@ class AssociadoController {
 
             return $response->withStatus(201);
         } catch (\Exception $ex) {
-            return $response->withStatus(500,$ex);
+            return $response->withStatus(500,$ex->getMessage());
         }
     }
 

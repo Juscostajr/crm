@@ -8,6 +8,7 @@ use App\Entity\Servico;
 use App\Entity\Usuario;
 use App\Entity\Venda;
 use App\Factory\DoctrineParamsMapper;
+use Doctrine\Common\Proxy\Exception\InvalidArgumentException;
 use Doctrine\ORM\EntityManager;
 
 class VendaService
@@ -52,6 +53,25 @@ class VendaService
     {
         $this->em->merge($venda->map());
         $this->em->flush();
+    }
+
+    public function findNaoAssociados()
+    {
+
+        $stmt = $this->em->getConnection()->prepare("
+        SELECT * FROM crmanalytic.pessoa p
+INNER JOIN crmanalytic.endereco_pessoa ep ON ep.pessoa = p.id
+INNER JOIN crmanalytic.endereco e ON e.id = ep.endereco 
+INNER JOIN crmanalytic.coordenadas c ON c.id = e.coordenadas
+WHERE p.id NOT IN (
+	SELECT pessoaJuridica 
+	FROM crmanalytic.associado a
+	WHERE a.statusAssociado = 'Ativo')
+AND p.tipo = 'pj' 
+ORDER BY e.bairro, e.logradouro, e.nrImovel");
+
+        $stmt->execute();
+        return $stmt->fetchAll();
     }
 
     public function update(int $id, $etapa, $interacaos, $interesses, $pessoaJuridica)

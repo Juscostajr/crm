@@ -64,10 +64,10 @@ class Usuario extends \App\Entity\Usuario implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'login', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'pessoa', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'senha', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'perfils', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'senhaExpirada'];
+            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'login', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'pessoa', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'senha', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'perfils', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'senhaExpirada', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'rotas'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'login', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'pessoa', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'senha', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'perfils', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'senhaExpirada'];
+        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'login', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'pessoa', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'senha', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'perfils', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'senhaExpirada', '' . "\0" . 'App\\Entity\\Usuario' . "\0" . 'rotas'];
     }
 
     /**
@@ -173,6 +173,28 @@ class Usuario extends \App\Entity\Usuario implements \Doctrine\ORM\Proxy\Proxy
     }
 
     
+    /**
+     * {@inheritDoc}
+     */
+    public function getRotas(): array
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getRotas', []);
+
+        return parent::getRotas();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setRotas(array $rotas)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setRotas', [$rotas]);
+
+        return parent::setRotas($rotas);
+    }
+
     /**
      * {@inheritDoc}
      */

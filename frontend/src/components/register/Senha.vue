@@ -52,7 +52,7 @@ export default {
       title: "Alterar Senha",
       dialogVisible: false,
       form: {
-        usuario: JSON.parse(localStorage.getItem('token')),
+        usuario: localStorage.getItem('token'),
         senha: "",
         novaSenha: "",
         novaSenhaRpt: ""

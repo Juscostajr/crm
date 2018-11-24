@@ -136,7 +136,7 @@ abstract class Pessoa
     /**
      * @return Mail
      */
-    public function getEmail(): Mail
+    public function getEmail(): string
     {
         return $this->email;
     }

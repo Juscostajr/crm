@@ -30,7 +30,7 @@ export default {
     },
     components: { HMenu, VMenu, Login },
     mounted() {
-        if(localStorage.getItem('token') !== null) {
+        if(localStorage.getItem('session').token !== null) {
             this.autenticado = true;
         }
     },

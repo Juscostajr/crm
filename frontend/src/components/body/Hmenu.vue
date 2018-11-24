@@ -26,7 +26,7 @@
             <el-dropdown trigger="click" @command="handleUserCommand">
                 <span class="el-dropdown-link">
                     <el-button class="share-button" type="primary" size="small" id="user-button">
-                        <icon name="user" /> Juscelino
+                        <icon name="user" /> {{userInfo.nome | limit(8)}}
                     </el-button>
                 </span>
                 <el-dropdown-menu slot="dropdown">
@@ -43,33 +43,38 @@ import Senha from "../register/Senha.vue";
 export default {
   name: "h-menu",
   data() {
-    
     return {
       user: [
         { icon: "lock", title: "Trocar minha senha", action: "senha" },
         { icon: "sign-out-alt", title: "Logout", action: "logout" }
       ],
       senhaVisible: false,
-      
+      userInfo: {
+          login: '',
+          nome: ''
+      }
     };
   },
   methods: {
     handleUserCommand(command) {
       switch (command) {
         case "logout":
-          localStorage.removeItem("token");
+        localStorage.removeItem("session");
           this.$emit("logout");
           break;
         case "senha":
           this.senhaVisible = true;
           break;
         default:
-          console.log(command);
+          console.error(command);
           break;
       }
     }
   },
-  components: { Senha }
+  components: { Senha },
+  mounted() {
+      this.userInfo = JSON.parse(localStorage.getItem("session")).usuario;
+  },
 };
 </script>
 <style>

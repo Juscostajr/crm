@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Perfil;
 use App\Factory\DoctrineParamsMapper;
 use App\Service\PerfilService;
+use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
+use JMS\Serializer\Naming\SerializedNameAnnotationStrategy;
 use JMS\Serializer\SerializerBuilder;
 use Psr\Container\ContainerInterface;
 use Slim\Http\Request;
@@ -21,7 +23,9 @@ class PerfilController {
     {
         $this->container = $container;
         $this->em = $this->container->get('em');
-        $this->serializer = SerializerBuilder::create()->build();
+        $this->serializer = SerializerBuilder::create()
+            ->setPropertyNamingStrategy(new SerializedNameAnnotationStrategy(new IdenticalPropertyNamingStrategy()))
+            ->build();
         $this->service = new PerfilService($this->em);
     }
 

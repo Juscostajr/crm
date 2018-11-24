@@ -1,13 +1,15 @@
 <?php
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: *");
-header("Access-Control-Allow-Headers: *");
+
 
 $app->get('/associado/{id}', \App\Controller\AssociadoController::class . ':findOne');
 $app->get('/associado/pessoa/{pessoaJuridica}', \App\Controller\AssociadoController::class . ':findByPessoa');
 $app->get('/associado/status/{statusAssociado}', \App\Controller\AssociadoController::class . ':findBy');
 $app->post('/associado', App\Controller\AssociadoController::class . ':create');
 $app->get('/associado', \App\Controller\AssociadoController::class . ':findAll');
+
+
+// key [bairro,logradouro]
+$app->get('/naoassociado', \App\Controller\VendaController::class . ':findNaoAssociado');
 
 $app->get('/desfiliacao/motivo', \App\Controller\MotivoDesfiliacaoController::class . ':getAll');
 $app->post('/desfiliacao', \App\Controller\DesfiliacaoController::class . ':create');

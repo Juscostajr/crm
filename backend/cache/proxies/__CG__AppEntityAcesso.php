@@ -64,10 +64,10 @@ class Acesso extends \App\Entity\Acesso implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Acesso' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Acesso' . "\0" . 'entidade', '' . "\0" . 'App\\Entity\\Acesso' . "\0" . 'ler', '' . "\0" . 'App\\Entity\\Acesso' . "\0" . 'gravar', '' . "\0" . 'App\\Entity\\Acesso' . "\0" . 'modificar', '' . "\0" . 'App\\Entity\\Acesso' . "\0" . 'excluir'];
+            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Acesso' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Acesso' . "\0" . 'rota', '' . "\0" . 'App\\Entity\\Acesso' . "\0" . 'GET', '' . "\0" . 'App\\Entity\\Acesso' . "\0" . 'POST', '' . "\0" . 'App\\Entity\\Acesso' . "\0" . 'PUT', '' . "\0" . 'App\\Entity\\Acesso' . "\0" . 'DELETE'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Acesso' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Acesso' . "\0" . 'entidade', '' . "\0" . 'App\\Entity\\Acesso' . "\0" . 'ler', '' . "\0" . 'App\\Entity\\Acesso' . "\0" . 'gravar', '' . "\0" . 'App\\Entity\\Acesso' . "\0" . 'modificar', '' . "\0" . 'App\\Entity\\Acesso' . "\0" . 'excluir'];
+        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Acesso' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Acesso' . "\0" . 'rota', '' . "\0" . 'App\\Entity\\Acesso' . "\0" . 'GET', '' . "\0" . 'App\\Entity\\Acesso' . "\0" . 'POST', '' . "\0" . 'App\\Entity\\Acesso' . "\0" . 'PUT', '' . "\0" . 'App\\Entity\\Acesso' . "\0" . 'DELETE'];
     }
 
     /**
@@ -202,111 +202,111 @@ class Acesso extends \App\Entity\Acesso implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getEntidade(): string
+    public function getRota(): string
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getEntidade', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getRota', []);
 
-        return parent::getEntidade();
+        return parent::getRota();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setEntidade(string $entidade)
+    public function setRota(string $rota)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setEntidade', [$entidade]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setRota', [$rota]);
 
-        return parent::setEntidade($entidade);
+        return parent::setRota($rota);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function isLer(): bool
+    public function isGet(): bool
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isLer', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isGet', []);
 
-        return parent::isLer();
+        return parent::isGet();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setLer(bool $ler)
+    public function setGet(bool $GET)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLer', [$ler]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setGet', [$GET]);
 
-        return parent::setLer($ler);
+        return parent::setGet($GET);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function isGravar(): bool
+    public function isPost(): bool
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isGravar', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isPost', []);
 
-        return parent::isGravar();
+        return parent::isPost();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setGravar(bool $gravar)
+    public function setPosta(bool $POST)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setGravar', [$gravar]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPosta', [$POST]);
 
-        return parent::setGravar($gravar);
+        return parent::setPosta($POST);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function isModificar(): bool
+    public function isPut(): bool
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isModificar', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isPut', []);
 
-        return parent::isModificar();
+        return parent::isPut();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setModificar(bool $modificar)
+    public function setPut(bool $PUT)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setModificar', [$modificar]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPut', [$PUT]);
 
-        return parent::setModificar($modificar);
+        return parent::setPut($PUT);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function isExcluir(): bool
+    public function isDelete(): bool
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isExcluir', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isDelete', []);
 
-        return parent::isExcluir();
+        return parent::isDelete();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setExcluir(bool $excluir)
+    public function setDelete(bool $DELETE)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setExcluir', [$excluir]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setDelete', [$DELETE]);
 
-        return parent::setExcluir($excluir);
+        return parent::setDelete($DELETE);
     }
 
     /**

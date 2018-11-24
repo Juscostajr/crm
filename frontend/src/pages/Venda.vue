@@ -2,11 +2,7 @@
     <section>
         <el-row :gutter="15">
             <el-col :span="10">
-                <el-card class="box-card">
-                    <div slot="header" class="clearfix">
-                        <span>Vendas em Aberto</span>
-                        <el-button style="float: right; padding: 3px 0" type="text">Operation button</el-button>
-                    </div>
+                <el-card class="box-card" header="Vendas em Aberto">
 
                     <el-table :data="vendas" style="width: 100%">
                         <el-table-column label="Empresa" width="220" prop="pessoaJuridica.nomeFantasia"></el-table-column>
@@ -31,12 +27,7 @@
             </el-col>
             <el-col :span="14">
 
-                <el-card class="box-card">
-                    <div slot="header" class="clearfix">
-                        <span>Interações em Vendas</span>
-                        <el-button style="float: right; padding: 3px 0" type="text">Operation button</el-button>
-                    </div>
-
+                <el-card class="box-card" header="Interações em Vendas">
                     <el-table :data="filterInteracao()" style="width: 100%">
                         <el-table-column label="Tipo" width="60">
                             <template slot-scope="scope">
@@ -64,15 +55,6 @@
                         </el-table-column>
                         <el-table-column label="Ação">
                             <template slot-scope="scope">
-                                <el-button type="success" size="mini" circle>
-                                    <icon name="user-tie"></icon>
-                                </el-button>
-                                <el-button type="success" size="mini" circle>
-                                    <icon name="phone"></icon>
-                                </el-button>
-                                <el-button type="success" size="mini" circle>
-                                    <icon name="envelope"></icon>
-                                </el-button>
                                 <el-button type="primary" size="mini" circle>
                                     <icon name="external-link-alt"></icon>
                                 </el-button>
@@ -116,15 +98,6 @@
         </el-table-column>
         <el-table-column label="Ação">
             <template slot-scope="scope">
-                <el-button type="success" size="mini" circle>
-                    <icon name="user-tie"></icon>
-                </el-button>
-                <el-button type="success" size="mini" circle>
-                    <icon name="phone"></icon>
-                </el-button>
-                <el-button type="success" size="mini" circle>
-                    <icon name="envelope"></icon>
-                </el-button>
                 <el-button type="primary" size="mini" circle @click="showFeedback(scope.row)">
                     <icon name="external-link-alt"></icon>
                 </el-button>

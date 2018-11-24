@@ -6,6 +6,7 @@ use App\Entity\Usuario;
 use App\Factory\DoctrineParamsMapper;
 use App\Service\UsuarioService;
 use Doctrine\Common\Proxy\Exception\OutOfBoundsException;
+use Firebase\JWT\JWT;
 use JMS\Serializer\SerializerBuilder;
 use Psr\Container\ContainerInterface;
 use Psr\Log\InvalidArgumentException;
@@ -31,11 +32,25 @@ class UsuarioController
     public function auth(Request $request, Response $response)
     {
         try {
-        $search = $this->em->getRepository(Usuario::class)->findBy($request->getParams());
-        if(empty($search)) throw new OutOfBoundsException();
+            $usuario = $this->em->getRepository(Usuario::class)->findBy($request->getParams());
+            if(empty($usuario)) throw new OutOfBoundsException();
+
+            /**
+             * @var Usuario $usuario
+             */
+            $usuario =  $usuario[0];
+            $usuario->setRotas($this->service->getPermissions($usuario->getId()));
+
+            $token = array(
+                'token' => JWT::encode(json_decode($this->serializer->serialize($usuario, 'json')), $this->container->get('settings')['key']),
+                'usuario' => array(
+                    'login' => $usuario->getLogin(),
+                    'nome' => $usuario->getPessoa()->getNome()),
+                    'acessos' => $usuario->getRotas()
+            );
 
             return $response->write(
-                $this->serializer->serialize($search[0], 'json')
+                $this->serializer->serialize($token, 'json')
             );
         } catch (\OutOfBoundsException $ex){
             return $response->withStatus(403);
@@ -45,9 +60,7 @@ class UsuarioController
     }
 
     public function getAccess(Request $request, Response $response, $args){
-        print_r($this
-            ->service
-            ->getPermissions($args['id']));
+        return $this->service->getPermissions($args['id']);
     }
 
     public function findAll(Request $request, Response $response)

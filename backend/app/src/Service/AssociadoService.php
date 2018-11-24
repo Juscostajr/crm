@@ -57,6 +57,7 @@ class AssociadoService
     {
         $associado = is_null($id) ? new Associado() : $this->findOne($id);
 
+        if(!is_null($id)){
         $this
             ->em
             ->createQueryBuilder()
@@ -65,6 +66,7 @@ class AssociadoService
             ->setParameter('associado',$associado)
             ->getQuery()
             ->execute();
+        }
 
         $associado->setPessoaJuridica($this->em->getReference(PessoaJuridica::class, $pessoaJuridica));
         $associado->setDataFiliacao($dataFiliacao);

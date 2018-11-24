@@ -26,43 +26,41 @@
 <script>
 //import routes from './routes';
 export default {
-    data() {
-        return {
-            usuario: {
-                login: '',
-                senha: ''
-            },
-            notAuth: false,
-        }
-    },
-    methods: {
-        auth() {
-            this.notAuth = false;
-            this.$request.post('/auth', this.usuario)
-                .then(response => {
-                   // this.$router.addRoutes(routes.getRoutes(response.data));
-                   localStorage.setItem('token', JSON.stringify(response.data));
-                    this.$emit('autorizado', response.data);
-                    //document.dispatchEvent(new Event('rld'));
-                })
-                .catch(error => {
-                    if (error.response.status === 403)
-                        this.notAuth = true;
-                        this.usuario = {login: '', senha: ''}
-                        this.$refs.login.focus();
-                })
-        }
+  data() {
+    return {
+      usuario: {
+        login: "",
+        senha: ""
+      },
+      notAuth: false
+    };
+  },
+  methods: {
+    auth() {
+      this.notAuth = false;
+      this.$request
+        .post("auth", this.usuario)
+        .then(response => {
+          // this.$router.addRoutes(routes.getRoutes(response.data));
+          localStorage.setItem("session", JSON.stringify(response.data));
+          this.$emit("autorizado", response.data);
+        })
+        .catch(error => {
+          if (error.response.status === 403) this.notAuth = true;
+          this.usuario = { login: "", senha: "" };
+          this.$refs.login.focus();
+        });
     }
-}
+  }
+};
 </script>
 <style>
 body {
-    background-color: #272635
+  background-color: #272635;
 }
 
 #main-brand {
-    padding: 10%;
-    width: 80%;
+  padding: 10%;
+  width: 80%;
 }
-
 </style>

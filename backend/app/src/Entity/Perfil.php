@@ -23,7 +23,7 @@ class Perfil
      * @ORM\ManyToMany(targetEntity="Acesso", cascade={"persist", "remove"})
      * @ORM\JoinTable(name="perfil_acesso",
      *      joinColumns={@ORM\JoinColumn(name="perfil", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="acesso", referencedColumnName="id", unique=true)}
+     *      inverseJoinColumns={@ORM\JoinColumn(name="acesso", referencedColumnName="id")}
      *      )
      */
     private $acessos;
