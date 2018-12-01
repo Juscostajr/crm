@@ -100,17 +100,7 @@
                         <el-radio v-model="formm.associado.statusAssociado" label="Inativo">Inativo</el-radio>
                     </el-form-item>
                     <el-form-item label="Valor da Mensalidade">
-                        <el-input v-inputmask="
-                                                'decimal', {
-                                                'alias': 'decimal',
-                                                'groupSeparator': '.',
-                                                'autoGroup': true,
-                                                'digits': 2,
-                                                'radixPoint': ',',
-                                                'digitsOptional': false,
-                                                'allowMinus': false}" 
-                                                @change="handleValorMensalidade">
-                        </el-input>
+                        <remote-select data-source='tabelapreco' id='id' label='descricao' :model.sync='formm.associado.valorMensalidade'/>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -236,10 +226,6 @@ export default {
                 });
                 
         },
-        handleValorMensalidade(value) {
-            this.formm.associado.valorMensalidade = value;
-        }
-        ,
         model() {
             return {
                 associado: {
@@ -272,7 +258,7 @@ export default {
                     },
                     dataFiliacao: '',
                     statusAssociado: '',
-                    valorMensalidade: '',
+                    valorMensalidade: {},
                     adesoes: []
                 }
             }

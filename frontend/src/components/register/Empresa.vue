@@ -25,12 +25,12 @@
                 </el-col>
 
                 <el-col :span="8">
-                    <el-form-item label="Inscr. Estadual">
+                    <el-form-item label="Inscrição Estadual">
                         <el-input v-model="form.inscricaoEstadual.numero" auto-complete="off"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="8">
-                    <el-form-item label="Ramo de Ativid.">
+                    <el-form-item label="Ramo de Atividade">
                         <remote-select data-source="ramo" id="id" label="descricao" :model.sync="form.ramoAtividade"></remote-select>
                     </el-form-item>
                 </el-col>
@@ -47,9 +47,17 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="9">
-                    <el-form-item label="Representante Legal">
+                    <el-row>
+                        <el-form-item label="Representante Legal">
+                      <el-col :span="20">
                         <remote-select data-source="pf" id="id" label="nome" :model.sync="form.representanteLegal"></remote-select>
-                    </el-form-item>
+                      </el-col>
+                      <el-col :span="4">
+                          <el-button type="primary" @click="pessoaFisicaVisible = true"><icon name="address-card"/></el-button>
+                                <pessoa-fisica :visible.sync="pessoaFisicaVisible" @saved="getPessoaFisica"></pessoa-fisica>
+                      </el-col>
+                      </el-form-item>
+                    </el-row>
                 </el-col>
             </el-row>
             <el-row :gutter="10">
@@ -65,7 +73,7 @@
                                             </el-select>
 
                                             <el-select v-model="telefone.operadora" value-key="id" slot="append" placeholder="Operadora">
-                                                <el-option v-for="operadora in operadoras" :label="operadora.nome" :value="operadora" :key="operadora.id"></el-option>
+                                                <el-option v-for="operadora in operadoras" :label="operadora.nome" :value="operadora" :key="operadora.nome"></el-option>
                                             </el-select>
                                         </el-input>
                                     </el-col>
@@ -84,7 +92,7 @@
                     <el-form-item label="Grupos">
                         <remote-select-multiple data-source="grupo" id="id" label="descricao" :model.sync="form.grupos"></remote-select-multiple>
                     </el-form-item>
-                    <el-form-item label="Enderecos">
+                    <el-form-item label="Endereços">
                         <br>
                         <el-button type="success" icon="el-icon-plus" size="small" @click="innerVisible = true">
                             Adicionar
@@ -101,182 +109,188 @@
     </el-dialog>
 </template>
 <script>
-import axios from 'axios';
-import Endereco from './Endereco.vue';
-import RemoteSelect from '../RemoteSelect.vue';
-import RemoteSelectMultiple from '../RemoteSelectMultiple.vue';
+import axios from "axios";
+import Endereco from "./Endereco.vue";
+import RemoteSelect from "../RemoteSelect.vue";
+import RemoteSelectMultiple from "../RemoteSelectMultiple.vue";
+import PessoaFisica from "./PessoaFisica.vue";
 export default {
-    props: ['visible','datamodel'],
-    data() {
-        return {
-            formLabelWidth: '120px',
-            form: {
-                razaoSocial: '',
-                telefones: [{
-                    numero: '',
-                    proprietario: '',
-                    operadora: {
-                        id: '',
-                        nome: '',
-                    },
-                    tipo: ''
-                }],
-                enderecos: [],
-                email: {
-                    email: '',
-                },
-                grupos: [],
-                nomeFantasia: '',
-                inscricaoEstadual: {
-                    numero: ''
-                },
-                cnpj: {
-                    numero: ''
-                },
-                numeroFuncionarios: '',
-                representanteLegal: '',
-                ramoAtividade: {}
+  props: ["visible", "datamodel"],
+  data() {
+    return {
+      formLabelWidth: "120px",
+      form: {
+        razaoSocial: "",
+        telefones: [
+          {
+            numero: "",
+            proprietario: "",
+            operadora: {
+              id: "",
+              nome: ""
             },
-            dialogFormVisible: true,
-            showTelefone: false,
-            innerVisible: false,
-            formEndereco: {},
-            telefoneTipos: [],
-            operadoras: [],
-            enderecos: [],
-            modal: false,
-
-        }
-    },
-    mounted() {
-        this.$request.get('telefone')
-            .then(response => {
-                this.telefoneTipos = response.data;
-            })
-            .catch(function(error) {
-                console.log(error);
-                this.$notify.error({
-                    title: 'Erro!',
-                    message: 'Não foi possível carregar os tipos de telefone'
-                });
-            });
-        this.$request.get('operadora')
-            .then(response => {
-                this.operadoras = response.data;
-            })
-            .catch(error => {
-                console.log(error);
-                this.$notify.error({
-                    title: 'Erro!',
-                    message: 'Não foi possível carregar as operadoras de telefone'
-                });
-            });
-    },
-    watch: {
-        modal() {
-            this.$emit('update:visible', this.modal)
+            tipo: ""
+          }
+        ],
+        enderecos: [],
+        email: {
+          email: ""
         },
-        visible() {
-            this.modal = this.visible;
+        grupos: [],
+        nomeFantasia: "",
+        inscricaoEstadual: {
+          numero: ""
         },
-        datamodel() {
-            if(this.datamodel == null) return this.clearForm();
-            this.form = this.datamodel;
-        }
+        cnpj: {
+          numero: ""
+        },
+        numeroFuncionarios: "",
+        representanteLegal: "",
+        ramoAtividade: {}
+      },
+      dialogFormVisible: true,
+      showTelefone: false,
+      innerVisible: false,
+      formEndereco: {},
+      telefoneTipos: [],
+      operadoras: [],
+      enderecos: [],
+      modal: false,
+      pessoaFisicaVisible: false
+    };
+  },
+  mounted() {
+    this.$request
+      .get("telefone")
+      .then(response => {
+        this.telefoneTipos = response.data;
+      })
+      .catch(function(error) {
+        console.log(error);
+        this.$notify.error({
+          title: "Erro!",
+          message: "Não foi possível carregar os tipos de telefone"
+        });
+      });
+    this.$request
+      .get("operadora")
+      .then(response => {
+        this.operadoras = response.data;
+      })
+      .catch(error => {
+        console.log(error);
+        this.$notify.error({
+          title: "Erro!",
+          message: "Não foi possível carregar as operadoras de telefone"
+        });
+      });
+  },
+  watch: {
+    modal() {
+      this.$emit("update:visible", this.modal);
     },
-    components: { Endereco, RemoteSelect, RemoteSelectMultiple }
-    ,
-    methods: {
-        save() {
-            this.$request.post('pj', this.form)
-                .then(response => {
-                    this.modal = false;
-                    this.$notify({
-                        title: 'Sucesso!',
-                        message: 'Empresa salva corretamente',
-                        type: 'success'
-                    });
-                    this.$emit('empresa-callback', this.form);
-                    this.clearForm();
-                })
-                .catch(error => {
-                    console.log(error);
-                    this.$notify.error({
-                        title: 'Erro!',
-                        message: 'Não foi possível cadastrar a empresa, consulte a área de sistemas'
-                    });
-                });
-        }
-        ,
-        clearForm() {
-            this.form = {
-                razaoSocial: '',
-                telefones: [{
-                    numero: '',
-                    proprietario: '',
-                    operadora: {
-                        id: '',
-                        nome: '',
-                    },
-                    tipo: ''
-                }],
-                enderecos: [],
-                email: {
-                    email: '',
-                },
-                grupos: [],
-                nomeFantasia: '',
-                inscricaoEstadual: {
-                    numero: ''
-                },
-                cnpj: {
-                    numero: ''
-                },
-                numeroFuncionarios: '',
-                representanteLegal: '',
-                ramoAtividade: {}
-            };
-        }
-        ,
-        removeTelefone(item) {
-            var index = this.form.telefones.indexOf(item);
-            if (index !== -1) {
-                this.form.telefones.splice(index, 1);
-            }
-        }
-        ,
-        addTelefone() {
-            this.form.telefones.push({
-                numero: '',
-                proprietario: '',
-                operadora: '',
-                tipo: ''
-            });
-
-        },
-        cnpjLoad() {
-            if (this.form.cnpj.numero.replace(/[\D]/gi, '').length < 14) return;
-            this.$cnpj.get(this.form.cnpj.numero.replace(/[\D]/gi, ''))
-                .then(response => {
-                    this.form.razaoSocial = response.data.nome;
-                    this.form.nomeFantasia = response.data.fantasia;
-                    this.form.email.email = response.data.email;
-                    this.form.telefones[0].numero = response.data.telefone;
-                })
-                .catch(error => {
-                    this.$notify.error({
-                        title: 'Erro!',
-                        message: error
-                    });
-                });
-        }
-
+    visible() {
+      this.modal = this.visible;
+    },
+    datamodel() {
+      if (this.datamodel == null) return this.clearForm();
+      this.form = this.datamodel;
     }
-}
-
+  },
+  components: { Endereco, RemoteSelect, RemoteSelectMultiple, PessoaFisica },
+  methods: {
+    save() {
+      this.$request
+        .post("pj", this.form)
+        .then(response => {
+          this.modal = false;
+          this.$notify({
+            title: "Sucesso!",
+            message: "Empresa salva corretamente",
+            type: "success"
+          });
+          this.$emit("empresa-callback", this.form);
+          this.clearForm();
+        })
+        .catch(error => {
+          console.log(error);
+          this.$notify.error({
+            title: "Erro!",
+            message:
+              "Não foi possível cadastrar a empresa, consulte a área de sistemas"
+          });
+        });
+    },
+    clearForm() {
+      this.form = {
+        razaoSocial: "",
+        telefones: [
+          {
+            numero: "",
+            proprietario: "",
+            operadora: {
+              id: "",
+              nome: ""
+            },
+            tipo: ""
+          }
+        ],
+        enderecos: [],
+        email: {
+          email: ""
+        },
+        grupos: [],
+        nomeFantasia: "",
+        inscricaoEstadual: {
+          numero: ""
+        },
+        cnpj: {
+          numero: ""
+        },
+        numeroFuncionarios: "",
+        representanteLegal: "",
+        ramoAtividade: {}
+      };
+    },
+    removeTelefone(item) {
+      var index = this.form.telefones.indexOf(item);
+      if (index !== -1) {
+        this.form.telefones.splice(index, 1);
+      }
+    },
+    addTelefone() {
+      this.form.telefones.push({
+        numero: "",
+        proprietario: "",
+        operadora: "",
+        tipo: ""
+      });
+    },
+    cnpjLoad() {
+      if (this.form.cnpj.numero.replace(/[\D]/gi, "").length < 14) return;
+      this.$cnpj
+        .get(this.form.cnpj.numero.replace(/[\D]/gi, ""))
+        .then(response => {
+          this.form.razaoSocial = response.data.nome;
+          this.form.nomeFantasia = response.data.fantasia;
+          this.form.email.email = response.data.email;
+          this.form.telefones[0].numero = response.data.telefone;
+        })
+        .catch(error => {
+          this.$notify.error({
+            title: "Erro!",
+            message: error
+          });
+        });
+    },
+    getPessoaFisica(pf){
+        this.form.representanteLegal = pf;
+    }
+  }
+};
 </script>
 <style>
 .el-input--suffix {
-    width: 120px;
+  width: 120px;
 }
 </style>

@@ -48,7 +48,7 @@ export default {
                 posVenda: {access: 'interacao', route: 'posvenda', title: 'Pós-Venda'},
                 campanha: {access: 'campanha', route: 'campanha', title: 'Campanha'},
                 cadastros: [
-                {access: 'pj', route:'empresa', title:'Empresa'},
+                {access: 'pj', route:'pj', title:'Empresa'},
                 {access: 'pf', route:'pf', title:'Pessoa'},
                 {access: 'grupo', route:'grupo', title:'Grupo'},
                 {access: 'usuario', route:'usuario', title:'Usuario'},
@@ -56,7 +56,8 @@ export default {
                 {access: 'pf', route:'perfil', title:'Perfil'},
                 {access: 'servico', route:'servico', title:'Servico'},
                 {access: 'secao', route:'secao', title:'Seção'},
-                {access: 'tipogrupo', route:'tipoGrupo', title:'Tipo Grupo'},
+                {access: 'tipogrupo', route:'tipogrupo', title:'Tipo Grupo'},
+                {access: 'tabelapreco', route:'tabelapreco', title:'Tabela Preço'},
             ]
             }
         }

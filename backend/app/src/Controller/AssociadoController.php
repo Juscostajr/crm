@@ -107,7 +107,7 @@ class AssociadoController {
                 $params['pessoaJuridica']['id'],
                 $params['dataFiliacao'],
                 $params['statusAssociado'],
-                numfmt_parse(numfmt_create( 'pt_BR', \NumberFormatter::DECIMAL ), $params['valorMensalidade']),
+                $params['valorMensalidade']['id'],
                 $params['adesoes'],
                 $params['id'] ?? null
             );

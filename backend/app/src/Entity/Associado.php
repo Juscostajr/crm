@@ -44,7 +44,8 @@ class Associado
     private $interacaos;
 
     /** @var double
-     * @ORM\Column(type="float")
+     * @ORM\ManyToOne(targetEntity="TabelaPreco")
+     * @ORM\JoinColumn(referencedColumnName="id")
      */
     private $valorMensalidade;
 
@@ -143,7 +144,7 @@ class Associado
     /**
      * @return float
      */
-    public function getValorMensalidade(): float
+    public function getValorMensalidade(): TabelaPreco
     {
         return $this->valorMensalidade;
     }
@@ -151,7 +152,7 @@ class Associado
     /**
      * @param float $valorMensalidade
      */
-    public function setValorMensalidade(float $valorMensalidade)
+    public function setValorMensalidade(TabelaPreco $valorMensalidade)
     {
         $this->valorMensalidade = $valorMensalidade;
     }

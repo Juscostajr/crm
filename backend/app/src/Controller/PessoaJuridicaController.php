@@ -80,6 +80,7 @@ class PessoaJuridicaController
 
             return $response->withStatus(204);
         } catch (\Exception $ex) {
+            echo $ex->getMessage();
             return $response->withStatus(404);
         }
     }

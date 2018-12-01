@@ -11,11 +11,14 @@ import Icon from "vue-awesome/components/Icon.vue";
 import Moment from "vue-moment";
 import router from "./router";
 import store from "./store";
+import VueApexCharts from "vue-apexcharts";
+
 
 Vue.use(ElementUI, { locale });
 Vue.use(VInputmask);
 Vue.use(Moment);
-
+Vue.use(VueApexCharts);
+Vue.component("apexchart", VueApexCharts);
 import App from "./App.vue";
 
 Vue.filter("capitalize", function(value) {
@@ -60,7 +63,8 @@ Vue.prototype.$cnpj = Axios.create({
 
 Vue.prototype.$viacep = Axios.create({
   baseURL: "https://viacep.com.br/ws/",
-  timeout: 10000
+  timeout: 10000,
+  adapter: AxiosAdapter
 });
 
 new Vue({

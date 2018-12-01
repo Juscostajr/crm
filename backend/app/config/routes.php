@@ -1,12 +1,18 @@
 <?php
 
 
+$app->get('/adesao', \App\Controller\AdesaoController::class . ':findAll');
 $app->get('/associado/{id}', \App\Controller\AssociadoController::class . ':findOne');
 $app->get('/associado/pessoa/{pessoaJuridica}', \App\Controller\AssociadoController::class . ':findByPessoa');
 $app->get('/associado/status/{statusAssociado}', \App\Controller\AssociadoController::class . ':findBy');
 $app->post('/associado', App\Controller\AssociadoController::class . ':create');
 $app->get('/associado', \App\Controller\AssociadoController::class . ':findAll');
 
+$app->get('/tabelapreco/{id}', \App\Controller\TabelaPrecoController::class . ':findOne');
+$app->post('/tabelapreco', App\Controller\TabelaPrecoController::class . ':create');
+$app->get('/tabelapreco', \App\Controller\TabelaPrecoController::class . ':findAll');
+$app->put('/tabelapreco/{id}', \App\Controller\TabelaPrecoController::class . ':update');
+$app->delete('/tabelapreco/{id}', \App\Controller\TabelaPrecoController::class . ':delete');
 
 // key [bairro,logradouro]
 $app->get('/naoassociado', \App\Controller\VendaController::class . ':findNaoAssociado');

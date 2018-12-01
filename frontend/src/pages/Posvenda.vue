@@ -10,9 +10,10 @@
                 {{scope.row.dataFiliacao | moment('DD/MM/YYYY')}}
                 </template>
             </el-table-column>
-            <el-table-column label="Valor da Mensalidade" property="valorMensalidade"/>
-            <el-table-column fixed="right" label="Ação" width="120">
+            <el-table-column label="Valor da Mensalidade" property="valorMensalidade.descricao"/>
+            <el-table-column label="Ação">
                 <template slot-scope="scope">
+                    <el-button size="mini" type="primary" @click="interacaoVisible = true"><icon name="comment-dots"/> Interagir</el-button>
                     <el-button size="mini" type="warning" @click="handleDesfiliar(scope.row)"><icon name="lock"/> Desfiliar</el-button>
                 </template>
             </el-table-column>
@@ -24,6 +25,7 @@
 </template>
 <script>
 import Desfiliacao from '../components/register/Desfiliacao.vue';
+import Interacao from '../components/register/Interacao.vue';
 export default {
   data() {
     return {
@@ -31,7 +33,8 @@ export default {
       associados: [],
       form: {},
       desfiliacaoVisible: false,
-      currentAssociado: {}
+      currentAssociado: {},
+      interacaoVisible: false
     };
   },
   components: { Desfiliacao },

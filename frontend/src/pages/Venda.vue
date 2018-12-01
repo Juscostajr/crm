@@ -1,5 +1,12 @@
 <template>
     <section>
+        <el-row>
+          <el-col :span="24">
+              <el-card header="Vendas">
+                   <apexchart ref="demoChart" type=bar height=350 :options="chartOptions" :series="series" />
+              </el-card>
+          </el-col>
+        </el-row>
         <el-row :gutter="15">
             <el-col :span="10">
                 <el-card class="box-card" header="Vendas em Aberto">
@@ -162,6 +169,53 @@ export default {
             vendas: [],
             interacaosEmVendas: [],
             feedbackModalVisible: false,
+          series: [{
+          name: 'Net Profit',
+          data: [44, 55, 57, 56, 61, 58, 63, 60]
+        }, {
+          name: 'Revenue',
+          data: [76, 85, 101, 98, 87, 105, 91, 114]
+        }, {
+          name: 'Free Cash Flow',
+          data: [35, 41, 36, 26, 45, 48, 52, 53]
+        }],
+        chartOptions: {
+          plotOptions: {
+            bar: {
+              horizontal: false,
+              endingShape: 'rounded',
+              columnWidth: '55%',
+            },
+          },
+          dataLabels: {
+            enabled: false
+          },
+          stroke: {
+            show: true,
+            width: 2,
+            colors: ['transparent']
+          },
+
+          xaxis: {
+            categories: [],
+          },
+          yaxis: {
+            title: {
+              text: '$ (thousands)'
+            }
+          },
+          fill: {
+            opacity: 1
+
+          },
+          tooltip: {
+            y: {
+              formatter: function (val) {
+                return "$ " + val + " thousands"
+              }
+            }
+          }
+        }
         }
     },
     components: { RegistrarVenda, Feedback },
@@ -191,7 +245,22 @@ export default {
         this.$request.get('venda')
             .then(response => {
                 this.vendas = response.data;
-            })
+            });
+
+        this.$request.get('servico')
+            .then((response) => {
+                console.log(response.data);
+                console.log(response.data.map(servico => servico.descricao));
+                this.chartOptions = {
+                    xaxis: {
+                        categories: response.data.map(servico => servico.descricao)
+                    }
+                }
+                chart.xaxis.categories = response.data.map(servico => servico.descricao);
+                console.log(chart);
+            }).catch((err) => {
+                
+            });
     },
 
 }

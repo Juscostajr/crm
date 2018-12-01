@@ -24,22 +24,22 @@ class Acesso {
     private $rota;
     /**
      * @var bool
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(name="`GET`", type="boolean")
      */
     private $GET;
     /**
      * @var bool
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(name="`POST`", type="boolean")
      */
     private $POST;
     /**
      * @var bool
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(name="`PUT`", type="boolean")
      */
     private $PUT;
     /**
      * @var bool
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(name="`DELETE`", type="boolean")
      */
     private $DELETE;
 

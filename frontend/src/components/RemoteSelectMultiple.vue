@@ -1,7 +1,7 @@
 <template>
     <el-select 
         class="remote-select-multiple" 
-        v-model="model" 
+        v-model="innerModel" 
         filterable 
         multiple 
         remote 
@@ -27,10 +27,10 @@ export default {
             loading: false,
             key: '',
             value: '',
+            innerModel: {}
         }
     },
     mounted() {
-        this.model = []
         this.$request.get(this.dataSource)
             .then(response => {
                 this.list = response.data;
@@ -64,7 +64,10 @@ export default {
     },
     watch: {
         model() {
-            this.$emit('update:model', this.model);
+            this.innerModel = this.model;
+        },
+        innerModel(){
+            this.$emit('update:model', this.innerModel);
         }
     }
 }

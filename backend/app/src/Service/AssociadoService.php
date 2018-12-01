@@ -8,6 +8,7 @@ use App\Entity\Pessoa;
 use App\Entity\PessoaJuridica;
 use App\Entity\Servico;
 use App\Entity\StatusAssociado;
+use App\Entity\TabelaPreco;
 use Doctrine\ORM\EntityManager;
 
 class AssociadoService
@@ -71,7 +72,7 @@ class AssociadoService
         $associado->setPessoaJuridica($this->em->getReference(PessoaJuridica::class, $pessoaJuridica));
         $associado->setDataFiliacao($dataFiliacao);
         $associado->setStatusAssociado(new StatusAssociado($statusAssociado));
-        $associado->setValorMensalidade($valorMensalidade);
+        $associado->setValorMensalidade($this->em->getReference(TabelaPreco::class, $valorMensalidade));
 
         foreach ($adesoes as $adesao){
             $objAdesao = new Adesao();

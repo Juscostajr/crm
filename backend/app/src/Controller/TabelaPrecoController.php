@@ -1,8 +1,17 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: Juscelino Jr
+ * Date: 24/11/2018
+ * Time: 18:49
+ */
+
 namespace App\Controller;
 
-use App\Entity\Adesao;
-use App\Service\AdesaoService;
+
+use App\Entity\TabelaPreco;
+use App\Factory\DoctrineParamsMapper;
+use App\Service\TabelaPrecoService;
 use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
 use JMS\Serializer\Naming\SerializedNameAnnotationStrategy;
 use JMS\Serializer\SerializerBuilder;
@@ -10,12 +19,11 @@ use Psr\Container\ContainerInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-class AdesaoController
+class TabelaPrecoController
 {
 
-
     protected $container;
-    private $em;
+    private  $em;
     private $service;
     private $serializer;
 
@@ -23,18 +31,18 @@ class AdesaoController
     {
         $this->container = $container;
         $this->em = $this->container->get('em');
+        $this->service = new TabelaPrecoService($this->em);
         $this->serializer = SerializerBuilder::create()
             ->setPropertyNamingStrategy(new SerializedNameAnnotationStrategy(new IdenticalPropertyNamingStrategy()))
             ->build();
-        $this->service = new AdesaoService($this->em);
     }
 
     public function findAll(Request $request, Response $response)
     {
         try {
-            $em = $this->container->get('em');
             return $response->write(
-                $this->serializer->serialize($em->getRepository(Adesao::class)->findAll(), 'json')
+                $this->serializer->serialize(
+                    $this->em->getRepository(TabelaPreco::class)->findAll(), 'json')
             );
         } catch (\Exception $ex) {
             echo $ex;
@@ -45,9 +53,9 @@ class AdesaoController
     public function findOne(Request $request, Response $response, $args)
     {
         try {
-            $service = new AdesaoService($this->container->get('em'));
-            $adesao = $service->findOne($args['id']);
-            return $response->withJSON($adesao->toArray());
+            $pessoaFisica = $this->service->findOne($args['id']);
+
+            return $response->withJSON($pessoaFisica->toArray());
         } catch (\Exception $ex) {
             return $response->withStatus(404);
         }
@@ -56,35 +64,24 @@ class AdesaoController
     public function delete(Request $request, Response $response, $args)
     {
         try {
-            $service = new AdesaoService($this->container->get('em'));
-            $service->delete($args['id']);
+            $this->service->delete($args['id']);
             return $response->withStatus(204);
         } catch (\Exception $ex) {
             return $response->withStatus(404);
         }
     }
-
-
-
-    public function deleteByAssociado(Request $request, Response $response, $args)
-    {
-        try {
-            $service = new AdesaoService($this->container->get('em'));
-            $service->delete($args['id']);
-            return $response->withStatus(204);
-        } catch (\Exception $ex) {
-            return $response->withStatus(404);
-        }
-    }
-
-
 
     public function create(Request $request, Response $response)
     {
         try {
-            $service = new AdesaoService($this->container->get('em'));
-            $params = $request->getParams();
-            $service->create($params['data'], $params['servico'], $params['associado']);
+            $this->service->create(
+                $request->getParam('descricao'),
+                numfmt_parse(
+                    numfmt_create( 'pt_BR', \NumberFormatter::DECIMAL ),
+                    $request->getParam('valor')
+                )
+            );
+
             return $response->withStatus(201);
         } catch (\Exception $ex) {
             return $response->withStatus(500);
@@ -94,10 +91,16 @@ class AdesaoController
     public function update(Request $request, Response $response, $args)
     {
         try {
-            $service = new AdesaoService($this->container->get('em'));
-            $params = $request->getParams();
-            $service->update($args['id'], $params['data'], $params['servico'], $params['associado']);
-            return $response->withStatus(200);
+            $this->service->update(
+                $args['id'],
+                $request->getParam('descricao'),
+                numfmt_parse(
+                    numfmt_create( 'pt_BR', \NumberFormatter::DECIMAL ),
+                    $request->getParam('valor')
+                )
+            );
+
+            return $response->withStatus(201);
         } catch (\Exception $ex) {
             return $response->withStatus(500);
         }

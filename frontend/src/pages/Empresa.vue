@@ -20,14 +20,14 @@
             <el-table-column fixed="right" label="Ação" width="90">
                 <template slot-scope="scope">
                     <el-button size="mini" icon="el-icon-edit" @click="handleEdit(scope.row)" circle></el-button>
-                    <el-button size="mini" icon="el-icon-delete" type="danger" @click="handleDelete(scope.row.id)" circle></el-button>
+                    <el-button size="mini" icon="el-icon-delete" type="danger" @click="handleDelete(scope.row)" circle></el-button>
                 </template>
             </el-table-column>
         </el-table>
 
         <hr/>
 
-        <cadastrar-empresa :visible.sync="dialogFormVisible" :datamodel="dataModel"></cadastrar-empresa>
+        <cadastrar-empresa :visible.sync="dialogFormVisible" :datamodel="dataModel" @empresa-callback="newEmpresa"></cadastrar-empresa>
 
         <el-button id="add" type="success" icon="el-icon-plus" circle @click="handleCreate()"></el-button>
 
@@ -35,105 +35,114 @@
 </template>
 
 <script>
-import CadastrarEmpresa from '../components/register/Empresa.vue';
+import CadastrarEmpresa from "../components/register/Empresa.vue";
 export default {
-    data() {
-        return {
-            title: 'Empresas',
-            tableData: [],
-            dialogFormVisible: false,
-            dataModel: null,
-            search: ''
-        }
+  data() {
+    return {
+      title: "Empresas",
+      tableData: [],
+      dialogFormVisible: false,
+      dataModel: null,
+      search: ""
+    };
+  },
+  methods: {
+    filterTag(value, row) {
+      return row.tag === value;
     },
-    methods: {
-        filterTag(value, row) {
-            return row.tag === value;
-        },
-        filterHandler(value, row, column) {
-            const property = column['property'];
-            return row[property] === value;
-        },
-        findAll() {
-            this.$request.get('pj')
-                .then(response => {
-                    this.tableData = response.data;
-                })
-                .catch(error => {
-                    console.log(error);
-                    this.$notify.error({
-                        title: 'Erro!',
-                        message: 'Não foi possível carregar a lista de empresas'
-                    })
-                })
-        },
-        findEmpresa(){
-            this.$request.get(`pj/${this.search}`)
+    filterHandler(value, row, column) {
+      const property = column["property"];
+      return row[property] === value;
+    },
+    findAll() {
+      this.$request
+        .get("pj")
+        .then(response => {
+          this.tableData = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+          this.$notify.error({
+            title: "Erro!",
+            message: "Não foi possível carregar a lista de empresas"
+          });
+        });
+    },
+    findEmpresa() {
+      this.$request.get(`pj/${this.search}`).then(response => {
+        this.tableData = response.data;
+      });
+    },
+    handleDelete(row) {
+      this.$confirm("Você tem certeza que desja excluir esta empresa?")
+        .then(_ => {
+          this.$request
+            .delete(`pj/${row.id}`)
             .then(response => {
-                this.tableData = response.data;
+              this.$notify({
+                type: "success",
+                title: "Sucesso",
+                message: "Item excuído"
+              });
+              var index = this.tableData.indexOf(row);
+              if (index !== -1) {
+                this.tableData.splice(index, 1);
+              }
             })
-        },
-        handleDelete(id) {
-            this.$confirm('Você tem certeza que desja excluir esta empresa?')
-                .then(_ => {
-                    this.$request.delete(`pj/${id}`)
-                        .then(response => {
-                            this.$notify({
-                                type: 'success',
-                                title: 'Sucesso',
-                                message: 'Item excuído'
-                            })
-                        })
-                        .catch(error => {
-                            console.log(error);
-                            this.$notify.error({
-                                title: 'Erro!',
-                                message: 'Não foi possível excluir o item desejado'
-                            });
-                        });
-                    done();
-                })
-                .catch(_ => { });
-        },
-        handleCreate(){
-            this.dataModel = null;
-            this.dialogFormVisible = true;
-        },
-        handleEdit(data){
-            this.dataModel = {
-                razaoSocial: data.razaoSocial,
-                telefones: data.telefones,
-                enderecos: data.enderecos,
-                email: {
-                    email: data.email,
-                },
-                grupos: data.grupos,
-                nomeFantasia: data.nomeFantasia,
-                inscricaoEstadual: {
-                    numero: data.inscricaoEstadual
-                },
-                cnpj: {
-                    numero: data.cnpj
-                },
-                numeroFuncionarios: data.numeroFuncionarios,
-                representanteLegal: data.representanteLegal,
-                ramoAtividade: data.ramoAtividade
-            };
-            this.dialogFormVisible = true;
-        }
+            .catch(error => {
+              console.log(error);
+              this.$notify.error({
+                title: "Erro!",
+                message:
+                  "Não foi possível excluir a empresa desejada, pois existem movimentações envolvendo-a."
+              });
+            });
+          done();
+        })
+        .catch(_ => {});
     },
-    mounted: function() {
-        this.findAll();
+    handleCreate() {
+      this.dataModel = null;
+      this.dialogFormVisible = true;
     },
-    components: { CadastrarEmpresa }
-}
+    handleEdit(data) {
+      this.dataModel = {
+        razaoSocial: data.razaoSocial,
+        telefones: data.telefones,
+        enderecos: data.enderecos,
+        email: {
+          email: data.email
+        },
+        grupos: data.grupos,
+        nomeFantasia: data.nomeFantasia,
+        inscricaoEstadual: {
+          numero: data.inscricaoEstadual
+        },
+        cnpj: {
+          numero: data.cnpj
+        },
+        numeroFuncionarios: data.numeroFuncionarios,
+        representanteLegal: data.representanteLegal,
+        ramoAtividade: data.ramoAtividade
+      };
+      this.dialogFormVisible = true;
+    },
+    newEmpresa(model) {
+      this.findAll();
+    }
+  },
+  mounted: function() {
+    this.findAll();
+  },
+  components: { CadastrarEmpresa }
+};
 </script>
 
 <style>
 #add {
-    position: fixed;
-    bottom: 50px;
-    right: 50px;
-    z-index: 100;
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+  z-index: 100;
 }
 </style>

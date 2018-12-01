@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Acesso;
 use App\Factory\DoctrineParamsMapper;
 use Doctrine\ORM\EntityManager;
 use App\Entity\Perfil;
@@ -48,9 +49,24 @@ class PerfilService {
         $this->em->flush();
     }
 
-    public function create(DoctrineParamsMapper $perfil)
+    public function create($id, $acessos, $descricao)
     {
-        $this->em->persist($perfil->map());
+        $perfil = $this->em->getRepository(Perfil::class)->find($id);
+        $perfil->setDescricao($descricao);
+        foreach ($acessos as $acesso)
+        {
+            if($this->em->getRepository(Acesso::class)->find(isset($acesso['id']) ?? 0)){
+                continue;
+            }
+            $obj =  new Acesso();
+            $obj->setRota($acesso['rota']);
+            $obj->setGet($acesso['GET']);
+            $obj->setPosta($acesso['POST']);
+            $obj->setPut($acesso['PUT']);
+            $obj->setDelete($acesso['DELETE']);
+            $perfil->addAcesso($obj);
+        }
+        $this->em->merge($perfil);
         $this->em->flush();
     }
 

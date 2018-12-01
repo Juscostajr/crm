@@ -1,5 +1,5 @@
 <template>
-    <el-dialog title="Cadastrar Pessoa" :visible.sync="modal" width="80%">
+    <el-dialog title="Cadastrar Pessoa" :visible.sync="modal" width="80%" append-to-body>
 
         <el-form :model="form">
             <el-row :gutter="10">
@@ -180,6 +180,7 @@ export default {
                         message: 'Pessoa salva corretamente',
                         type: 'success'
                     });
+                this.$emit('saved', this.form)
                 })
                 .catch(error => {
                     this.$notify.error({

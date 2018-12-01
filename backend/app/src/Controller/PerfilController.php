@@ -71,11 +71,9 @@ class PerfilController {
     {
         try {
             $this->service->create(
-                new DoctrineParamsMapper(
-                    Perfil::class,
-                    $request->getParams(),
-                    $this->em
-                )
+                $request->getParam('id'),
+                $request->getParam('acessos'),
+                $request->getParam('descricao')
             );
 
             return $response->withStatus(201);

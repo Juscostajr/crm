@@ -32,7 +32,7 @@ export default {
     methods: {
         remoteMethod(query) {
             this.filteredOptions = [];
-            if (query === '') return
+            if (query === '' || query === undefined) return
             this.loading = true;
             setTimeout(() => {
                 this.loading = false;

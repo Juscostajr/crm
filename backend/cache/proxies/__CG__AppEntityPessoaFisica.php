@@ -356,7 +356,7 @@ class PessoaFisica extends \App\Entity\PessoaFisica implements \Doctrine\ORM\Pro
     /**
      * {@inheritDoc}
      */
-    public function getEmail(): \App\Entity\Mail
+    public function getEmail(): string
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getEmail', []);
