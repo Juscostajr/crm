@@ -2,11 +2,13 @@
 
 namespace App\Service;
 
+use App\Entity\Campanha;
 use App\Entity\Pergunta;
 use App\Entity\Pessoa;
 use Doctrine\ORM\EntityManager;
 use App\Entity\PerguntaPessoa;
 use Doctrine\ORM\NoResultException;
+use phpDocumentor\Reflection\DocBlock\Tags\Param;
 
 class PerguntaPessoaService {
 
@@ -41,6 +43,19 @@ class PerguntaPessoaService {
         }
 
         return $perguntaPessoa;
+    }
+
+    public function findByCampanha(Campanha $campanha, Pessoa $pessoa){
+        $qb = $this->em
+            ->createQueryBuilder()
+            ->select('pp')
+            ->from(PerguntaPessoa::class, 'pp')
+            ->innerJoin('pp.pergunta', 'p')
+            ->where('p.campanha = ?1')
+            ->andWhere('pp.pessoa = ?2');
+        $qb->setParameters(array(1 => $campanha->getId(), 2 => $pessoa->getId()));
+        $query = $qb->getQuery();
+        return $query->getResult();
     }
 
     public function delete(int $id)

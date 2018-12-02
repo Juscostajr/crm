@@ -51,6 +51,15 @@ abstract class Pessoa
      */
     protected $grupos;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="Interacao", cascade={"persist", "remove"})
+     * @ORM\JoinTable(name="interacoes_pessoa",
+     *      joinColumns={@ORM\JoinColumn(name="pessoa", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="interacao", referencedColumnName="id")}
+     *      )
+     */
+    private $interacaos;
+
 
     /**
      * Pessoa constructor.
@@ -60,6 +69,7 @@ abstract class Pessoa
         $this->enderecos = new ArrayCollection();
         $this->telefones = new ArrayCollection();
         $this->grupos = new ArrayCollection();
+        $this->interacaos = new ArrayCollection();
     }
 
     /**
@@ -148,6 +158,17 @@ abstract class Pessoa
     {
         $this->email = $email->getEmail();
     }
+
+    public function getInteracaos(): array
+    {
+        return $this->interacaos->toArray();
+    }
+
+    public function addInteracaos(Interacao $interacao)
+    {
+        $this->interacaos->add($interacao);
+    }
+
 
     public function toArray()
     {

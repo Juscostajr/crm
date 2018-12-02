@@ -19,7 +19,10 @@ class PerguntaService {
 
     public function findAll()
     {
+
         $perguntas = $this->em->getRepository('\App\Entity\Pergunta')->findAll();
+
+
 
         if (!$perguntas) {
             throw new \Exception("Perguntas not found", 404);

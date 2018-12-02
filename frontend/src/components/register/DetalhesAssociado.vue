@@ -1,13 +1,13 @@
 <template>
-    <el-dialog title="Venda" :visible.sync="modal" width="80%" append-to-body>
+    <el-dialog :title="formulario.razaoSocial" :visible.sync="modal" width="80%" append-to-body>
         <el-form :model="formulario">
 
             <el-row :gutter="15">
                 <el-col :span="16">
-                    <b>Razão Social</b> {{formulario.pessoaJuridica.razaoSocial}}
+                    <b>Razão Social</b> {{formulario.razaoSocial}}
                 </el-col>
                 <el-col :span="8">
-                    <b>Nome Fantasia</b> {{formulario.pessoaJuridica.nomeFantasia}}
+                    <b>Nome Fantasia</b> {{formulario.nomeFantasia}}
                 </el-col>
             </el-row>
             <el-row>
@@ -78,12 +78,10 @@
                         <icon name="user-tie"></icon> Registrar Visita</el-button>
                 </el-col>
             </el-row>
-            <registrar-interacao @interacao-saved="interacaoCallBack" :visible.sync="interacaoVisible" :datamodel="{tipo:interacaoTipo}" :pj="formulario.pessoaJuridica"></registrar-interacao>
-            <associado :visible.sync="associadoVisible" :pessoa="formulario.pessoaJuridica"></associado>
+            <registrar-interacao @interacao-saved="interacaoCallBack" :visible.sync="interacaoVisible" :datamodel="{tipo:interacaoTipo}" :pj="formulario"></registrar-interacao>
         </el-form>
         <span slot="footer" class="dialog-footer">
-            <el-button @click="modal = false">Cancelar</el-button>
-            <el-button type="success" @click="save">Salvar</el-button>
+            <el-button @click="modal = false">Fechar</el-button>
            
             </span>
         </span>
@@ -99,13 +97,10 @@ export default {
     data() {
         return {
             formulario: {
-                id: '',
-                pessoaJuridica: {
                     id: '',
                     razaoSocial: '',
                     nomeFantasia: '',
-                },
-                interacaos: [],
+                    interacaos: [],
             },
             dialogFormVisible: true,
             interacaoVisible: false,

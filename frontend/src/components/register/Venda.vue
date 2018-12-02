@@ -26,7 +26,7 @@
             <el-row>
                 <el-col :span="24">
                     <h3>Interações</h3>
-                    <el-row v-for="interacao in formulario.interacaos" :key="interacao.id" :gutter="15">
+                    <el-row v-for="interacao in formulario.pessoaJuridica.interacaos" :key="interacao.id" :gutter="15">
                         <el-row>
                             <el-col :span="1">
                                 <icon name="phone" v-if="interacao.tipo == 'Telefonema'" :scale="2.5" />
@@ -129,9 +129,9 @@ export default {
                 pessoaJuridica: {
                     razaoSocial: '',
                     nomeFantasia: '',
+                    interacaos: [],
                 },
                 etapa: '',
-                interacaos: [],
                 interesses: [],
             },
             dialogFormVisible: true,
@@ -216,7 +216,7 @@ export default {
             this.interacaoVisible = true;
         },
         interacaoCallBack(data) {
-            this.formulario.interacaos.push(data);
+            this.formulario.pessoaJuridica.interacaos.push(data);
         },
         init(){
             if (this.vendaModel == null) return this.clearForm();

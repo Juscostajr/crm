@@ -5,9 +5,9 @@
             <div slot="header" class="clearfix">
                 Cobertura
             </div>
-                <!--
+                
                 <mapa :coordenadas="coordenadas" type="heatmap"></mapa>
-                -->
+                
         </el-card>
         <el-row :gutter="15">
           <el-col :span="12">

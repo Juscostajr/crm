@@ -463,4 +463,26 @@ class PessoaJuridica extends \App\Entity\PessoaJuridica implements \Doctrine\ORM
         return parent::setEmail($email);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function getInteracaos(): array
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getInteracaos', []);
+
+        return parent::getInteracaos();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function addInteracaos(\App\Entity\Interacao $interacao)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addInteracaos', [$interacao]);
+
+        return parent::addInteracaos($interacao);
+    }
+
 }

@@ -13,19 +13,29 @@
             <el-table-column label="Valor da Mensalidade" property="valorMensalidade.descricao"/>
             <el-table-column label="Ação">
                 <template slot-scope="scope">
-                    <el-button size="mini" type="primary" @click="interacaoVisible = true"><icon name="comment-dots"/> Interagir</el-button>
-                    <el-button size="mini" type="warning" @click="handleDesfiliar(scope.row)"><icon name="lock"/> Desfiliar</el-button>
+                    <el-tooltip content="Interagir" placement="top">    
+                    <el-button size="mini" type="primary" @click="handleDetalhesAssociado(scope.row)">
+                        <icon name="comment-dots"/>
+                    </el-button>
+                    </el-tooltip>
+                    <el-tooltip content="Desfiliar" placement="top">
+                    <el-button size="mini" type="warning" @click="handleDesfiliar(scope.row)">
+                        <icon name="lock"/>
+                    </el-button>
+                    </el-tooltip>
                 </template>
             </el-table-column>
         </el-table>
     </el-form>
     <desfiliacao :visible.sync="desfiliacaoVisible" :associado="currentAssociado"/>
+    <detalhes-associado :visible.sync="associadoVisible" :associado-model="currentAssociado"></detalhes-associado>
 </el-card>
 </div>
 </template>
 <script>
-import Desfiliacao from '../components/register/Desfiliacao.vue';
-import Interacao from '../components/register/Interacao.vue';
+import Desfiliacao from "../components/register/Desfiliacao.vue";
+import Interacao from "../components/register/Interacao.vue";
+import DetalhesAssociado from "../components/register/DetalhesAssociado.vue";
 export default {
   data() {
     return {
@@ -34,15 +44,19 @@ export default {
       form: {},
       desfiliacaoVisible: false,
       currentAssociado: {},
-      interacaoVisible: false
+      associadoVisible: false
     };
   },
-  components: { Desfiliacao },
+  components: { Desfiliacao, Interacao, DetalhesAssociado },
   methods: {
-      handleDesfiliar(data){
-          this.currentAssociado = data;
-          this.desfiliacaoVisible = true;
-      }
+    handleDesfiliar(data) {
+      this.currentAssociado = data.pessoaJuridica;
+      this.desfiliacaoVisible = true;
+    },
+    handleDetalhesAssociado(data) {
+      this.currentAssociado = data.pessoaJuridica;
+      this.associadoVisible = true;
+    }
   },
   mounted() {
     this.$request.get("associado/status/Ativo").then(response => {

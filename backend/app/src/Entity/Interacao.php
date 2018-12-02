@@ -40,6 +40,11 @@ class Interacao
      */
     private $hora;
 
+    /** @var \DateTime
+     * @ORM\Column(type="datetime")
+     */
+    private $retorno;
+
     /** @var TipoInteracao
      * @ORM\Column(type="string")
      */
@@ -148,6 +153,22 @@ class Interacao
     public function setHora(string $hora)
     {
         $this->hora = new \DateTime($hora);
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getRetorno(): \DateTime
+    {
+        return $this->retorno;
+    }
+
+    /**
+     * @param \DateTime $retorno
+     */
+    public function setRetorno(string $retorno)
+    {
+        $this->retorno = new \DateTime($retorno);
     }
 
     /**

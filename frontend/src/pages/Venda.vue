@@ -12,8 +12,8 @@
                 <el-card class="box-card" header="Vendas em Aberto">
 
                     <el-table :data="vendas" style="width: 100%">
-                        <el-table-column label="Empresa" width="220" prop="pessoaJuridica.nomeFantasia"></el-table-column>
-                        <el-table-column width="180">
+                        <el-table-column label="Empresa" prop="pessoaJuridica.nomeFantasia"></el-table-column>
+                        <el-table-column>
                             <template slot-scope="scope">
                                 <el-popover trigger="hover" placement="top">
                                     <p>Name: {{ scope.row.pessoaJuridica.razaoSocial }}</p>
@@ -234,7 +234,7 @@ export default {
         },
         filterInteracao() {
             return [].concat.apply([], this.vendas.map(
-                venda => venda.interacaos.map(
+                venda => venda.pessoaJuridica.interacaos.map(
                     interacao => Object.assign({pessoaJuridica: venda.pessoaJuridica},interacao)
                     )
                 )

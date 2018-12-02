@@ -44,11 +44,11 @@ class RouteValidatorMiddleware
             $this->userPaths = $this->mapPaths($this->payload->rotas);
 
             if (!$this->authorizedPath()) {
-                return $response->withStatus(401, 'User is not authorized to use this route.');
+                return $response->withStatus(401, 'User not allowed to use this route.');
             }
 
             if (!$this->authorizedMethod($request->getMethod())) {
-                return $response->withStatus(401, 'User is not authorized to use this method');
+                return $response->withStatus(405, 'User not allowed to use this method');
             }
 
 

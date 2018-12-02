@@ -2,30 +2,18 @@
 <el-dialog :title="title" :visible.sync="dialogVisible" width="80%">
     <el-form :model="form">
         <el-table :data="this.form">
-          <el-table-column label="Nome" prop="pessoa.nomeFantasia"/>
+          <el-table-column label="Nome" prop="perguntapessoa[0].pessoa.nomeFantasia"/>
           <el-table-column label="Perguntas">
               <template slot-scope="scope">
                   <el-checkbox 
-                  v-for="(pergunta, index) in scope.row.perguntas" :key="index" 
-                  :label="pergunta.descricao" 
-                  :true-label="{
-                      pergunta: pergunta, 
-                      pessoa: scope.row.pessoa,
-                      resposta: true,
-                      data: new Date()
-                    }" 
-                  :false-label="{
-                      pergunta: pergunta, 
-                      pessoa: scope.row.pessoa,
-                      resposta: false,
-                      data: new Date()
-                    }" 
-                   @change="saveStatus"/><br/>
+                  v-for="(perguntapessoa, index) in scope.row.perguntapessoa" :key="index" 
+                  :label="perguntapessoa.pergunta.descricao"
+                  v-model="perguntapessoa.resposta" /><br/>
               </template>
           </el-table-column>
           <el-table-column>
             <template slot-scope="scope">
-                                <el-button type="success" size="mini" @click="callInteracao(scope.row.pessoa)">
+                                <el-button type="success" size="mini" @click="callInteracao(scope.row.perguntapessoa[0].pessoa)">
                                     <icon name="phone"/> Interações
                                 </el-button>
             </template>
@@ -36,12 +24,12 @@
       <el-button @click="dialogVisible = false">Cancelar</el-button>
       <el-button type="success" @click="save">Salvar</el-button>
       {{this.usuario}}
-       <interacao :visible.sync="interacaoVisible" :associadoModel="associado"></interacao>
+       <interacao :visible.sync="interacaoVisible" :associadoModel="associado.pessoaJuridica"></interacao>
     </div>
 </el-dialog>    
 </template>
 <script>
-import Interacao from "./InteracoesAssociado.vue";
+import Interacao from "./DetalhesAssociado.vue";
 export default {
   props: {
     visible: Boolean,
@@ -54,7 +42,7 @@ export default {
   },
   data() {
     return {
-      title: "Alterar Senha",
+      title: "Lista",
       dialogVisible: false,
       interacaoTipo: "",
       form: [
@@ -65,6 +53,7 @@ export default {
           data: new Date()
         }
       ],
+      listaPessoas: [],
       associado: {
         pessoaJuridica: {}
       },
@@ -79,12 +68,13 @@ export default {
     visible() {
       this.dialogVisible = this.visible;
       if (this.dialogVisible) {
-        this.form = this.data.target.membros.map(pessoa => {
-          return {
-            pessoa: pessoa,
-            perguntas: this.data.perguntas
-          };
-        });
+        this.$request
+          .get(`campanha/respostas/${this.data.id}`)
+          .then(response => {
+            this.form = response.data.map(pessoa => {
+              return { perguntapessoa: pessoa };
+            });
+          });
       }
     },
     dialogVisible() {
@@ -95,6 +85,19 @@ export default {
   },
   methods: {
     save() {
+      for (let pessoa of this.form) {
+        for (let perguntapessoa of pessoa.perguntapessoa) {
+          setTimeout(() => {
+          this.$request
+            .post("perguntapessoa", perguntapessoa)
+            .then(response => {
+              alert("sucesso");
+            });  
+          }, 200);
+        }
+      }
+
+      /**
       this.$request
         .put("senha", this.form)
         .then(response => {
@@ -120,11 +123,13 @@ export default {
         .finally(() => {
           this.dialogVisible = false;
         });
+         */
     },
     saveStatus(value) {
-      this.$request.post(`perguntapessoa`, value).then(response => {});
+      console.log(value);
+      //this.$request.post(`perguntapessoa`, value).then(response => {});
     },
-    callInteracao(pessoaJuridica){
+    callInteracao(pessoaJuridica) {
       this.associado.pessoaJuridica = pessoaJuridica;
       this.interacaoVisible = true;
     },

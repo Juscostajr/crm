@@ -64,10 +64,10 @@ class Interacao extends \App\Entity\Interacao implements \Doctrine\ORM\Proxy\Pro
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'feedback', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'usuario', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'data', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'hora', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'tipo', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'anotacaos', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'sentido'];
+            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'feedback', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'usuario', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'data', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'hora', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'retorno', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'tipo', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'anotacaos', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'sentido'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'feedback', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'usuario', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'data', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'hora', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'tipo', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'anotacaos', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'sentido'];
+        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'feedback', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'usuario', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'data', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'hora', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'retorno', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'tipo', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'anotacaos', '' . "\0" . 'App\\Entity\\Interacao' . "\0" . 'sentido'];
     }
 
     /**
@@ -285,6 +285,28 @@ class Interacao extends \App\Entity\Interacao implements \Doctrine\ORM\Proxy\Pro
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setHora', [$hora]);
 
         return parent::setHora($hora);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getRetorno(): \DateTime
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getRetorno', []);
+
+        return parent::getRetorno();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setRetorno(string $retorno)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setRetorno', [$retorno]);
+
+        return parent::setRetorno($retorno);
     }
 
     /**

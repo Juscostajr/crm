@@ -88,6 +88,23 @@
                     <el-button type="success" icon="el-icon-plus" @click="addAnotacao" id="btn_plus">Acrescentar uma anotação</el-button>
                 </el-col>
             </el-row>
+            <hr/>
+            <el-row :gutter="15">
+              <el-col :span="18">
+                  <el-alert
+                    title="Caso deseje, você poderá agendar uma data de retorno para ser notificado pelo sistema"
+                    type="info"
+                    :closable="false"
+                    show-icon />
+              </el-col>
+              <el-col :span="6">
+                  <el-date-picker
+                    v-model="form.retorno"
+                    type="datetime"
+                    placeholder="Data e Hora do Agendamento"
+                    />
+              </el-col>
+            </el-row>
         </el-form>
         <span slot="footer" class="dialog-footer">
             <el-button @click="modal = false">Cancelar</el-button>
@@ -97,94 +114,96 @@
 </template>
 <script>
 function model() {
-    return {
-        usuario: {
-            id: 16,
-            pessoa: {
-                nome: 'Juscelino Fernandes',
-            }
-        },
-        data: '',
-        hora: '',
-        tipo: '',
-        anotacaos: [
-            {
-                data: new Date().toUTCString(),
-                hora: new Date().toUTCString(),
-                titulo: '',
-                descricao: ''
-            }
-        ],
-    }
+  return {
+    usuario: {
+      id: 16,
+      pessoa: {
+        nome: "Juscelino Fernandes"
+      }
+    },
+    data: "",
+    hora: "",
+    tipo: "",
+    anotacaos: [
+      {
+        data: new Date().toUTCString(),
+        hora: new Date().toUTCString(),
+        titulo: "",
+        descricao: "",
+        retorno: ""
+      }
+    ]
+  };
 }
 export default {
-    props: ['visible', 'datamodel', 'pj'],
-    data() {
-        return {
-            form: model(),
-            dialogFormVisible: true,
-            innerVisible: false,
-            modal: false,
-        }
+  props: ["visible", "datamodel", "pj"],
+  data() {
+    return {
+      form: model(),
+      dialogFormVisible: true,
+      innerVisible: false,
+      modal: false
+    };
+  },
+  watch: {
+    modal() {
+      if (this.modal == true) this.updateData();
+      this.$emit("update:visible", this.modal);
     },
-    watch: {
-        modal() {
-            if (this.modal == true) this.updateData();
-            this.$emit('update:visible', this.modal)
-        },
-        visible() {
-            this.modal = this.visible;
-        },
-        datamodel() {
-            if (this.datamodel != null) {
-                this.form = Object.assign(this.form, this.datamodel);
-            }
-        }
+    visible() {
+      this.modal = this.visible;
     },
-    methods: {
-        save() {
-            this.$emit('interacao-saved', Object.assign({}, this.form));
-            this.form = model();
-            this.modal = false;
-        }
-        ,
-        clearForm() {
-            this.form = model();
-        },
-        updateData() {
-            this.form.data = new Date().toUTCString();
-            this.form.hora = new Date().toUTCString();
-            console.log(this.pj);
-        },
-        addAnotacao() {
-            this.form.anotacaos.push(model().anotacaos[0]);
-        },
-        removeAnotacao(item) {
-            var index = this.form.anotacaos.indexOf(item);
-            if (index !== -1) {
-                this.form.anotacaos.splice(index, 1);
-            }
-        }
-
+    datamodel() {
+      if (this.datamodel != null) {
+        this.form = Object.assign(this.form, this.datamodel);
+      }
     }
-}
-
+  },
+  methods: {
+    save() {
+      this.$request
+        .put(`pessoa/interacao/${this.pj.id}`, this.form)
+        .then(response => {
+          this.$emit("interacao-saved", Object.assign({}, this.form));
+          this.form = model();
+          this.modal = false;
+        });
+    },
+    clearForm() {
+      this.form = model();
+    },
+    updateData() {
+      this.form.data = new Date().toUTCString();
+      this.form.hora = new Date().toUTCString();
+      console.log(this.pj);
+    },
+    addAnotacao() {
+      this.form.anotacaos.push(model().anotacaos[0]);
+    },
+    removeAnotacao(item) {
+      var index = this.form.anotacaos.indexOf(item);
+      if (index !== -1) {
+        this.form.anotacaos.splice(index, 1);
+      }
+    }
+  }
+};
 </script>
 <style scope>
 #btn_plus {
-    width: 100%;
+  width: 100%;
 }
 
 .contato {
-    font-size: 2em;
-    padding: 0.5em;
-    margin-bottom: 20px;
-    background-color: #3a8ee6;
-    color: white;
-    border-radius: 12px;
+  font-size: 2em;
+  padding: 0.5em;
+  margin-bottom: 20px;
+  background-color: #3a8ee6;
+  color: white;
+  border-radius: 12px;
 }
 
 .fa-icon {
-    margin-bottom: -0.2em;
+  margin-bottom: -0.2em;
 }
 </style>

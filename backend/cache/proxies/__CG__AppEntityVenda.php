@@ -64,10 +64,10 @@ class Venda extends \App\Entity\Venda implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Venda' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Venda' . "\0" . 'pessoaJuridica', '' . "\0" . 'App\\Entity\\Venda' . "\0" . 'etapa', '' . "\0" . 'App\\Entity\\Venda' . "\0" . 'interesses', '' . "\0" . 'App\\Entity\\Venda' . "\0" . 'interacaos'];
+            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Venda' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Venda' . "\0" . 'pessoaJuridica', '' . "\0" . 'App\\Entity\\Venda' . "\0" . 'etapa', '' . "\0" . 'App\\Entity\\Venda' . "\0" . 'interesses'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Venda' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Venda' . "\0" . 'pessoaJuridica', '' . "\0" . 'App\\Entity\\Venda' . "\0" . 'etapa', '' . "\0" . 'App\\Entity\\Venda' . "\0" . 'interesses', '' . "\0" . 'App\\Entity\\Venda' . "\0" . 'interacaos'];
+        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Venda' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Venda' . "\0" . 'pessoaJuridica', '' . "\0" . 'App\\Entity\\Venda' . "\0" . 'etapa', '' . "\0" . 'App\\Entity\\Venda' . "\0" . 'interesses'];
     }
 
     /**
@@ -263,28 +263,6 @@ class Venda extends \App\Entity\Venda implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'addInteresses', [$servico]);
 
         return parent::addInteresses($servico);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getInteracaos(): array
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getInteracaos', []);
-
-        return parent::getInteracaos();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function addInteracaos(\App\Entity\Interacao $interacao)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addInteracaos', [$interacao]);
-
-        return parent::addInteracaos($interacao);
     }
 
     /**

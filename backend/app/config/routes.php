@@ -1,5 +1,6 @@
 <?php
 
+$app->put('/pessoa/interacao/{id}', \App\Controller\PessoaController::class . ':addInteracao');
 
 $app->get('/adesao', \App\Controller\AdesaoController::class . ':findAll');
 $app->get('/associado/{id}', \App\Controller\AssociadoController::class . ':findOne');
@@ -23,6 +24,7 @@ $app->post('/desfiliacao', \App\Controller\DesfiliacaoController::class . ':crea
 $app->post('/campanha', \App\Controller\CampanhaController::class . ':create');
 $app->put('/campanha/perguntas', \App\Controller\CampanhaController::class . ':addPerguntas');
 $app->get('/campanha', \App\Controller\CampanhaController::class . ':findAll');
+$app->get('/campanha/respostas/{id}', \App\Controller\CampanhaController::class . ':listPerguntasRespostas');
 
 $app->post('/perguntapessoa', \App\Controller\PerguntaPessoaController::class . ':createOrUpdate');
 
@@ -68,6 +70,7 @@ $app->get('/perfil/{descricao}', App\Controller\PerfilController::class . ':find
 $app->delete('/perfil/{id}', App\Controller\PerfilController::class . ':delete');
 
 $app->get('/tipogrupo', App\Controller\TipoGrupoController::class . ':findAll');
+$app->post('/tipogrupo', App\Controller\TipoGrupoController::class . ':create');
 
 $app->get('/ramo', App\Controller\RamoAtividadeController::class . ':findAll');
 
@@ -92,6 +95,7 @@ $app->post('/venda', \App\Controller\VendaController::class . ':create');
 //$app->post('/pj', App\Controller\PessoaJuridicaController::class . ':create');
 //$app->delete('/pj/{id}', App\Controller\PessoaJuridicaController::class . ':delete');
 $app->put('/interacao', App\Controller\InteracaoController::class . ':createOrUpdate');
+$app->get('/interacao', \App\Controller\InteracaoController::class . ':findAll');
 $app->put('/interacao/feedback', \App\Controller\InteracaoController::class . ':registerFeedback');
 
 

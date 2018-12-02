@@ -3,7 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Campanha;
+use App\Entity\PerguntaPessoa;
+use App\Entity\Pessoa;
 use App\Service\CampanhaService;
+use App\Service\PerguntaPessoaService;
+use Doctrine\ORM\EntityManager;
 use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
 use JMS\Serializer\Naming\SerializedNameAnnotationStrategy;
 use JMS\Serializer\SerializerBuilder;
@@ -13,6 +17,9 @@ use Slim\Http\Response;
 
 class CampanhaController {
 
+    /**
+     * @var EntityManager $em
+     */
     private $em;
     private $serializer;
     protected $container;
@@ -50,6 +57,32 @@ class CampanhaController {
             return $response->withJSON($campanha->toArray());
         } catch (\Exception $ex) {
             return $response->withStatus(404);
+        }
+    }
+
+    public function listPerguntasRespostas(Request $request, Response $response, $args){
+        try {
+            /**
+             * @var Campanha $campanha
+             */
+            $campanha = $this->em->find(Campanha::class,$args['id']);
+
+            $respostas = array();
+            foreach ($campanha->getTarget()->getMembros() as $pessoa){
+                /**
+                 * @var Pessoa $pessoa
+                 */
+                $perguntaPessoa = new PerguntaPessoaService($this->em);
+                $respostasPessoa = $perguntaPessoa->findByCampanha($campanha, $pessoa);
+                array_push($respostas, $respostasPessoa);
+            }
+            return $response->write(
+                $this->serializer->serialize($respostas, 'json')
+            );
+
+
+        }catch (\Exception $e){
+            return $response->withStatus(500);
         }
     }
 
