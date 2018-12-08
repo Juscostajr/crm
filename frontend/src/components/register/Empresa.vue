@@ -289,7 +289,7 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped>
 .el-input--suffix {
   width: 120px;
 }

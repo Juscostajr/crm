@@ -51,7 +51,8 @@ class PerfilService {
 
     public function create($id, $acessos, $descricao)
     {
-        $perfil = $this->em->getRepository(Perfil::class)->find($id);
+
+        $perfil = is_null($id) ? new Perfil() : $this->em->getRepository(Perfil::class)->find($id);
         $perfil->setDescricao($descricao);
         foreach ($acessos as $acesso)
         {

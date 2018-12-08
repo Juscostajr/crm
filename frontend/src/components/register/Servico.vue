@@ -48,12 +48,13 @@ export default {
                         message: 'Servico salva corretamente',
                         type: 'success'
                     });
+                    this.$emit("saved", this.form);
                 })
                 .catch(error => {
                     console.log(error);
                     this.$notify.error({
                         title: 'Erro!',
-                        message: 'Não foi possível cadastrar o grupo, consulte a área de sistemas'
+                        message: 'Não foi possível cadastrar o serviço'
                     });
                 });
         }
@@ -68,7 +69,7 @@ export default {
 }
 
 </script>
-<style>
+<style scoped>
 .el-input--suffix {
     width: 120px;
 }

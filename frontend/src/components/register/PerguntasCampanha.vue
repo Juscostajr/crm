@@ -17,7 +17,7 @@
 export default {
   props: {
     visible: Boolean,
-    data: Object,
+    data: Object
   },
   data() {
     return {
@@ -25,9 +25,11 @@ export default {
       dialogVisible: false,
       innerData: {},
       form: {
-        perguntas: [{
-            descricao: '',
-        }],
+        perguntas: [
+          {
+            descricao: ""
+          }
+        ]
       },
       errorMessage: {
         404: "Rota não encontrada",
@@ -54,9 +56,10 @@ export default {
         .then(response => {
           this.$notify({
             title: "Sucesso!",
-            message: "Campanha cadastrada!",
+            message: "Pergunta cadastrada!",
             type: "success"
           });
+          this.$emit("saved", this.form);
         })
         .catch(error => {
           let message =
@@ -64,7 +67,7 @@ export default {
             this.errorMessage.hasOwnProperty(error.response.status)
               ? this.errorMessage[error.response.status]
               : "Houve um erro inesperado";
-          
+
           this.$notify.error({
             title: "Erro!",
             message: message
@@ -75,11 +78,10 @@ export default {
           this.dialogVisible = false;
         });
     },
-    addPergunta(){
-      this.form.perguntas.push({descricao: ''});
+    addPergunta() {
+      this.form.perguntas.push({ descricao: "" });
     }
-  },
-
+  }
 };
 </script>
 <style scoped>

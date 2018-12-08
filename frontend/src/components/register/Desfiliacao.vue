@@ -24,12 +24,12 @@
 export default {
   props: {
     visible: Boolean,
-    associado: Object,
+    associado: Object
   },
-  computed:{
-      usuario(){
-       // alert(this.$store.state.usuario.login);
-      }
+  computed: {
+    usuario() {
+      // alert(this.$store.state.usuario.login);
+    }
   },
   data() {
     return {
@@ -37,7 +37,7 @@ export default {
       dialogVisible: false,
       form: {
         data: new Date(),
-        motivo: '',
+        motivo: ""
       },
       motivoDesfiliacao: [],
       errorMessage: {
@@ -49,6 +49,7 @@ export default {
   watch: {
     visible() {
       this.dialogVisible = this.visible;
+      console.log(this.associado);
     },
     dialogVisible() {
       if (!this.dialogVisible) {
@@ -67,6 +68,8 @@ export default {
             message: "Desfiliação registrada!",
             type: "success"
           });
+          this.$emit("saved", this.form);
+          this.dialogVisible = false;
         })
         .catch(error => {
           let message =
@@ -87,12 +90,10 @@ export default {
     }
   },
   mounted() {
-      this.$request.get('desfiliacao/motivo')
-      .then(response => {
-          this.motivoDesfiliacao = response.data;
-      })
-
-  },
+    this.$request.get("desfiliacao/motivo").then(response => {
+      this.motivoDesfiliacao = response.data;
+    });
+  }
 };
 </script>
 <style scoped>

@@ -5,7 +5,7 @@
                 <el-input v-model="form.descricao" auto-complete="off"></el-input>
             </el-form-item>
             <el-form-item label="Valor">
-                <el-input v-model="form.valor" auto-complete="off"></el-input>
+              <el-input-number v-model="form.valor" :precision="2" :step="0.05"/>
             </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
@@ -48,16 +48,16 @@ export default {
 
           this.$notify({
             title: "Sucesso!",
-            message: "Servico salva corretamente",
+            message: "Tabela atualizada",
             type: "success"
           });
+          this.$emit("saved", this.form);
         })
         .catch(error => {
           console.log(error);
           this.$notify.error({
             title: "Erro!",
-            message:
-              "Não foi possível cadastrar o grupo, consulte a área de sistemas"
+            message: "Não foi possível cadastrar a tabela."
           });
         })
         .finally(() => {
@@ -73,7 +73,7 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped>
 .el-input--suffix {
   width: 120px;
 }

@@ -77,18 +77,21 @@ class VendaController {
     public function create(Request $request, Response $response)
     {
         try {
-            $this->service->create(
-                new DoctrineParamsMapper(
-                    Venda::class,
-                    $request->getParams(),
-                    $this->em
-                )
+            $service = new VendaService($this->container->get('em'));
+
+            $params = $request->getParams();
+
+            $service->create(
+                $params['etapa'],
+                $params['interacaos'],
+                $params['interesses'],
+                $params['pessoaJuridica']
             );
 
-            return $response->withStatus(201);
+            return $response->withStatus(200);
         } catch (\Exception $ex) {
             echo $ex;
-            return $response->withStatus(500,$ex);
+            return $response->withStatus(500);
         }
     }
 

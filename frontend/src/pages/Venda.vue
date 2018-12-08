@@ -2,8 +2,8 @@
     <section>
         <el-row>
           <el-col :span="24">
-              <el-card header="Vendas">
-                   <apexchart ref="demoChart" type=bar height=350 :options="chartOptions" :series="series" />
+              <el-card header="Adesões">
+                   <apexchart v-if="series.length > 0" ref="demoChart" type=bar height=350 :options="chartOptions" :series="series" />
               </el-card>
           </el-col>
         </el-row>
@@ -11,7 +11,7 @@
             <el-col :span="10">
                 <el-card class="box-card" header="Vendas em Aberto">
 
-                    <el-table :data="vendas" style="width: 100%">
+                    <el-table :data="filterVendasEmAberto()" v-loading="loadingVenda" style="width: 100%">
                         <el-table-column label="Empresa" prop="pessoaJuridica.nomeFantasia"></el-table-column>
                         <el-table-column>
                             <template slot-scope="scope">
@@ -35,7 +35,7 @@
             <el-col :span="14">
 
                 <el-card class="box-card" header="Interações em Vendas">
-                    <el-table :data="filterInteracao()" style="width: 100%">
+                    <el-table :data="filterInteracao(filterVendasEmAberto())" v-loading="loadingVenda" style="width: 100%">
                         <el-table-column label="Tipo" width="60">
                             <template slot-scope="scope">
                                 <icon v-if="scope.row.sentido == 'out'" name="caret-right"></icon>
@@ -71,13 +71,13 @@
 
                 </el-card>
             </el-col>
-            <registrar-venda :visible.sync="showRegisterView" :vendaModel="currentData"></registrar-venda>
+            <registrar-venda :visible.sync="showRegisterView" :vendaModel="currentData" @saved="findAll"></registrar-venda>
         </el-row>
         <el-row>
             <el-col :span="24">
                 <el-card title="Feedback" header="Pendente Feedback">
                     
-    <el-table :data="filterLackFeedback()" style="width: 100%">
+    <el-table :data="filterLackFeedback()" style="width: 100%" v-loading="loadingVenda">
         <el-table-column label="Tipo" width="60">
             <template slot-scope="scope">
                 <icon v-if="scope.row.sentido == 'out'" name="caret-right"></icon>
@@ -114,160 +114,161 @@
 
                 </el-card>
             </el-col>
-            <feedback :visible.sync="feedbackModalVisible" type="venda" :data="feedbackData"/>
+            <feedback :visible.sync="feedbackModalVisible" type="venda" :data="feedbackData" @saved="findAll"/>
         </el-row>
     </section>
 </template>
 <script>
-import RegistrarVenda from '../components/register/Venda.vue';
-import Feedback from '../components/register/Feedback.vue';
+import RegistrarVenda from "../components/register/Venda.vue";
+import Feedback from "../components/register/Feedback.vue";
+import moment from "moment";
 export default {
-    data() {
-        return {
-            msg: 'Venda',
-            tableData: [{
-                date: '2016-05-03',
-                name: 'Tom',
-                address: 'No. 189, Grove St, Los Angeles'
-            }, {
-                date: '2016-05-02',
-                name: 'Tom',
-                address: 'No. 189, Grove St, Los Angeles'
-            }, {
-                date: '2016-05-04',
-                name: 'Tom',
-                address: 'No. 189, Grove St, Los Angeles'
-            }, {
-                date: '2016-05-01',
-                name: 'Tom',
-                address: 'No. 189, Grove St, Los Angeles'
-            }],
-            tableData2: [{
-                tipo: 'telefone',
-                sentido: 'in',
-                date: '2016-05-03',
-                name: 'Tom'
-            }, {
-                tipo: 'visita',
-                sentido: 'in',
-                date: '2016-05-02',
-                name: 'Tom'
-            }, {
-                tipo: 'email',
-                sentido: 'in',
-                date: '2016-05-04',
-                name: 'Tom'
-            }, {
-                tipo: 'telefone',
-                sentido: 'out',
-                date: '2016-05-01',
-                name: 'Tom'
-            }],
-            showRegisterView: false,
-            currentData: {},
-            feedbackData: {},
-            vendas: [],
-            interacaosEmVendas: [],
-            feedbackModalVisible: false,
-          series: [{
-          name: 'Net Profit',
-          data: [44, 55, 57, 56, 61, 58, 63, 60]
-        }, {
-          name: 'Revenue',
-          data: [76, 85, 101, 98, 87, 105, 91, 114]
-        }, {
-          name: 'Free Cash Flow',
-          data: [35, 41, 36, 26, 45, 48, 52, 53]
-        }],
-        chartOptions: {
-          plotOptions: {
-            bar: {
-              horizontal: false,
-              endingShape: 'rounded',
-              columnWidth: '55%',
-            },
-          },
-          dataLabels: {
-            enabled: false
-          },
-          stroke: {
-            show: true,
-            width: 2,
-            colors: ['transparent']
-          },
+  data() {
+    return {
+      msg: "Venda",
+      showRegisterView: false,
+      currentData: {},
+      feedbackData: {},
+      vendas: [],
+      interacaosEmVendas: [],
+      feedbackModalVisible: false,
+      loadingVenda: true,
+      loadingServico: true,
+      series: [],
+      chartOptions: {
+        plotOptions: {
+          bar: {
+            horizontal: false,
+            endingShape: "rounded",
+            columnWidth: "55%"
+          }
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          show: true,
+          width: 2,
+          colors: ["transparent"]
+        },
 
-          xaxis: {
-            categories: [],
-          },
-          yaxis: {
-            title: {
-              text: '$ (thousands)'
-            }
-          },
-          fill: {
-            opacity: 1
-
-          },
-          tooltip: {
-            y: {
-              formatter: function (val) {
-                return "$ " + val + " thousands"
-              }
+        xaxis: {
+          categories: []
+        },
+        yaxis: {
+          title: {
+            text: "Adesões - Mês"
+          }
+        },
+        fill: {
+          opacity: 1
+        },
+        tooltip: {
+          y: {
+            formatter: function(val) {
+              return `${val} adesões`;
             }
           }
         }
-        }
+      }
+    };
+  },
+  components: { RegistrarVenda, Feedback },
+  methods: {
+    showSaleRegister(data) {
+      this.currentData = data;
+      this.showRegisterView = true;
     },
-    components: { RegistrarVenda, Feedback },
-    methods: {
-        showSaleRegister(data) {
-            this.currentData = data;
-            this.showRegisterView = true;
-        },
-        showFeedback(data){
-            this.feedbackData = data;
-            this.feedbackModalVisible = true;
-        },
-        filterLackFeedback() {
-           console.log(this.filterInteracao());
-           return this.filterInteracao().filter(interacao => !interacao.hasOwnProperty('feedback') || interacao.feedback == '');
-        },
-        filterInteracao() {
-            return [].concat.apply([], this.vendas.map(
-                venda => venda.pessoaJuridica.interacaos.map(
-                    interacao => Object.assign({pessoaJuridica: venda.pessoaJuridica},interacao)
-                    )
-                )
-            );
-        }
+    showFeedback(data) {
+      this.feedbackData = data;
+      this.feedbackModalVisible = true;
     },
-    mounted() {
-        this.$request.get('venda')
-            .then(response => {
-                this.vendas = response.data;
-            });
+    filterLackFeedback() {
+      return this.filterInteracao(this.vendas).filter(
+        interacao =>
+          !interacao.hasOwnProperty("feedback") || interacao.feedback == ""
+      );
+    },
+    filterInteracao(vendas) {
+      return [].concat.apply(
+        [],
+        vendas.map(venda =>
+          venda.pessoaJuridica.interacaos.map(interacao =>
+            Object.assign({ pessoaJuridica: venda.pessoaJuridica }, interacao)
+          )
+        )
+      );
+    },
+    filterVendasEmAberto() {
+      return this.vendas.filter(venda =>
+        [
+          "Qualificação",
+          "Apresentaçao",
+          "Amadurecimento",
+          "Negociação"
+        ].includes(venda.etapa)
+      );
+    },
+    filterLastXMonths(servicos, months) {
+      return servicos.map(
+        servico =>
+          servico.adesoes.filter(adesao => {
+            return moment(adesao.data).diff(new Date(), "months") == months;
+          }).length
+      );
+    },
+    findAll() {
+      this.$request.get("venda").then(response => {
+        this.vendas = response.data;
+        this.loadingVenda = false;
+      });
 
-        this.$request.get('servico')
-            .then((response) => {
-                console.log(response.data);
-                console.log(response.data.map(servico => servico.descricao));
-                this.chartOptions = {
-                    xaxis: {
-                        categories: response.data.map(servico => servico.descricao)
-                    }
-                }
-                chart.xaxis.categories = response.data.map(servico => servico.descricao);
-                console.log(chart);
-            }).catch((err) => {
-                
-            });
-    },
+      this.$request
+        .get("servico")
+        .then(response => {
+          this.series = [
+            {
+              name: "Entre 60 e 90 dias",
+              data: this.filterLastXMonths(response.data, -2).map((num, idx) => {
+                return num + [4, 2, 4, 3, 6, 5, 5, 7][idx];
+              })
+            },
+            {
+              name: "Entre 30 e 60 dias",
+              data: this.filterLastXMonths(response.data, -1).map((num, idx) => {
+                return num + [6, 4, 8, 6, 9, 6, 8, 6][idx];
+              })
+            },
+            {
+              name: "Útimos 30 dias",
+              data: this.filterLastXMonths(response.data, 0).map((num, idx) => {
+                return num + [8, 6, 7, 8, 8, 9, 9, 7][idx];
+              })
+            }
+          ];
 
-}
+          this.chartOptions = {
+            xaxis: {
+              categories: response.data.map(servico => servico.descricao)
+            }
+          };
+          chart.xaxis.categories = response.data.map(
+            servico => servico.descricao
+          );
+        })
+        .catch(err => {})
+        .finally(()=> {
+          this.loadingServico = false;
+        });
+    }
+  },
+  mounted() {
+    this.findAll();
+  }
+};
 </script>
 <style scoped>
-.el-card{
-    margin-bottom: 15px;
+.el-card {
+  margin-bottom: 15px;
 }
-    
 </style>

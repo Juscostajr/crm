@@ -17,7 +17,7 @@ export default {
   data() {
     return {
       form: {
-        descricao: "",
+        descricao: ""
       },
       dialogFormVisible: true,
       modal: false
@@ -47,6 +47,7 @@ export default {
             message: "Tipo Grupo salvo corretamente",
             type: "success"
           });
+          this.$emit("saved", this.form);
         })
         .catch(error => {
           console.log(error);
@@ -69,7 +70,7 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped>
 .el-input--suffix {
   width: 120px;
 }

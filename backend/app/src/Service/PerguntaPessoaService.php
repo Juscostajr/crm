@@ -4,13 +4,13 @@ namespace App\Service;
 
 use App\Entity\Campanha;
 use App\Entity\Pergunta;
+use App\Entity\PerguntaPessoa;
 use App\Entity\Pessoa;
 use Doctrine\ORM\EntityManager;
-use App\Entity\PerguntaPessoa;
 use Doctrine\ORM\NoResultException;
-use phpDocumentor\Reflection\DocBlock\Tags\Param;
 
-class PerguntaPessoaService {
+class PerguntaPessoaService
+{
 
     /**
      * @var EntityManager
@@ -33,19 +33,8 @@ class PerguntaPessoaService {
         return $perguntaPessoas;
     }
 
-    public function findOne(int $idPergunta, int $idPessoa): PerguntaPessoa
+    public function findByCampanha(Campanha $campanha, Pessoa $pessoa)
     {
-
-        $perguntaPessoa = $this->em->getRepository('\App\Entity\PerguntaPessoa')->findOneBy(['pessoa'=>$idPessoa, 'pergunta'=>$idPergunta]);
-
-        if (!$perguntaPessoa) {
-            throw new NoResultException();
-        }
-
-        return $perguntaPessoa;
-    }
-
-    public function findByCampanha(Campanha $campanha, Pessoa $pessoa){
         $qb = $this->em
             ->createQueryBuilder()
             ->select('pp')
@@ -66,20 +55,27 @@ class PerguntaPessoaService {
         $this->em->flush();
     }
 
+    public function findOne(int $idPergunta, int $idPessoa): PerguntaPessoa
+    {
+
+        $perguntaPessoa = $this->em->getRepository('\App\Entity\PerguntaPessoa')->findOneBy(['pessoa' => $idPessoa, 'pergunta' => $idPergunta]);
+
+        if (!$perguntaPessoa) {
+            throw new NoResultException();
+        }
+
+        return $perguntaPessoa;
+    }
+
     public function createOrUpdate($pessoa, $pergunta, $resposta, $data)
     {
-        try
-        {
-            $perguntaPessoa = $this->findOne($pergunta,$pessoa);
-        }
-        catch (NoResultException $ex)
-        {
+        try {
+            $perguntaPessoa = $this->findOne($pergunta, $pessoa);
+        } catch (NoResultException $ex) {
             $perguntaPessoa = new PerguntaPessoa();
             $perguntaPessoa->setPessoa($this->em->getReference(Pessoa::class, $pessoa));
-            $perguntaPessoa->setPergunta($this->em->getReference(Pergunta::class,$pergunta));
-        }
-        finally
-        {
+            $perguntaPessoa->setPergunta($this->em->getReference(Pergunta::class, $pergunta));
+        } finally {
             $perguntaPessoa->setResposta($resposta);
             $perguntaPessoa->setData($data);
 
@@ -92,10 +88,10 @@ class PerguntaPessoaService {
     {
         $perguntaPessoa = $this->findOne($id);
 
-        $perguntaPessoa->setPessoa( $pessoa);
-$perguntaPessoa->setPergunta( $pergunta);
-$perguntaPessoa->setResposta( $resposta);
-$perguntaPessoa->setData( $data);
+        $perguntaPessoa->setPessoa($pessoa);
+        $perguntaPessoa->setPergunta($pergunta);
+        $perguntaPessoa->setResposta($resposta);
+        $perguntaPessoa->setData($data);
 
 
         $this->em->persist($perguntaPessoa);

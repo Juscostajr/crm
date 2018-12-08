@@ -91,7 +91,8 @@ export default {
           this.$request
             .post("perguntapessoa", perguntapessoa)
             .then(response => {
-              alert("sucesso");
+              console.log('resposta registrada');
+              console.log(perguntapessoa);
             });  
           }, 200);
         }

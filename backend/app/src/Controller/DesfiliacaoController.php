@@ -80,7 +80,7 @@ class DesfiliacaoController {
 
             return $response->withStatus(201);
         } catch (\Exception $ex) {
-            return $response->withStatus(500, $ex);
+            return $response->withStatus(500, $ex->getMessage());
         }
     }
 
@@ -94,8 +94,8 @@ class DesfiliacaoController {
             $service->update(
                 $args['id'], 
                 $params['associado'],
-$params['data'],
-$params['motivos']
+                $params['data'],
+                $params['motivos']
             );
 
             return $response->withStatus(200);

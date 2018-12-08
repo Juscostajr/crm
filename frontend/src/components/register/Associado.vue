@@ -216,12 +216,13 @@ export default {
                         message: 'Status do Associado Registrado',
                         type: 'success'
                     });
+                    this.$emit('saved', this.formm.associado);
                 })
                 .catch(error => {
                     console.log(error);
                     this.$notify.error({
                         title: 'Erro!',
-                        message: 'Não foi possível cadastrar a empresa, consulte a área de sistemas'
+                        message: 'Não foi possível atualizar o status do associado'
                     });
                 });
                 
@@ -307,7 +308,7 @@ export default {
 }
 
 </script>
-<style>
+<style scoped>
 .el-input--suffix {
     width: 120px;
 }

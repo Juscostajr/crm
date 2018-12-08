@@ -16,7 +16,7 @@
                         <el-form-item label="Senha">
                             <el-input v-model="usuario.senha" type="password" placeholder="Informe sua senha"></el-input>
                         </el-form-item>
-                        <el-button type="primary" @click="auth">Entrar</el-button>
+                        <el-button type="primary" :loading="loading" @click="auth">Entrar</el-button>
                     </el-form>
                 </el-card>
             </el-col>
@@ -32,12 +32,14 @@ export default {
         login: "",
         senha: ""
       },
-      notAuth: false
+      notAuth: false,
+      loading: false,
     };
   },
   methods: {
     auth() {
       this.notAuth = false;
+      this.loading = true;
       this.$request
         .post("auth", this.usuario)
         .then(response => {
@@ -49,6 +51,9 @@ export default {
           if (error.response.status === 403) this.notAuth = true;
           this.usuario = { login: "", senha: "" };
           this.$refs.login.focus();
+        })
+        .finally(()=> {
+            this.loading = false;
         });
     }
   }

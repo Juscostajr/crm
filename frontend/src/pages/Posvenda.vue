@@ -2,7 +2,7 @@
 <div>
 <el-card header="Associados">
     <el-form :model="form">
-        <el-table :data="associados">
+        <el-table :data="associados" v-loading="loading">
             <el-table-column type="index" width="50"/>
             <el-table-column label="Nome" property="pessoaJuridica.nomeFantasia" />
             <el-table-column label="Data de Filiação">
@@ -27,7 +27,7 @@
             </el-table-column>
         </el-table>
     </el-form>
-    <desfiliacao :visible.sync="desfiliacaoVisible" :associado="currentAssociado"/>
+    <desfiliacao :visible.sync="desfiliacaoVisible" :associado="currentAssociado" @saved="findAll"/>
     <detalhes-associado :visible.sync="associadoVisible" :associado-model="currentAssociado"></detalhes-associado>
 </el-card>
 </div>
@@ -44,25 +44,31 @@ export default {
       form: {},
       desfiliacaoVisible: false,
       currentAssociado: {},
-      associadoVisible: false
+      associadoVisible: false,
+      loading: true
     };
   },
   components: { Desfiliacao, Interacao, DetalhesAssociado },
   methods: {
     handleDesfiliar(data) {
-      this.currentAssociado = data.pessoaJuridica;
+      this.currentAssociado = data;
       this.desfiliacaoVisible = true;
     },
     handleDetalhesAssociado(data) {
       this.currentAssociado = data.pessoaJuridica;
       this.associadoVisible = true;
+    },
+    findAll() {
+      this.$request.get("associado/status/Ativo").then(response => {
+        this.associados = response.data;
+      })
+      .finally(()=>{
+          this.loading = false;
+        });
     }
   },
   mounted() {
-    this.$request.get("associado/status/Ativo").then(response => {
-      this.associados = response.data;
-      console.log(this.associados);
-    });
+    this.findAll();
   }
 };
 </script>

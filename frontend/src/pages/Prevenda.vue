@@ -12,7 +12,7 @@
         <el-row :gutter="15">
           <el-col :span="12">
               <el-card header="Empresas não associadas">
-                  <el-table :data="naoAssociados">
+                  <el-table :data="naoAssociados" v-loading="loading">
                     <el-table-column label="Bairro" prop="bairro"/>
                     <el-table-column label="Logradouro" prop="logradouro"/>
                     <el-table-column label="Número" prop="nrImovel"/>
@@ -51,7 +51,8 @@ export default {
       bairro: "",
       logradouro: "",
       bairros: [],
-      logradouros: []
+      logradouros: [],
+      loading: true,
     };
   },
   components: { Mapa },
@@ -87,29 +88,35 @@ export default {
 
       // Only pt supported (not mm or in)
       var doc = new jsPDF("p", "pt");
-      doc.autoTable(columns, rows,{
-          margin: {top: 80},
-            addPageContent: function(data) {
-        doc.text("(Logo) Nome da Empresa", 40, 30);
-        doc.setFontSize(12);
-        doc.text("Guia para visitação", 40, 50);
+      doc.autoTable(columns, rows, {
+        margin: { top: 80 },
+        addPageContent: function(data) {
+          doc.text("(Logo) Nome da Empresa", 40, 30);
+          doc.setFontSize(12);
+          doc.text("Guia para visitação", 40, 50);
         }
       });
       doc.save("report.pdf");
+    },
+    findAll() {
+      this.$request.get("naoassociado").then(response => {
+        this.naoAssociados = response.data;
+        this.bairros = this.filterUnique(response.data, "bairro");
+        this.logradouros = this.filterUnique(response.data, "logradouro");
+        this.coordenadas = response.data.map(obj => {
+          return {
+            latitude: parseFloat(obj.latitude),
+            longitude: parseFloat(obj.longitude)
+          };
+        });
+      })
+      .finally(()=>{
+          this.loading = false;
+        });
     }
   },
   mounted() {
-    this.$request.get("naoassociado").then(response => {
-      this.naoAssociados = response.data;
-      this.bairros = this.filterUnique(response.data, "bairro");
-      this.logradouros = this.filterUnique(response.data, "logradouro");
-      this.coordenadas = response.data.map(obj => {
-        return {
-          latitude: parseFloat(obj.latitude),
-          longitude: parseFloat(obj.longitude)
-        };
-      });
-    });
+    this.findAll();
   }
 };
 </script>
@@ -131,6 +138,6 @@ export default {
   float: right;
 }
 .el-card {
-    margin-bottom: 15px;
+  margin-bottom: 15px;
 }
 </style>

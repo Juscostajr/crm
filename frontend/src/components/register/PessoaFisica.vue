@@ -90,133 +90,151 @@
     </el-dialog>
 </template>
 <script>
-import Endereco from './Endereco.vue';
-import RemoteSelect from '../RemoteSelect.vue';
-import RemoteSelectMultiple from '../RemoteSelectMultiple.vue';
+import Endereco from "./Endereco.vue";
+import RemoteSelect from "../RemoteSelect.vue";
+import RemoteSelectMultiple from "../RemoteSelectMultiple.vue";
 export default {
-    props: ['visible','datamodel'],
-    data() {
-        return {
-            formLabelWidth: '120px',
-            form: {
-                nome: '',
-                telefones: [{
-                    numero: '',
-                    proprietario: '',
-                    operadora: {
-                        id: '',
-                        nome: '',
-                    },
-                    tipo: ''
-                }],
-                enderecos: [],
-                email: {
-                    email: '',
-                },
-                grupos: [],
-                cpf: {
-                    numero: ''
-                },
-                dtNascimento: '',
+  props: ["visible", "datamodel"],
+  data() {
+    return {
+      formLabelWidth: "120px",
+      form: {
+        nome: "",
+        telefones: [
+          {
+            numero: "",
+            proprietario: "",
+            operadora: {
+              id: "",
+              nome: ""
             },
-            dialogFormVisible: true,
-            showTelefone: false,
-            innerVisible: false,
-            formEndereco: {},
-            telefoneTipos: [],
-            operadoras: [],
-            enderecos: [],
-            modal: false,
-
-        }
-    },
-    mounted() {
-        this.$request.get('telefone')
-            .then(response => {
-                this.telefoneTipos = response.data;
-            })
-            .catch(function(error) {
-                console.log(error);
-                this.$notify.error({
-                    title: 'Erro!',
-                    message: 'Não foi possível carregar os tipos de telefone'
-                });
-            });
-        this.$request.get('operadora')
-            .then(response => {
-                this.operadoras = response.data;
-            })
-            .catch(error => {
-                console.log(error);
-                this.$notify.error({
-                    title: 'Erro!',
-                    message: 'Não foi possível carregar as operadoras de telefone'
-                });
-            });
-    },
-    watch: {
-        modal() {
-            this.$emit('update:visible', this.modal)
+            tipo: ""
+          }
+        ],
+        enderecos: [],
+        email: {
+          email: ""
         },
-        visible() {
-            this.modal = this.visible;
+        grupos: [],
+        cpf: {
+          numero: ""
         },
-        datamodel() {
-            if(this.datamodel == null) return this.clearForm();
-            this.form = this.datamodel;
-        }
+        dtNascimento: ""
+      },
+      dialogFormVisible: true,
+      showTelefone: false,
+      innerVisible: false,
+      formEndereco: {},
+      telefoneTipos: [],
+      operadoras: [],
+      enderecos: [],
+      modal: false
+    };
+  },
+  mounted() {
+    this.$request
+      .get("telefone")
+      .then(response => {
+        this.telefoneTipos = response.data;
+      })
+      .catch(function(error) {
+        console.log(error);
+        this.$notify.error({
+          title: "Erro!",
+          message: "Não foi possível carregar os tipos de telefone"
+        });
+      });
+    this.$request
+      .get("operadora")
+      .then(response => {
+        this.operadoras = response.data;
+      })
+      .catch(error => {
+        console.log(error);
+        this.$notify.error({
+          title: "Erro!",
+          message: "Não foi possível carregar as operadoras de telefone"
+        });
+      });
+  },
+  watch: {
+    modal() {
+      this.$emit("update:visible", this.modal);
     },
-    components: { Endereco, RemoteSelect, RemoteSelectMultiple }
-    ,
-    methods: {
-        save() {
-            this.$request.post('pf', this.form)
-                .then(response => {
-                    //this.findAll();
-                    //this.clearForm();
-                    //this.dialogFormVisible = false;
-                    this.$notify({
-                        title: 'Sucesso!',
-                        message: 'Pessoa salva corretamente',
-                        type: 'success'
-                    });
-                this.$emit('saved', this.form)
-                })
-                .catch(error => {
-                    this.$notify.error({
-                        title: 'Erro!',
-                        message: error
-                    });
-                });
-        }
-        ,
-        clearForm() {
-            this.form = {};
-        }
-        ,
-        removeTelefone(item) {
-            var index = this.form.telefones.indexOf(item);
-            if (index !== -1) {
-                this.form.telefones.splice(index, 1);
-            }
-        }
-        ,
-        addTelefone() {
-            this.form.telefones.push({
-                numero: '',
-                proprietario: '',
-                operadora: '',
-                tipo: ''
-            });
-
-        }
-
+    visible() {
+      this.modal = this.visible;
+    },
+    datamodel() {
+      if (this.datamodel == null) return this.clearForm();
+      this.form = this.datamodel;
     }
-}
-
+  },
+  components: { Endereco, RemoteSelect, RemoteSelectMultiple },
+  methods: {
+    save() {
+      this.$request
+        .post("pf", this.form)
+        .then(response => {
+          this.$notify({
+            title: "Sucesso!",
+            message: "Pessoa salva corretamente",
+            type: "success"
+          });
+          this.modal = false;
+          this.clearForm();
+          this.$emit("saved", this.form);
+        })
+        .catch(error => {
+          this.$notify.error({
+            title: "Erro!",
+            message: "Não foi possível cadastrar esta pessoa"
+          });
+        });
+    },
+    clearForm() {
+      this.form = {
+        nome: "",
+        telefones: [
+          {
+            numero: "",
+            proprietario: "",
+            operadora: {
+              id: "",
+              nome: ""
+            },
+            tipo: ""
+          }
+        ],
+        enderecos: [],
+        email: {
+          email: ""
+        },
+        grupos: [],
+        cpf: {
+          numero: ""
+        },
+        dtNascimento: ""
+      };
+    },
+    removeTelefone(item) {
+      var index = this.form.telefones.indexOf(item);
+      if (index !== -1) {
+        this.form.telefones.splice(index, 1);
+      }
+    },
+    addTelefone() {
+      this.form.telefones.push({
+        numero: "",
+        proprietario: "",
+        operadora: "",
+        tipo: ""
+      });
+    }
+  }
+};
 </script>
-<style>
+<style scoped>
 .el-input--suffix {
-    width: 120px;
+  width: 120px;
 }
 </style>

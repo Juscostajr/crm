@@ -14,7 +14,6 @@
      <div slot="footer">
       <el-button @click="dialogVisible = false">Cancelar</el-button>
       <el-button type="success" @click="save">Salvar</el-button>
-      {{this.usuario}}
     </div>
 </el-dialog>    
 </template>
@@ -22,11 +21,6 @@
 export default {
   props: {
     visible: Boolean
-  },
-  computed:{
-      usuario(){
-       // alert(this.$store.state.usuario.login);
-      }
   },
   data() {
     var validatePass = (rule, value, callback) => {
@@ -52,10 +46,10 @@ export default {
       title: "Alterar Senha",
       dialogVisible: false,
       form: {
-        usuario: localStorage.getItem('token'),
         senha: "",
         novaSenha: "",
-        novaSenhaRpt: ""
+        novaSenhaRpt: "",
+        usuario: JSON.parse(localStorage.getItem('session')).usuario,
       },
       rules2: {
         novaSenha: [{ validator: validatePass, trigger: "blur" }],
@@ -87,6 +81,7 @@ export default {
             message: "Senha alterada!",
             type: "success"
           });
+          localStorage.removeItem("session");
         })
         .catch(error => {
           let message =

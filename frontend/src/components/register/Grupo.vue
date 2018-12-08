@@ -33,97 +33,92 @@
     </el-dialog>
 </template>
 <script>
-import Grupo from './Grupo.vue';
-import RemoteSelect from '../RemoteSelect.vue';
+import Grupo from "./Grupo.vue";
+import RemoteSelect from "../RemoteSelect.vue";
 export default {
-    props: ['visible', 'datamodel'],
-    data() {
-        return {
-            formLabelWidth: '120px',
-            form: {
-                descricao: '',
-                tipo: {},
-                membros: []
-            },
-            dialogFormVisible: true,
-            innerVisible: false,
-            modal: false,
-            pessoas: [
-                {
-                    label: 'Campo Mourão',
-                    key: 1,
-                }
-            ],
-
+  props: ["visible", "datamodel"],
+  data() {
+    return {
+      formLabelWidth: "120px",
+      form: {
+        descricao: "",
+        tipo: {},
+        membros: []
+      },
+      dialogFormVisible: true,
+      innerVisible: false,
+      modal: false,
+      pessoas: [
+        {
+          label: "Campo Mourão",
+          key: 1
         }
+      ]
+    };
+  },
+  mounted() {
+    this.findPessoas();
+  },
+  watch: {
+    modal() {
+      this.$emit("update:visible", this.modal);
     },
-    mounted() {
-        this.findPessoas();
+    visible() {
+      this.modal = this.visible;
     },
-    watch: {
-        modal() {
-            this.$emit('update:visible', this.modal)
-        },
-        visible() {
-            this.modal = this.visible;
-        },
-        datamodel() {
-            if (this.datamodel == null) return this.clearForm();
-            this.form = this.datamodel;
-        }
-    },
-    components: { Grupo, RemoteSelect }
-    ,
-    methods: {
-        save() {
-            this.$request.post('grupo', this.form)
-                .then(response => {
-                    this.findAll();
-                    this.clearForm();
-                    this.dialogFormVisible = false;
-                    this.$notify({
-                        title: 'Sucesso!',
-                        message: 'Grupo salvo corretamente',
-                        type: 'success'
-                    });
-                })
-                .catch(error => {
-                    console.log(error);
-                    this.$notify.error({
-                        title: 'Erro!',
-                        message: 'Não foi possível cadastrar o grupo, consulte a área de sistemas'
-                    });
-                });
-        },
-        findPessoas() {
-            this.$request.get('pessoa')
-                .then(response => {
-                        this.pessoas = response.data.map( pessoa => {
-                            if (pessoa.hasOwnProperty('nome')){
-                                return {key: pessoa.id, label: pessoa.nome}
-                            }
-                            if (pessoa.hasOwnProperty('nome_fantasia')){
-                                return {key: pessoa.id, label: pessoa.nome_fantasia}
-                            }
-                            return;
-                        }
-                    )
-                });
-        }
-        ,
-        clearForm() {
-            this.form = {
-                descricao: '',
-                tipo: {}
-            }
-        }
-
+    datamodel() {
+      if (this.datamodel == null) return this.clearForm();
+      this.form = this.datamodel;
     }
-}
-
+  },
+  components: { Grupo, RemoteSelect },
+  methods: {
+    save() {
+      this.$request
+        .post("grupo", this.form)
+        .then(response => {
+          this.$notify({
+            title: "Sucesso!",
+            message: "Grupo salvo corretamente",
+            type: "success"
+          });
+          this.clearForm();
+          this.modal = false;
+          this.$emit("saved", this.form);
+        })
+        .catch(error => {
+          this.$notify.error({
+            title: "Erro!",
+            message:
+              "Não foi possível cadastrar o grupo, consulte a área de sistemas"
+          });
+        });
+    },
+    findPessoas() {
+      this.$request.get("pessoa").then(response => {
+        this.pessoas = response.data.map(pessoa => {
+          if (pessoa.hasOwnProperty("nome")) {
+            return { key: pessoa.id, label: pessoa.nome };
+          }
+          if (pessoa.hasOwnProperty("nome_fantasia")) {
+            return { key: pessoa.id, label: pessoa.nome_fantasia };
+          }
+          return;
+        });
+      });
+    },
+    clearForm() {
+      this.form = {
+        descricao: "",
+        tipo: {},
+        membros: []
+      };
+    }
+  }
+};
 </script>
-<style>
+<style scope>
 .el-input--suffix {
-    width: 120px;
+  width: 120px;
 }
 </style>

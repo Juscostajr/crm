@@ -130,7 +130,8 @@ function model() {
         hora: new Date().toUTCString(),
         titulo: "",
         descricao: "",
-        retorno: ""
+        retorno: "",
+        pessoa: {}
       }
     ]
   };
@@ -161,12 +162,14 @@ export default {
   },
   methods: {
     save() {
+      this.form.pessoa = this.pj;
       this.$request
         .put(`pessoa/interacao/${this.pj.id}`, this.form)
         .then(response => {
           this.$emit("interacao-saved", Object.assign({}, this.form));
           this.form = model();
           this.modal = false;
+          this.$emit("saved", this.form);
         });
     },
     clearForm() {
@@ -189,7 +192,7 @@ export default {
   }
 };
 </script>
-<style scope>
+<style scoped>
 #btn_plus {
   width: 100%;
 }

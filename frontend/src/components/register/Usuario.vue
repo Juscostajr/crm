@@ -36,91 +36,88 @@
     </el-dialog>
 </template>
 <script>
-import Usuario from './Usuario.vue';
-import RemoteSelect from '../RemoteSelect.vue';
+import Usuario from "./Usuario.vue";
+import RemoteSelect from "../RemoteSelect.vue";
 export default {
-    props: ['visible', 'datamodel'],
-    data() {
-        return {
-            formLabelWidth: '120px',
-            form: {
-                pessoa: {},
-                login: '',
-                senha: '',
-                perfils: [],
-                senhaExpirada: false,
-            },
-            dialogFormVisible: true,
-            innerVisible: false,
-            modal: false,
-            perfis: [],
-
-        }
+  props: ["visible", "datamodel"],
+  data() {
+    return {
+      formLabelWidth: "120px",
+      form: {
+        pessoa: {},
+        login: "",
+        senha: "",
+        perfils: [],
+        senhaExpirada: false
+      },
+      dialogFormVisible: true,
+      innerVisible: false,
+      modal: false,
+      perfis: []
+    };
+  },
+  mounted() {
+    this.findPerfis();
+  },
+  watch: {
+    modal() {
+      this.$emit("update:visible", this.modal);
     },
-    mounted() {
-        this.findPerfis();
+    visible() {
+      this.modal = this.visible;
     },
-    watch: {
-        modal() {
-            this.$emit('update:visible', this.modal)
-        },
-        visible() {
-            this.modal = this.visible;
-        },
-        datamodel() {
-            if (this.datamodel == null) return this.clearForm();
-            this.form = this.datamodel;
-        }
-    },
-    components: { Usuario, RemoteSelect }
-    ,
-    methods: {
-        save() {
-            this.form.perfils = this.form.perfils.map(perfil => {
-                return {id: perfil}
-            });
-
-            this.$request.post('usuario', this.form)
-                .then(response => {
-                    this.clearForm();
-                    this.dialogFormVisible = false;
-                    this.$notify({
-                        title: 'Sucesso!',
-                        message: 'Usuario salvo corretamente',
-                        type: 'success'
-                    });
-                })
-                .catch(error => {
-                    console.log(error);
-                    this.$notify.error({
-                        title: 'Erro!',
-                        message: 'Não foi possível cadastrar o usuário, consulte a área de sistemas'
-                    });
-                });
-        },
-        findPerfis() {
-            this.$request.get('perfil')
-                .then(response => {
-                    this.perfis = response.data;
-                });
-        }
-        ,
-        clearForm() {
-            this.form = {
-                pessoa: {},
-                login: '',
-                senha: '',
-                perfils: [],
-                senhaExpirada: false,
-            }
-        }
-
+    datamodel() {
+      if (this.datamodel == null) return this.clearForm();
+      this.form = this.datamodel;
     }
-}
+  },
+  components: { Usuario, RemoteSelect },
+  methods: {
+    save() {
+      this.form.perfils = this.form.perfils.map(perfil => {
+        return { id: perfil };
+      });
 
+      this.$request
+        .post("usuario", this.form)
+        .then(response => {
+          this.clearForm();
+          this.dialogFormVisible = false;
+          this.$notify({
+            title: "Sucesso!",
+            message: "Usuario salvo corretamente",
+            type: "success"
+          });
+          this.$emit("saved", this.form);
+        })
+        .catch(error => {
+          console.log(error);
+          this.$notify.error({
+            title: "Erro!",
+            message:
+              "Não foi possível cadastrar o usuário, consulte a área de sistemas"
+          });
+        });
+    },
+    findPerfis() {
+      this.$request.get("perfil").then(response => {
+        this.perfis = response.data;
+      });
+    },
+    clearForm() {
+      this.form = {
+        pessoa: {},
+        login: "",
+        senha: "",
+        perfils: [],
+        senhaExpirada: false
+      };
+    }
+  }
+};
 </script>
-<style>
+<style scoped>
 .el-input--suffix {
-    width: 120px;
+  width: 120px;
 }
 </style>

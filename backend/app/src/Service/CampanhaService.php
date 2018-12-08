@@ -49,8 +49,8 @@ class CampanhaService
     public function create($servico, $target, $nome, $descricao, $inicio, $final)
     {
         $campanha = new Campanha();
-        $campanha->setServico($this->em->getReference(Servico::class,$servico));
-        $campanha->setTarget($this->em->getReference(Grupo::class,$target));
+        $campanha->setServico($this->em->getReference(Servico::class, $servico));
+        $campanha->setTarget($this->em->getReference(Grupo::class, $target));
         $campanha->setNome($nome);
         $campanha->setDescricao($descricao);
         $campanha->setInicio($inicio);
@@ -63,19 +63,27 @@ class CampanhaService
     {
         $campanha = $this->findOne($id);
 
-        foreach ($perguntas as $pergunta){
+        foreach ($perguntas as $pergunta) {
             $objPergunta = new Pergunta();
             $objPergunta->setDescricao($pergunta['descricao']);
             $objPergunta->setCampanha($campanha);
             $campanha->addPergunta($objPergunta);
         }
+
         $this->em->persist($campanha);
         $this->em->flush();
+
+        $perguntaPessoa = new PerguntaPessoaService($this->em);
+        foreach ($this->em->getRepository(Pessoa::class)->findAll() as $pessoa) {
+            foreach ($campanha->getPergunta() as $pergunta){
+                $perguntaPessoa->createOrUpdate($pessoa->getId(),$pergunta->getId(),false,(new \DateTime())->format(('Y-m-d')));
+            }
+        }
     }
 
 
-
-    public function update(int $id, $target, $feedback, $nome, $descricao, $inicio, $final, $usuario, $pessoa)
+    public
+    function update(int $id, $target, $feedback, $nome, $descricao, $inicio, $final, $usuario, $pessoa)
     {
         $campanha = $this->findOne($id);
         $campanha->setTarget($target);

@@ -74,6 +74,7 @@ export default {
             message: "Campanha cadastrada!",
             type: "success"
           });
+          this.$emit('saved', this.form);
         })
         .catch(error => {
           let message =

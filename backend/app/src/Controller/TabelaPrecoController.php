@@ -73,13 +73,13 @@ class TabelaPrecoController
 
     public function create(Request $request, Response $response)
     {
+        if (!is_null($request->getParam('id'))){
+            return $this->update($request,$response,$request->getParams());
+        }
         try {
             $this->service->create(
                 $request->getParam('descricao'),
-                numfmt_parse(
-                    numfmt_create( 'pt_BR', \NumberFormatter::DECIMAL ),
                     $request->getParam('valor')
-                )
             );
 
             return $response->withStatus(201);
@@ -94,10 +94,7 @@ class TabelaPrecoController
             $this->service->update(
                 $args['id'],
                 $request->getParam('descricao'),
-                numfmt_parse(
-                    numfmt_create( 'pt_BR', \NumberFormatter::DECIMAL ),
                     $request->getParam('valor')
-                )
             );
 
             return $response->withStatus(201);

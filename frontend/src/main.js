@@ -41,7 +41,7 @@ Vue.component("icon", Icon);
 
 Vue.prototype.$request = Axios.create({
   baseURL: "http://localhost:8080/",
-  timeout: 10000,
+  timeout: 20000,
   headers: {
     "Content-Type": "application/json"
   }

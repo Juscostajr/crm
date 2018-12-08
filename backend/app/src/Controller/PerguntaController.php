@@ -70,7 +70,7 @@ class PerguntaController {
             $params = $request->getParams();
             $service->create(
                 $params['descricao'],
-$params['checklist']
+                $params['checklist']
             );
 
             return $response->withStatus(201);

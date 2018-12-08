@@ -31,7 +31,9 @@ class DoctrineParamsMapper
         $this->validMethods = $this->filterValids();
         $this->setters = $this->filterSetters($this->validMethods);
         $this->addables = $this->filterAddables($this->validMethods);
-        $this->instance = new $referenceClass();
+        if (!$this->reflectionClass->isAbstract()){
+            $this->instance = new $referenceClass();
+        }
         $this->ignoreReference = $ignoreReference;
     }
 
@@ -72,6 +74,7 @@ class DoctrineParamsMapper
         if ($this->isReference() && !$this->ignoreReference) {
             return $this->em->getReference($this->reflectionClass->getName(), $this->inputData[$this->primaryKey]);
         }
+        if ($this->reflectionClass->isAbstract()) return null;
         $this->fillValues();
         $this->fillObjects();
         $this->fillArrays();

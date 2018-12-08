@@ -54,7 +54,7 @@ class PerguntaService {
     {
         $pergunta = new Pergunta();
         $pergunta->setDescricao( $descricao);
-$pergunta->setChecklist( $checklist);
+        $pergunta->setChecklist( $checklist);
 
 
         $this->em->persist($pergunta);

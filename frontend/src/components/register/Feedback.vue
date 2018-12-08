@@ -106,7 +106,6 @@ export default {
   watch: {
     visible() {
       this.dialogVisible = this.visible;
-      console.log(this.data);
     },
     dialogVisible() {
       if (!this.dialogVisible) {
@@ -126,6 +125,7 @@ export default {
             message: "Feedback registrado!",
             type: "success"
           });
+          this.$emit("saved", this.form);
         })
         .catch(error => {
           let message =
@@ -133,7 +133,7 @@ export default {
             this.errorMessage.hasOwnProperty(error.response.status)
               ? this.errorMessage[error.response.status]
               : "Houve um erro inesperado";
-          
+
           this.$notify.error({
             title: "Erro!",
             message: message

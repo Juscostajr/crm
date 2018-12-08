@@ -13,17 +13,15 @@
                                 <remote-select data-source="pj" id="id" label="nomeFantasia" :model.sync="venda.pessoaJuridica"></remote-select>
                             </el-col>
                             <el-col :span="2">
-                                <el-button type="success" @click="handleCreate()"><icon name="folder-plus"/></el-button>
+                                <el-button type="success" @click="handleCreate()" class="new-user-button"><icon name="folder-plus"/></el-button>
                             </el-col>
                         </el-row>
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-row :gutter="15">
-                <el-col :span="5" :push="19">
-                    <el-button type="primary" @click="vendaVisible = true"><icon name="play"/> Abrir processo de venda</el-button>
-                </el-col>
-            </el-row>
+
+                    <el-button type="primary" @click="vendaVisible = true" class="open-button"><icon name="play"/> Abrir processo de venda</el-button>
+
         </el-form>
         <cadastrar-empresa :visible.sync="dialogFormVisible" :datamodel="venda.pessoaJuridica" @empresa-callback="empresaCallBack"></cadastrar-empresa>
         <venda :vendaModel="venda" :visible="vendaVisible"></venda>
@@ -60,6 +58,12 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+    .open-button {
+        margin: 15px 0; 
+        float: right;
+    }
+    .new-user-button {
+        width: 100%;
+    }
 </style>

@@ -41,7 +41,7 @@ class Interacao
     private $hora;
 
     /** @var \DateTime
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $retorno;
 
@@ -63,6 +63,29 @@ class Interacao
      * @ORM\Column(name="sentido", type="string")
      */
     private $sentido;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Pessoa", inversedBy="interacaos")
+     * @ORM\JoinColumn(name="pessoa", referencedColumnName="id")
+     */
+    private $pessoa;
+
+    /**
+     * @return mixed
+     */
+    public function getPessoa(): Pessoa
+    {
+        return $this->pessoa;
+    }
+
+    /**
+     * @param mixed $pessoa
+     */
+    public function setPessoa(Pessoa $pessoa)
+    {
+        $this->pessoa = $pessoa;
+    }
+
 
     /**
      * Interacao constructor.

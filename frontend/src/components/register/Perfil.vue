@@ -36,98 +36,107 @@
 </template>
 <script>
 export default {
-    props: ['visible', 'datamodel'],
-    data() {
-        return {
-            formLabelWidth: '120px',
-            form: {
-                descricao: '',
-                acessos: [{
-                    rota: '',
-                    GET: false,
-                    POST: false,
-                    PUT: false,
-                    DELETE: false,
-                }],
-            },
-            dialogFormVisible: true,
-            innerVisible: false,
-            modal: false,
-            listaAcessos: [],
-        }
+  props: ["visible", "datamodel"],
+  data() {
+    return {
+      formLabelWidth: "120px",
+      form: {
+        descricao: "",
+        acessos: [
+          {
+            rota: "",
+            GET: false,
+            POST: false,
+            PUT: false,
+            DELETE: false
+          }
+        ]
+      },
+      dialogFormVisible: true,
+      innerVisible: false,
+      modal: false,
+      listaAcessos: []
+    };
+  },
+  watch: {
+    modal() {
+      this.$emit("update:visible", this.modal);
     },
-    watch: {
-        modal() {
-            this.$emit('update:visible', this.modal)
-        },
-        visible() {
-            this.modal = this.visible;
-        },
-        datamodel() {
-            if (this.datamodel == null) return this.clearForm();
-            console.log(this.datamodel);
-            this.form = this.datamodel;
-        }
+    visible() {
+      this.modal = this.visible;
     },
-    mounted() {
-        this.$request.get('acesso')
-            .then(response => {
-                this.listaAcessos = response.data;
-            })
-    },
-    methods: {
-        save() {
-
-            this.$request.post('perfil', this.form)
-                .then(response => {
-                    this.clearForm();
-                    this.dialogFormVisible = false;
-                    this.$notify({
-                        title: 'Sucesso!',
-                        message: 'Perfil salva corretamente',
-                        type: 'success'
-                    });
-                })
-                .catch(error => {
-                    console.log(error);
-                    this.$notify.error({
-                        title: 'Erro!',
-                        message: 'Não foi possível cadastrar o grupo, consulte a área de sistemas'
-                    });
-                });
-        }
-        ,
-        clearForm() {
-            this.form = {
-                descricao: '',
-            }
-        },
-        addAcesso(){
-            this.form.acessos.push({
-                rota: '',
-                GET: false,
-                POST: false,
-                PUT: false,
-                DELETE: false,
-            });
-        },
-        removeAcesso(item){
-            var index = this.form.acessos.indexOf(item);
-            if (index !== -1) {
-                this.form.acessos.splice(index, 1);
-            }
-        }
-
+    datamodel() {
+      if (this.datamodel == null) return this.clearForm();
+      console.log(this.datamodel);
+      this.form = this.datamodel;
     }
-}
-
+  },
+  mounted() {
+    this.$request.get("acesso").then(response => {
+      this.listaAcessos = response.data;
+    });
+  },
+  methods: {
+    save() {
+      this.$request
+        .post("perfil", this.form)
+        .then(response => {
+          this.$emit("saved", this.form);
+          this.$notify({
+            title: "Sucesso!",
+            message: "Perfil salvo corretamente",
+            type: "success"
+          });
+          this.clearForm();
+          this.modal = false;
+        })
+        .catch(error => {
+          console.log(error);
+          this.$notify.error({
+            title: "Erro!",
+            message: "Não foi possível cadastrar o perfil"
+          });
+        });
+    },
+    clearForm() {
+      this.form = {
+        descricao: "",
+        acessos: [
+          {
+            rota: "",
+            GET: false,
+            POST: false,
+            PUT: false,
+            DELETE: false
+          }
+        ]
+      };
+    },
+    addAcesso() {
+      this.form.acessos.push({
+        rota: "",
+        GET: false,
+        POST: false,
+        PUT: false,
+        DELETE: false
+      });
+    },
+    removeAcesso(item) {
+      var index = this.form.acessos.indexOf(item);
+      if (index !== -1) {
+        this.form.acessos.splice(index, 1);
+      }
+    }
+  }
+};
 </script>
-<style>
+<style scoped>
 .el-input--suffix {
-    width: 120px;
+  width: 120px;
 }
 
-.el-select, .el-select .el-input { 
-    width: 100%;
+.el-select,
+.el-select .el-input {
+  width: 100%;
 }
 </style>

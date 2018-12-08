@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\PessoaFisica;
 use App\Factory\DoctrineParamsMapper;
 use App\Service\PessoaFisicaService;
+use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
+use JMS\Serializer\Naming\SerializedNameAnnotationStrategy;
 use JMS\Serializer\SerializerBuilder;
 use Psr\Container\ContainerInterface;
 use Slim\Http\Request;
@@ -15,12 +17,16 @@ class PessoaFisicaController {
     protected $container;
     private  $em;
     private $service;
+    private $serializer;
 
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
         $this->em = $this->container->get('em');
         $this->service = new PessoaFisicaService($this->em);
+        $this->serializer = SerializerBuilder::create()
+            ->setPropertyNamingStrategy(new SerializedNameAnnotationStrategy(new IdenticalPropertyNamingStrategy()))
+            ->build();
     }
 
     public function findAll(Request $request, Response $response)
@@ -28,9 +34,8 @@ class PessoaFisicaController {
         try {
 
             $em = $this->container->get('em');
-            $serializer = SerializerBuilder::create()->build();
             return $response->write(
-                $serializer->serialize($em->getRepository(PessoaFisica::class)->findAll(), 'json')
+                $this->serializer->serialize($em->getRepository(PessoaFisica::class)->findAll(), 'json')
             );
         } catch (\Exception $ex) {
             echo $ex;
@@ -43,9 +48,8 @@ class PessoaFisicaController {
 
         try {
             $em = $this->container->get('em');
-            $serializer = SerializerBuilder::create()->build();
             return $response->write(
-                $serializer->serialize($em->getRepository(PessoaFisica::class)->findBy($args), 'json')
+                $this->serializer->serialize($em->getRepository(PessoaFisica::class)->findBy($args), 'json')
             );
         } catch (\Exception $ex) {
             echo $ex;

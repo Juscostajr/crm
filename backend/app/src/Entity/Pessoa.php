@@ -52,11 +52,7 @@ abstract class Pessoa
     protected $grupos;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Interacao", cascade={"persist", "remove"})
-     * @ORM\JoinTable(name="interacoes_pessoa",
-     *      joinColumns={@ORM\JoinColumn(name="pessoa", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="interacao", referencedColumnName="id")}
-     *      )
+     * @ORM\OneToMany(targetEntity="Interacao", mappedBy="pessoa", cascade={"persist","remove"})
      */
     private $interacaos;
 

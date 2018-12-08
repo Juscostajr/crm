@@ -128,47 +128,12 @@ export default {
             this.formulario.interesses = this.interesses.map(interesse => {
                 return this.servicos.find(obj => obj.descricao == interesse);
             });
-
-            this.$request.put(`venda/${this.formulario.id}`, this.formulario)
-                .then(response => {
-                    this.clearForm();
-                    this.dialogFormVisible = false;
-                    this.$notify({
-                        title: 'Sucesso!',
-                        message: 'Atualizado status da venda!',
-                        type: 'success'
-                    });
-                })
-                .catch(error => {
-                    console.log(error);
-                    this.$notify.error({
-                        title: 'Erro!',
-                        message: 'Não foi registrar o avanço da venda'
-                    });
-                });
         },
         create(){
             this.formulario.interesses = this.interesses.map(interesse => {
                 return this.servicos.find(obj => obj.descricao == interesse);
             });
 
-            this.$request.post('venda', this.formulario)
-                .then(response => {
-                    this.clearForm();
-                    this.dialogFormVisible = false;
-                    this.$notify({
-                        title: 'Sucesso!',
-                        message: 'Venda iniciada',
-                        type: 'success'
-                    });
-                })
-                .catch(error => {
-                    console.log(error);
-                    this.$notify.error({
-                        title: 'Erro!',
-                        message: 'Não foi possível registrar o início de venda'
-                    });
-                });
         },
         clearForm() {
             this.form = {}

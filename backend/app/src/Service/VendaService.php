@@ -49,9 +49,44 @@ class VendaService
         return $venda;
     }
 
-    public function create(DoctrineParamsMapper $venda)
+    public function create($etapa, $interacaos, $interesses, $pessoaJuridica)
     {
-        $this->em->merge($venda->map());
+        /**
+         * @var Venda
+         */
+        $venda = new Venda();
+        $venda->cleanArrays();
+        $venda->setEtapa($etapa);
+        foreach ($interacaos as $interacao) {
+            if (!array_key_exists('id', $interacao)) {
+                $i = new Interacao();
+                $i->setUsuario($this->em->getReference(Usuario::class, $interacao['usuario']['id']));
+                $i->setData($interacao['data']);
+                $i->setHora($interacao['hora']);
+                $i->setTipo($interacao['tipo']);
+                $i->setSentido($interacao['sentido']);
+
+                foreach ($interacao['anotacaos'] as $anotacao) {
+                    $a = new Anotacao();
+                    if (!array_key_exists('id', $anotacao)) {
+                        $a->setData($anotacao['data']);
+                        $a->setHora($anotacao['hora']);
+                        $a->setTitulo($anotacao['titulo']);
+                        $a->setDescricao($anotacao['descricao']);
+                        $i->addAnotacaos($a);
+                    }
+
+                }
+                $venda->addInteracaos($i);
+            }
+        }
+
+        foreach ($interesses as $interesse) {
+            $venda->addInteresses($this->em->getReference(Servico::class, $interesse['id']));
+        }
+
+        $venda->setPessoaJuridica($this->em->getReference(PessoaJuridica::class, $pessoaJuridica['id']));
+        $this->em->persist($venda);
         $this->em->flush();
     }
 

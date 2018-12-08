@@ -6,28 +6,28 @@
 
         <el-input placeholder="Nome Fantasia" prefix-icon="el-icon-search" @change="findEmpresa()" v-model="search"></el-input>
         
-        <el-table :data="tableData" style="width: 100%" empty-text="Nenhum resultado encontrado.">
-            <el-table-column prop="cnpj" label="Cnpj" sortable width="150"></el-table-column>
-            <el-table-column prop="razaoSocial" label="Razão Social" width="260"></el-table-column>
-            <el-table-column prop="nomeFantasia" label="Nome Fantasia" width="140"></el-table-column>
-            <el-table-column prop="telefones[0].numero" label="Telefones" width="130"></el-table-column>
-            <el-table-column prop="enderecos[0].logradouro" label="Enderecos" width="260"></el-table-column>
-            <el-table-column prop="email" label="E-Mail" width="100"></el-table-column>
-            <el-table-column prop="ramoAtividade" label="Ramo de Atividade" width="150"></el-table-column>
-            <el-table-column prop="inscricaoEstadual," label="Inscrição Est." width="120"></el-table-column>
-            <el-table-column prop="numeroFuncionarios" label="Funcionarios" width="120"></el-table-column>
-            <el-table-column prop="representanteLegal.nome" label="Representante Legal" width="120"></el-table-column>
+        <el-table :data="tableData" v-loading="loading"  style="width: 100%" empty-text="Nenhum resultado encontrado.">
+            <el-table-column prop="cnpj" label="Cnpj" sortable></el-table-column>
+            <el-table-column prop="razaoSocial" label="Razão Social"></el-table-column>
+            <el-table-column prop="nomeFantasia" label="Nome Fantasia"></el-table-column>
+            <el-table-column prop="telefones[0].numero" label="Telefones"></el-table-column>
+            <el-table-column prop="enderecos[0].logradouro" label="Enderecos"></el-table-column>
+            <el-table-column prop="email" label="E-Mail"></el-table-column>
+            <el-table-column prop="ramoAtividade" label="Ramo de Atividade"></el-table-column>
+            <el-table-column prop="inscricaoEstadual" label="Inscrição Est."></el-table-column>
+            <el-table-column prop="numeroFuncionarios" label="Funcionarios"></el-table-column>
+            <el-table-column prop="representanteLegal.nome" label="Representante Legal"></el-table-column>
             <el-table-column fixed="right" label="Ação" width="90">
                 <template slot-scope="scope">
                     <el-button size="mini" icon="el-icon-edit" @click="handleEdit(scope.row)" circle></el-button>
-                    <el-button size="mini" icon="el-icon-delete" type="danger" @click="handleDelete(scope.row)" circle></el-button>
+                    <el-button size="mini" icon="el-icon-delete" type="danger" @click="handleDelete(scope.row)" circle/>
                 </template>
             </el-table-column>
         </el-table>
 
         <hr/>
 
-        <cadastrar-empresa :visible.sync="dialogFormVisible" :datamodel="dataModel" @empresa-callback="newEmpresa"></cadastrar-empresa>
+        <cadastrar-empresa :visible.sync="dialogFormVisible" :datamodel="dataModel" @empresa-callback="findAll"></cadastrar-empresa>
 
         <el-button id="add" type="success" icon="el-icon-plus" circle @click="handleCreate()"></el-button>
 
@@ -43,7 +43,8 @@ export default {
       tableData: [],
       dialogFormVisible: false,
       dataModel: null,
-      search: ""
+      search: "",
+      loading: true
     };
   },
   methods: {
@@ -66,6 +67,9 @@ export default {
             title: "Erro!",
             message: "Não foi possível carregar a lista de empresas"
           });
+        })
+        .finally(()=>{
+          this.loading = false;
         });
     },
     findEmpresa() {
@@ -94,7 +98,7 @@ export default {
               this.$notify.error({
                 title: "Erro!",
                 message:
-                  "Não foi possível excluir a empresa desejada, pois existem movimentações envolvendo-a."
+                  "Não foi possível excluir o item desejado pois existem movimentações o envolvendo."
               });
             });
           done();

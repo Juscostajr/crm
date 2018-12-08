@@ -25,6 +25,7 @@
                           <el-col :span="20">
                               <strong>{{notification.title}}</strong>
                               <br/>{{notification.description}}
+                              <br/>{{notification.comment}}
 
                           </el-col>
                         </el-row>
@@ -49,6 +50,7 @@
 </template>
 <script>
 import Senha from "../register/Senha.vue";
+import moment from "moment";
 export default {
   name: "h-menu",
   data() {
@@ -62,23 +64,7 @@ export default {
         login: "",
         nome: ""
       },
-      notifications: [
-        {
-          type: "feedback",
-          title: "Feedback pendente",
-          description: "Unimed Campo Mourão"
-        },
-        {
-          type: "interaction",
-          title: "Tempo sem interação",
-          description: "Unimed Campo Mourão"
-        },
-        {
-          type: "scheduling",
-          title: "Interação agendada",
-          description: "Unimed Campo Mourão"
-        }
-      ]
+      notifications: []
     };
   },
   methods: {
@@ -92,7 +78,6 @@ export default {
           this.senhaVisible = true;
           break;
         default:
-          console.error(command);
           break;
       }
     }
@@ -102,17 +87,60 @@ export default {
     this.userInfo = JSON.parse(localStorage.getItem("session")).usuario;
 
     this.$request.get("interacao").then(response => {
-    this.notifications =
-        response.data
-        .filter(interacao => !interacao.hasOwnProperty('feedback'))
-        .map(noFeedback => {
-            return {
-                type: 'feedback',
+      this.notifications = this.notifications
+        .concat(
+          response.data
+            .filter(interacao => !interacao.hasOwnProperty("feedback"))
+            .map(noFeedback => {
+              return {
+                type: "feedback",
                 title: "Feedback pendente",
-                description: `tipo:${noFeedback.tipo} data: ${this.$moment(noFeedback.data)} ${noFeedback.hora}`
-            }
+                comment: `${noFeedback.tipo} - ${moment(noFeedback.data).format(
+                  "DD/MM/YYYY"
+                )} ${moment(noFeedback.hora).format("HH:mm")}`,
+                description: `${noFeedback.pessoa.nomeFantasia}`,
+                date: moment(noFeedback.data).format("YYYYMMDDHHmmSS")
+              };
+            })
+        )
+        .concat(
+          response.data
+            .filter(interacao => {
+              return moment(interacao.data).diff(moment(), "days") < -90;
+            })
+            .map(interaction => {
+              return {
+                type: "interaction",
+                title: "Tempo sem interação",
+                comment: `${moment(interaction.data).diff(moment(), "days") *
+                  -1} dias`,
+                description: interaction.pessoa.nomeFantasia,
+                date: moment(interaction.data).format("YYYYMMDDHHmmSS")
+              };
+            })
+        )
+        .concat(
+          response.data
+            .filter(interacao => {
+              if (!interacao.hasOwnProperty("retorno")) return false;
+              return moment(interacao.retorno).diff(moment(), "days") == 0;
+            })
+            .map(schedule => {
+              return {
+                type: "scheduling",
+                title: "Retorno agendado",
+                comment: `Hoje - ${moment(schedule.data).format("HH:mm")}`,
+                description: schedule.pessoa.nomeFantasia,
+                date: moment(schedule.data).format("YYYYMMDDHHmmSS")
+              };
+            })
+        )
+        .sort((a, b) => {
+          if (a.date < b.date) return -1;
+          if (a.date > b.date) return 1;
+          return 0;
         });
-      console.log(response.data);
+
     });
   }
 };
@@ -139,6 +167,11 @@ export default {
 
 .notification-menu {
   width: 300px;
+}
+
+.el-dropdown-menu {
+  max-height: 90vh;
+  overflow: auto;
 }
 .el-dropdown-menu .feedback {
   color: #409eff;
@@ -169,5 +202,25 @@ export default {
   padding: 0;
   width: unset;
   font-size: 0.8em;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 </style>

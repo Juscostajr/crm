@@ -44,6 +44,7 @@ class UsuarioController
             $token = array(
                 'token' => JWT::encode(json_decode($this->serializer->serialize($usuario, 'json')), $this->container->get('settings')['key']),
                 'usuario' => array(
+                    'id' => $usuario->getId(),
                     'login' => $usuario->getLogin(),
                     'nome' => $usuario->getPessoa()->getNome()),
                     'acessos' => $usuario->getRotas()
